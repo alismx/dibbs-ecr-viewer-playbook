@@ -1,0 +1,16 @@
+- name: DIBBS ecr-viewer machine setup
+  hosts: localhost
+  vars_files:
+    - ./vars.yml
+  tasks:
+    - name: Install deps
+      include_tasks: tasks/deps.yaml
+
+    - name: Add project directories
+      include_tasks: tasks/dirs.yaml
+
+    # - name: Run AWS specific setup
+    #   include_tasks: tasks/aws.yaml
+
+    - name: Run ecr-viewer compose
+      include_tasks: tasks/compose.yaml

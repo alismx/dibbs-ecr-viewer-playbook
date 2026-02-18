@@ -1,0 +1,10 @@
+---
+- name: add project directory if doesn't exist
+  ansible.builtin.file:
+      path: /home/ecr-viewer/project
+      state: directory
+
+- name: copy files to project directory
+  ansible.builtin.copy:
+    src: ./project/
+    dest: /home/ecr-viewer/project/

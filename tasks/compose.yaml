@@ -1,0 +1,43 @@
+
+---
+- name: Up ecr-viewer compose
+  ansible.builtin.command:
+    cmd: docker compose up -d
+  args:
+    chdir: /home/ecr-viewer/project/docker/
+  environment:
+    # - CONFIG_NAME: "{{ CONFIG_NAME }}"
+    # - DIBBS_SERVICE: "{{ DIBBS_SERVICE }}"
+    # - ORCHESTRATION_URL: "{{ ORCHESTRATION_URL }}"
+    # - DIBBS_VERSION: "{{ DIBBS_VERSION }}"
+    # - DATABASE_URL: "{{ DATABASE_URL }}"
+    # - METADATA_DATABASE_SCHEMA: "{{ METADATA_DATABASE_SCHEMA}}"
+    # - METADATA_DATABASE_MIGRATION_SECRET: "{{ METADATA_DATABASE_MIGRATION_SECRET}}"
+    # - SQL_SERVER_USER: "{{ SQL_SERVER_USER}}"
+    # - SQL_SERVER_PASSWORD: "{{ SQL_SERVER_PASSWORD}}"
+    # - SQL_SERVER_HOST: "{{ SQL_SERVER_HOST}}"
+    # - DB_CIPHER: "{{ DB_CIPHER}}"
+    # - NBS_API_PUB_KEY: "{{ NBS_API_PUB_KEY}}"
+    # - NBS_PUB_KEY: "{{ NBS_PUB_KEY}}"
+    # - AUTH_PROVIDER: "{{ AUTH_PROVIDER}}"
+    # - AUTH_CLIENT_ID: "{{ AUTH_CLIENT_ID}}"
+    # - AUTH_CLIENT_SECRET: "{{ AUTH_CLIENT_SECRET}}"
+    # - AUTH_ISSUER: "{{ AUTH_ISSUER}}"
+    # - AUTH_SESSION_DURATION_MIN: "{{ AUTH_SESSION_DURATION_MIN}}"
+    # - NEXTAUTH_URL: "{{ NEXTAUTH_URL}}"
+    # - NEXTAUTH_SECRET: "{{ NEXTAUTH_SECRET}}"
+    # - SAVE_XML: "{{ SAVE_XML}}"
+    # - DISPLAY_FEEDBACK_LINKS: "{{ DISPLAY_FEEDBACK_LINKS}}"
+    # - ECR_PROCESSING_TIMEOUT: "{{ ECR_PROCESSING_TIMEOUT}}"
+    # - AWS_REGION: "{{ AWS_REGION}}"
+    # - AZURE_STORAGE_CONNECTION_STRING: "{{ AZURE_STORAGE_CONNECTION_STRING}}"
+    # - AZURE_CONTAINER_NAME: "{{ AZURE_CONTAINER_NAME}}"
+    # - GCP_PROJECT_ID: "{{ GCP_PROJECT_ID}}"
+    # - ECR_BUCKET_NAME: "{{ ECR_BUCKET_NAME}}"
+    # - OTEL_METRICS: none
+    # - OTEL_METRICS_EXPORTER: none
+    # - ECR_VIEWER_URL: http://dibbs-ecr-viewer:3000/ecr-viewer
+    # - INGESTION_URL: http://dibbs-ingestion:8080
+    # - FHIR_CONVERTER_URL: http://dibbs-fhir-converter:8080
+    # - MESSAGE_PARSER_URL: http://dibbs-message-parser:8080
+    # - TRIGGER_CODE_REFERENCE_URL: http://dibbs-trigger-code-reference:8080

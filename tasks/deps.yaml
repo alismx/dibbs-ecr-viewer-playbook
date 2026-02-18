@@ -1,0 +1,79 @@
+---
+
+# Fedora
+- name: Add signing key
+  ansible.builtin.rpm_key:
+    key: "https://download.docker.com/linux/{{ (ansible_distribution | lower) }}/gpg"
+    state: present
+  when: ansible_facts['distribution'] == "Fedora"
+
+- name: Add repository into repo.d list
+  ansible.builtin.yum_repository:
+    name: docker
+    description: docker repository
+    baseurl: "https://download.docker.com/linux/{{ (ansible_distribution | lower) }}/$releasever/$basearch/stable"
+    enabled: true
+    gpgcheck: true
+    gpgkey: "https://download.docker.com/linux/{{ (ansible_distribution | lower) }}/gpg"
+  when: ansible_facts['distribution'] == "Fedora"
+
+- name: Install Docker
+  ansible.builtin.yum:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+    state: latest
+    update_cache: true
+  when: ansible_facts['distribution'] == "Fedora"
+
+# Debian
+# - name: Install required system packages
+#   ansible.builtin.apt:
+#     name:
+#       - apt-transport-https
+#       - ca-certificates
+#       - curl
+#       - software-properties-common
+#       - virtualenv
+#     state: latest
+#     update_cache: true
+
+# - name: Add Docker GPG apt Key
+#   ansible.builtin.apt_key:
+#     url: https://download.docker.com/linux/ubuntu/gpg
+#     state: present
+#   when: ansible_facts['os_family'] == "Debian"
+
+# - name: Add Docker Repository
+#   ansible.builtin.apt_repository:
+#     repo: deb https://download.docker.com/linux/ubuntu focal stable
+#     state: present
+#   when: ansible_facts['os_family'] == "Debian"
+
+# - name: Update apt and install Docker packages
+#   ansible.builtin.apt:
+#     name:
+#       - docker-ce
+#       - docker-ce-cli
+#       - containerd.io
+#       - docker-compose
+#     state: latest
+#     update_cache: true
+#   when: ansible_facts['os_family'] == "Debian"
+
+# generic
+- name: Start Docker
+  ansible.builtin.systemd:
+    name: "docker"
+    enabled: true
+    state: started
+
+- name: add user with docker permissions
+  ansible.builtin.user:
+    name: ecr-viewer
+    groups: docker
+    home: /home/ecr-viewer
+    create_home: yes
+    password: "!"
+    append: yes
