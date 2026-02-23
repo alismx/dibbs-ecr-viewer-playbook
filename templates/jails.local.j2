@@ -1,0 +1,46 @@
+[DEFAULT]
+# "ignoreip" lists IP addresses, CIDR blocks or network interfaces to ignore.
+# IPv6 can be specified by enclosing the address in square brackets.
+ignoreip = 127.0.0.1/8 ::1
+
+# "bantime" is the number of seconds that a host will be banned.
+bantime = 10m
+
+# "findtime" is the number of seconds during which the "maxretry" attempts
+# must occur before the host is banned.
+findtime = 5m
+
+# "maxretry" is the number of failures before a host gets banned.
+maxretry = 5
+
+# "backend" specifies the backend used to get file modifications.
+# Available options are inotify, polling and auto.
+backend = auto
+
+[sshd]
+enabled = true
+port = ssh
+filter = sshd
+logpath = /var/log/secure
+maxretry = 3
+bantime = 1h
+
+[sshd-ddos]
+enabled = true
+port = ssh
+filter = sshd-ddos
+logpath = /var/log/secure
+maxretry = 5
+
+# HTTP service protection - disable if not running web server
+[http-auth]
+enabled = false
+port = http,https
+filter = http-auth
+logpath = /var/log/apache2/error.log
+
+[wordpress]
+enabled = false
+port = http,https
+filter = wordpress
+logpath = /var/log/secure

@@ -6,6 +6,10 @@
     - name: Install deps
       include_tasks: tasks/deps.yaml
 
+    - name: Configure fail2ban (Fedora)
+      include_tasks: tasks/fail2ban.yaml
+      when: ansible_facts['distribution'] == "Fedora"
+
     - name: Add project directories
       include_tasks: tasks/dirs.yaml
 

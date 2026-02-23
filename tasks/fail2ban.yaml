@@ -1,0 +1,51 @@
+---
+
+# Fedora - Install and configure fail2ban
+- name: Install fail2ban packages on Fedora
+  ansible.builtin.dnf:
+    name:
+      - fail2ban
+    state: present
+  when:
+    - ansible_facts['distribution'] == "Fedora"
+    - ansible_facts['distribution_major_version'] | int >= 39
+
+- name: Start and enable fail2ban service on Fedora
+  ansible.builtin.systemd:
+    name: fail2ban
+    state: started
+    enabled: true
+  when:
+    - ansible_facts['distribution'] == "Fedora"
+    - ansible_facts['distribution_major_version'] | int >= 39
+
+# Configuration for fail2ban jails
+- name: Create fail2ban local configuration directory
+  ansible.builtin.file:
+    path: /etc/fail2ban
+    state: directory
+    mode: '0755'
+  when:
+    - ansible_facts['distribution'] == "Fedora"
+    - ansible_facts['distribution_major_version'] | int >= 39
+
+- name: Configure fail2ban jails.local
+  ansible.builtin.template:
+    src: templates/jails.local.j2
+    dest: /etc/fail2ban/jails.local
+    owner: root
+    group: root
+    mode: '0644'
+  when:
+    - ansible_facts['distribution'] == "Fedora"
+    - ansible_facts['distribution_major_version'] | int >= 39
+  notify: Restart fail2ban
+
+# Handlers
+- name: Restart fail2ban
+  ansible.builtin.systemd:
+    name: fail2ban
+    state: restarted
+  when:
+    - ansible_facts['distribution'] == "Fedora"
+    - ansible_facts['distribution_major_version'] | int >= 39
