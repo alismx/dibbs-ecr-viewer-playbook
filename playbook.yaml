@@ -12,5 +12,8 @@
     # - name: Run AWS specific setup
     #   include_tasks: tasks/aws.yaml
 
+    - name: Install fail2ban
+      include_tasks: tasks/fail2ban.yaml
+
     - name: Run ecr-viewer compose
       include_tasks: tasks/compose.yaml
