@@ -33,7 +33,7 @@ dibbs_ecr_viewer_bak=$project_dir/dibbs-ecr-viewer.bak
 dibbs_ecr_viewer_wizard=$project_dir/dibbs-ecr-viewer.wizard
 
 clear_dot_env() {
-  echo "" >"$dibbs_ecr_viewer_wizard"
+  : >"$dibbs_ecr_viewer_wizard"
 }
 
 display_intro() {
