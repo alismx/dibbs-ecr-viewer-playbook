@@ -269,7 +269,7 @@ confirm_update() {
   fi
   echo -e "\e[1;32mSettings confirmed. Updating your configuration.\e[0m"
   cp "$dibbs_ecr_viewer_env" "$dibbs_ecr_viewer_bak"
-  cat "$dibbs_ecr_viewer_wizard" >"$dibbs_ecr_viewer_env"
+  cp "$dibbs_ecr_viewer_wizard" "$dibbs_ecr_viewer_env"
   echo ""
 }
 
