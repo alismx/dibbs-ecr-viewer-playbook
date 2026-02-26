@@ -1,0 +1,13 @@
+[DEFAULT]
+{% if fail2ban_settings %}
+{% for key, value in fail2ban_settings.items() %}
+{{ key }} = {{ value }}
+{% endfor %}
+{% endif %}
+
+[sshd]
+enabled = true
+port = ssh
+filter = sshd
+logpath = %(sshd_log)s
+maxretry = 3

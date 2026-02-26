@@ -37,3 +37,10 @@
     name: fail2ban
     state: latest
   when: ansible_facts['distribution'] not in ["Fedora", "Debian", "Ubuntu"]
+
+# Restart fail2ban service if configuration changed
+- name: Ensure fail2ban is running
+  ansible.builtin.systemd:
+    name: fail2ban
+    enabled: true
+    state: started

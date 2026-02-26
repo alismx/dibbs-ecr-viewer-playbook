@@ -1,0 +1,21 @@
+# Default fail2ban configuration values
+
+fail2ban_jails:
+  - name: sshd
+    enabled: true
+    maxretry: 3
+    bantime: "1h"
+  
+  - name: recidive
+    enabled: true
+    banaction: "{{ fail2ban_recidive_banaction | default('recidive') }}"
+    bantime: "1w"
+    findtime: "1d"
+    maxretry: 5
+
+fail2ban_settings:
+  logtarget: "/var/log/fail2ban.log"
+  sysloglevel: "info"
+  allowed_ips:
+    - "127.0.0.1"
+    - "::1"

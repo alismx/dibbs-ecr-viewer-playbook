@@ -1,0 +1,26 @@
+---
+
+# Fail2ban configuration deployment
+- name: Create fail2ban config directory
+  ansible.builtin.file:
+    path: /etc/fail2ban
+    state: directory
+    mode: '0755'
+
+- name: Deploy fail2ban jail.local configuration
+  ansible.builtin.template:
+    src: templates/jail.local.j2
+    dest: /etc/fail2ban/jail.local
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart fail2ban
+
+- name: Deploy fail2ban fail2ban.local configuration
+  ansible.builtin.template:
+    src: templates/fail2ban.local.j2
+    dest: /etc/fail2ban/fail2ban.local
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart fail2ban
