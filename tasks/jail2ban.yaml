@@ -55,8 +55,9 @@
     mode: '0644'
     backup: true
 
-- name: Restart fail2ban service to apply configuration
+# Note: fail2ban restart handled via handler in playbook.yaml or system service management
+- name: Ensure fail2ban is running after configuration change
   ansible.builtin.systemd:
     name: fail2ban
-    state: restarted
-  notify: fail2ban restarted
+    state: started
+    enabled: true
