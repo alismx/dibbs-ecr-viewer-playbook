@@ -15,8 +15,8 @@
     - name: Install fail2ban
       include_tasks: tasks/fail2ban.yaml
 
-    - name: Configure jail2ban settings
-      include_tasks: tasks/jail2ban.yaml
+    - name: Configure fail2ban settings
+      include_tasks: tasks/fail2ban-jails.yaml
 
     - name: Run ecr-viewer compose
       include_tasks: tasks/compose.yaml

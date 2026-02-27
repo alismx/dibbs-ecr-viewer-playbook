@@ -1,13 +1,13 @@
 ---
 
-# Jail2ban configuration for standard jail settings
+# Fail2ban configuration for standard jail settings
 - name: Create fail2ban directory for custom configurations
   ansible.builtin.file:
     path: /etc/fail2ban
     state: directory
     mode: '0755'
 
-- name: Configure default jail2ban settings
+- name: Configure default fail2ban settings
   ansible.builtin.copy:
     content: |
       # Global settings
