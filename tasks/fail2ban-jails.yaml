@@ -25,37 +25,12 @@
       filter = sshd
       maxretry = 3
 
-      # HTTP authentication jail
-      [http-auth]
-      enabled = false
-      port = http,https
-      filter = http-auth
-      maxretry = 3
-
-      # Docker jail for ecr-viewer protection
-      [docker-ecr-viewer]
-      enabled = true
-      port = http,https
-      filter = docker-ecr-viewer
-      action = %(action_mwl)s
-      maxretry = 3
-      bantime = 1h
+      
     dest: /etc/fail2ban/jail.local
     mode: '0644'
     backup: true
 
-- name: Configure custom filter for ecr-viewer authentication
-  ansible.builtin.copy:
-    content: |
-      [Definition]
-      failregex = ^.*authentication failure; logname= uid=0 euid=0 tty=http ruser= rhost=<HOST>.*$
-                  ^.*error: authentication failure.*from <HOST>.*$
-      ignoreregex =
-    dest: /etc/fail2ban/filter.d/docker-ecr-viewer.conf
-    mode: '0644'
-    backup: true
 
-# Note: fail2ban restart handled via handler in playbook.yaml or system service management
 - name: Ensure fail2ban is running after configuration change
   ansible.builtin.systemd:
     name: fail2ban
