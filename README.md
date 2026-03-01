@@ -18,11 +18,13 @@ This playbook automates the deployment of the following services:
 
 ## Prerequisites
 
-- **Operating System**: Fedora Server 43 (tested), other Linux distributions may work
+- **Operating Systems**:
+  - Fedora Server 43
+  - Ubuntu 24.04 LTS (Noble Numbat)
+  - Debian 12 (Bookworm)
 - **Tools**:
   - Git
   - Ansible
-  - Docker & Docker Compose (installed by playbook)
 - **User**: A non-root user with sudo privileges to run the wizard script
 
 ## Quick Start

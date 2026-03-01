@@ -1,7 +1,14 @@
 - name: DIBBS ecr-viewer machine setup
   hosts: localhost
   vars_files:
-    - ./vars.yml
+    - ./vars.yaml
+  handlers:
+    - name: restart and enable fail2ban
+      ansible.builtin.systemd:
+        name: fail2ban
+        state: restarted
+        enabled: true
+
   tasks:
     - name: Install deps
       include_tasks: tasks/deps.yaml
@@ -12,7 +19,7 @@
     # - name: Run AWS specific setup
     #   include_tasks: tasks/aws.yaml
 
-    - name: Install fail2ban
+    - name: Install and configure fail2ban
       include_tasks: tasks/fail2ban.yaml
 
     - name: Run ecr-viewer compose
