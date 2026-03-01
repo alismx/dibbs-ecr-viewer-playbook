@@ -1,5 +1,7 @@
 ---
 
+# Fail2ban installation and configuration
+
 # Fedora fail2ban support
 - name: Install fail2ban on Fedora
   ansible.builtin.yum:
@@ -8,13 +10,7 @@
     state: latest
     update_cache: true
   when: ansible_facts['distribution'] == "Fedora"
-
-- name: Enable and start fail2ban service (Fedora)
-  ansible.builtin.systemd:
-    name: fail2ban
-    enabled: true
-    state: started
-  when: ansible_facts['distribution'] == "Fedora"
+  notify: restart and enable fail2ban
 
 # Debian/Ubuntu fail2ban support
 - name: Install fail2ban on Debian/Ubuntu
@@ -23,13 +19,7 @@
     state: latest
     update_cache: true
   when: ansible_facts['distribution'] in ["Debian", "Ubuntu"]
-
-- name: Enable and start fail2ban service (Debian/Ubuntu)
-  ansible.builtin.systemd:
-    name: fail2ban
-    enabled: true
-    state: started
-  when: ansible_facts['distribution'] in ["Debian", "Ubuntu"]
+  notify: restart and enable fail2ban
 
 # Generic fallback
 - name: Install fail2ban using package manager fallback
@@ -37,3 +27,33 @@
     name: fail2ban
     state: latest
   when: ansible_facts['distribution'] not in ["Fedora", "Debian", "Ubuntu"]
+  notify: restart and enable fail2ban
+
+# Configure fail2ban directory and settings
+- name: Create fail2ban directory for custom configurations
+  ansible.builtin.file:
+    path: /etc/fail2ban
+    state: directory
+    mode: '0755'
+
+- name: Configure default fail2ban settings
+  ansible.builtin.copy:
+    content: |
+      # Global settings
+      [DEFAULT]
+      bantime = 1h
+      findtime = 10m
+      maxretry = 5
+      backend = auto
+      loglevel = info
+
+      # SSH jail configuration
+      [sshd]
+      enabled = true
+      port = ssh
+      filter = sshd
+      maxretry = 3
+    dest: /etc/fail2ban/jail.local
+    mode: '0644'
+    backup: true
+  notify: restart and enable fail2ban
