@@ -16,7 +16,7 @@ echo "========================================"
 echo ""
 
 # Configuration
-REPO_DIR="${REPO_DIR:-$(dirname "$0")}"
+REPO_DIR="${REPO_DIR:-/opt/dibbs-ecr-viewer-playbook}"
 PROJECT_DIR="/home/ecr-viewer/project/docker"
 
 # Verify we're in the correct directory
