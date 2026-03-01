@@ -25,7 +25,6 @@
       filter = sshd
       maxretry = 3
 
-      
     dest: /etc/fail2ban/jail.local
     mode: '0644'
     backup: true

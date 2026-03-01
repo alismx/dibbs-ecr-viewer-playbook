@@ -1,7 +1,7 @@
 - name: DIBBS ecr-viewer machine setup
   hosts: localhost
   vars_files:
-    - ./vars.yml
+    - ./vars.yaml
   tasks:
     - name: Install deps
       include_tasks: tasks/deps.yaml
