@@ -27,6 +27,47 @@ This playbook automates the deployment of the following services:
   - Ansible
 - **User**: A non-root user with sudo privileges to run the wizard script
 
+## Installation
+
+### Automated Installation
+
+Run the installation script to automate the full deployment:
+
+```bash
+curl -sSL https://github.com/alismx/dibbs-ecr-viewer-playbook/install.sh | bash
+```
+
+The script will:
+1. Clone the repository to `/tmp/dibbs-ecr-viewer-playbook`
+2. Run the setup wizard for interactive configuration
+3. Execute the Ansible playbook to deploy eCR Viewer
+4. Clean up temporary files after installation
+
+### Manual Installation
+
+If you prefer more control over the process:
+
+1. **Clone this repository**
+   ```bash
+   git clone <repository-url>
+   cd dibbs-ecr-viewer-playbook
+   ```
+
+2. **Run the setup wizard**
+   ```bash
+   ./wizard.sh
+   ```
+   The wizard will:
+   - Parse existing environment defaults
+   - Guide you through selecting a configuration (AWS/Azure/GCP + PostgreSQL/SQL Server)
+   - Prompt for required credentials and settings
+   - Generate environment files and restart the Docker Compose stack
+
+3. **Verify deployment**
+   ```bash
+   docker compose ps
+   ```
+
 ## Quick Start
 
 1. **Clone this repository**
@@ -128,6 +169,7 @@ docker compose -f /home/ecr-viewer/project/docker/docker-compose.yaml up -d
 dibbs-ecr-viewer-playbook/
 ├── playbook.yaml          # Main Ansible playbook
 ├── wizard.sh              # Interactive setup script
+├── install.sh             # Automated installation script
 ├── tasks/
 │   ├── deps.yaml         # Install Docker dependencies
 │   ├── dirs.yaml         # Create project directories
