@@ -38,10 +38,22 @@ curl -sSL https://github.com/alismx/dibbs-ecr-viewer-playbook/install.sh | bash
 ```
 
 The script will:
-1. Clone the repository to `/tmp/dibbs-ecr-viewer-playbook`
+1. Clone the repository to `/opt/dibbs-ecr-viewer-playbook`
 2. Run the setup wizard for interactive configuration
 3. Execute the Ansible playbook to deploy eCR Viewer
-4. Clean up temporary files after installation
+
+### Updating
+
+If you used the automated installation, run the update script from the installed location:
+
+```bash
+cd /opt/dibbs-ecr-viewer-playbook && ./update.sh
+```
+
+The update script will:
+1. Pull the latest changes from the repository
+2. Re-run the Ansible playbook to apply configuration updates
+3. Restart Docker Compose services
 
 ### Manual Installation
 

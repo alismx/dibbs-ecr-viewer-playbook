@@ -4,7 +4,7 @@
 # Usage: curl -sSL https://github.com/alismx/dibbs-ecr-viewer-playbook/install.sh | bash
 #
 # This script will:
-# 1. Clone the repository to /tmp/dibbs-ecr-viewer-playbook
+# 1. Clone the repository to /opt/dibbs-ecr-viewer-playbook
 # 2. Run the wizard.sh setup script interactively
 # 3. Execute the Ansible playbook
 
@@ -17,19 +17,19 @@ echo ""
 
 # Configuration
 REPO_URL="https://github.com/alismx/dibbs-ecr-viewer-playbook"
-INSTALL_DIR="/tmp/dibbs-ecr-viewer-playbook"
+INSTALL_DIR="/opt/dibbs-ecr-viewer-playbook"
 PROJECT_DIR="/home/ecr-viewer/project"
 
 # Prerequisites check
 check_prerequisites() {
     echo "Checking prerequisites..."
-    
+
     # Check if curl is available
     if ! command -v curl &> /dev/null; then
         echo "ERROR: curl is required but not installed."
         exit 1
     fi
-    
+
     # Check if git is available
     if ! command -v git &> /dev/null; then
         echo "ERROR: git is required but not installed."
@@ -76,12 +76,12 @@ check_prerequisites() {
 
 clone_repository() {
     echo "Cloning repository..."
-    
+
     # Remove existing clone if present
     rm -rf "$INSTALL_DIR"
-    
+
     git clone --depth 1 "$REPO_URL" "$INSTALL_DIR"
-    
+
     echo "Repository cloned to: $INSTALL_DIR"
     echo ""
 }
@@ -111,26 +111,10 @@ run_playbook() {
     echo ""
     
     cd "$INSTALL_DIR"
-    
+
     ansible-playbook -c local playbook.yaml
-    
-    echo ""
-    echo "========================================"
-    echo "  Installation Complete!"
-    echo "========================================"
-    echo ""
-    echo "Your eCR Viewer is now installed at: $PROJECT_DIR/docker/"
-    echo "Check the .env file for your configuration."
 }
 
-cleanup() {
-    echo ""
-    read -p "Clean up temporary installation files? (Y/n): " cleanup_confirm
-    if [ "$cleanup_confirm" != "n" ] && [ "$cleanup_confirm" != "N" ]; then
-        rm -rf "$INSTALL_DIR"
-        echo "Cleanup complete."
-    fi
-}
 
 # Main execution
 main() {
@@ -138,13 +122,14 @@ main() {
     clone_repository
     run_wizard
     run_playbook
-    cleanup
-    
+
     echo ""
-    echo "Installation finished successfully!"
-    echo "Next steps:"
-    echo "  1. Check $PROJECT_DIR/docker/dibbs-ecr-viewer.env for your configuration"
-    echo "  2. Access your eCR Viewer at http://localhost:3000/ecr-viewer"
+    echo "========================================"
+    echo "  Installation Complete!"
+    echo "========================================"
+    echo ""
+    echo "Your eCR Viewer is now installed at: $PROJECT_DIR/docker/"
+    echo "Check the .env file for your configuration."
 }
 
 main
