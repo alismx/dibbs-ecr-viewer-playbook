@@ -28,6 +28,41 @@
 # 7. Restarts Docker Compose with the updated environment variables.
 
 project_dir=/home/ecr-viewer/project/docker
+
+# User privilege check
+check_privileges() {
+    echo "Checking user privileges..."
+
+    # Check if running as root (not allowed)
+    if [ "$EUID" -eq 0 ] || [ "$(whoami)" = "root" ]; then
+        echo "ERROR: This script should not be run as root."
+        echo "Please run as a regular user with sudo privileges."
+        exit 1
+    fi
+
+    # Check if user can execute docker commands
+    if ! command -v docker compose &> /dev/null && ! command -v docker-compose &> /dev/null; then
+        echo "ERROR: Docker Compose is required but not installed."
+        echo "Please install Docker Compose first."
+        exit 1
+    fi
+
+    # Verify sudo access for system-level operations during playbook execution
+    if ! sudo -n echo "Sudo access verified" &> /dev/null; then
+        echo "WARNING: Sudo access required for Ansible playbook execution."
+        echo "The playbook will prompt for your password when needed."
+        read -p "Continue? (y/N): " confirm
+        if [ "$confirm" != "y" ] && [ "$confirm" != "Y" ]; then
+            echo "Aborting update."
+            exit 0
+        fi
+    fi
+
+    echo "Privilege check complete."
+    echo ""
+}
+
+check_privileges
 dibbs_ecr_viewer_env=$project_dir/dibbs-ecr-viewer.env
 dibbs_ecr_viewer_bak=$project_dir/dibbs-ecr-viewer.bak
 dibbs_ecr_viewer_wizard=$project_dir/dibbs-ecr-viewer.wizard
