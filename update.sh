@@ -67,12 +67,6 @@ fi
 
 check_privileges
 
-# Check if Docker Compose is available
-if ! command -v docker compose &> /dev/null; then
-    echo "ERROR: Docker Compose is required but not installed."
-    exit 1
-fi
-
 # Pull latest changes
 echo "Pulling latest changes..."
 cd "$REPO_DIR"
