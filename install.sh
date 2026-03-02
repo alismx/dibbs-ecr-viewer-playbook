@@ -15,6 +15,40 @@ echo "  DIBBS eCR Viewer Installation Script"
 echo "========================================"
 echo ""
 
+# User privilege check
+check_privileges() {
+    echo "Checking user privileges..."
+
+    # Check if running as root (not allowed)
+    if [ "$EUID" -eq 0 ] || [ "$(whoami)" = "root" ]; then
+        echo "ERROR: This script should not be run as root."
+        echo "Please run as a regular user with sudo privileges."
+        exit 1
+    fi
+
+    # Check if user can run ansible-playbook (needs sudo)
+    # Docker will be installed by the playbook, so we skip docker checks here
+    if ! command -v ansible-playbook &> /dev/null; then
+        echo "ERROR: ansible-playbook is required but not installed."
+        echo "Please install Ansible or ensure your user has sudo access to install it."
+        exit 1
+    fi
+
+    # Verify sudo access for system-level operations during playbook execution
+    if ! sudo -n echo "Sudo access verified" &> /dev/null; then
+        echo "WARNING: Sudo access required for Ansible playbook execution."
+        echo "The playbook will prompt for your password when needed."
+        read -p "Continue? (y/N): " confirm
+        if [ "$confirm" != "y" ] && [ "$confirm" != "Y" ]; then
+            echo "Aborting installation."
+            exit 0
+        fi
+    fi
+
+    echo "Privilege check complete."
+    echo ""
+}
+
 # Configuration
 REPO_URL="https://github.com/alismx/dibbs-ecr-viewer-playbook"
 INSTALL_DIR="/opt/dibbs-ecr-viewer-playbook"
@@ -118,6 +152,7 @@ run_playbook() {
 
 # Main execution
 main() {
+    check_privileges
     check_prerequisites
     clone_repository
     run_wizard
