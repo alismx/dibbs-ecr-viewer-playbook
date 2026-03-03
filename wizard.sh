@@ -28,6 +28,7 @@
 # 7. Restarts Docker Compose with the updated environment variables.
 
 project_dir=/home/ecr-viewer/project/docker
+
 dibbs_ecr_viewer_env=$project_dir/dibbs-ecr-viewer.env
 dibbs_ecr_viewer_bak=$project_dir/dibbs-ecr-viewer.bak
 dibbs_ecr_viewer_wizard=$project_dir/dibbs-ecr-viewer.wizard
@@ -381,6 +382,34 @@ docker_compose_vars() {
   check_var DIBBS_VERSION
 }
 
+# User privilege check (run near the end, before main execution)
+check_privileges() {
+    echo "Checking user privileges..."
+
+    # Check if running as root (not allowed)
+    if [ "$EUID" -eq 0 ] || [ "$(whoami)" = "root" ]; then
+        echo "ERROR: This script should not be run as root."
+        echo "Please run as a regular user with sudo privileges."
+        exit 1
+    fi
+
+    # Verify sudo access for system-level operations during playbook execution
+    if ! sudo -n echo "Sudo access verified" &> /dev/null; then
+        echo "WARNING: Sudo access required for Ansible playbook execution."
+        echo "The playbook will prompt for your password when needed."
+        read -p "Continue? (y/N): " confirm
+        if [ "$confirm" != "y" ] && [ "$confirm" != "Y" ]; then
+            echo "Aborting installation."
+            exit 0
+        fi
+    fi
+
+    echo "Privilege check complete."
+    echo ""
+}
+
+# Run the main execution steps
+check_privileges
 clear_dot_env
 display_intro
 docker_compose_vars
