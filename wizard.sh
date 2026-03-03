@@ -409,6 +409,7 @@ check_privileges() {
 }
 
 # Run the main execution steps
+check_privileges
 clear_dot_env
 display_intro
 docker_compose_vars
