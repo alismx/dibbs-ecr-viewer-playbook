@@ -40,20 +40,13 @@ check_privileges() {
         exit 1
     fi
 
-    # Check if user can execute docker commands
-    if ! command -v docker compose &> /dev/null && ! command -v docker-compose &> /dev/null; then
-        echo "ERROR: Docker Compose is required but not installed."
-        echo "Please install Docker Compose first."
-        exit 1
-    fi
-
     # Verify sudo access for system-level operations during playbook execution
     if ! sudo -n echo "Sudo access verified" &> /dev/null; then
         echo "WARNING: Sudo access required for Ansible playbook execution."
         echo "The playbook will prompt for your password when needed."
         read -p "Continue? (y/N): " confirm
         if [ "$confirm" != "y" ] && [ "$confirm" != "Y" ]; then
-            echo "Aborting update."
+            echo "Aborting installation."
             exit 0
         fi
     fi
