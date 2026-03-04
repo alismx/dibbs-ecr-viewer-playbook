@@ -19,19 +19,23 @@
 # - azure: Sets environment variables for Azure configuration.
 #
 # The script follows these steps:
-# 1. Clears the dibbs_ecr_viewer_wizard file.
-# 2. Displays an introductory message.
-# 3. Prompts the user to select a configuration name.
-# 4. Sets environment variables based on the selected configuration.
-# 5. Prompts the user to confirm the environment variables.
-# 6. Replaces the contents of the dibbs_ecr_viewer_env file with the contents of the dibbs_ecr_viewer_wizard file.
-# 7. Restarts Docker Compose with the updated environment variables.
+# 1. Creates project directory structure if it doesn't exist
+# 2. Clears the dibbs_ecr_viewer_wizard file
+# 3. Displays an introductory message
+# 4. Parses existing environment defaults (if available)
+# 5. Prompts the user to select a configuration name
+# 6. Sets environment variables based on the selected configuration
+# 7. Prompts the user to confirm the environment variables
+# 8. Replaces the contents of the dibbs_ecr_viewer_env file with the contents of the dibbs_ecr_viewer_wizard file
 
-DIBBS_ECR_VIEWER_DIR="${HOME}/ecr-viewer/project/docker"
+DIBBS_ECR_VIEWER_DIR="${HOME}/ecr-viewer/project"
 
-dibbs_ecr_viewer_env=$DIBBS_ECR_VIEWER_DIR/dibbs-ecr-viewer.env
-dibbs_ecr_viewer_bak=$DIBBS_ECR_VIEWER_DIR/dibbs-ecr-viewer.bak
-dibbs_ecr_viewer_wizard=$DIBBS_ECR_VIEWER_DIR/dibbs-ecr-viewer.wizard
+dibbs_ecr_viewer_env=$DIBBS_ECR_VIEWER_DIR/docker/dibbs-ecr-viewer.env
+dibbs_ecr_viewer_bak=$DIBBS_ECR_VIEWER_DIR/docker/dibbs-ecr-viewer.bak
+dibbs_ecr_viewer_wizard=$DIBBS_ECR_VIEWER_DIR/docker/dibbs-ecr-viewer.wizard
+
+# Create project directory structure if it doesn't exist
+mkdir -p "$DIBBS_ECR_VIEWER_DIR/docker"
 
 clear_dot_env() {
   : >"$dibbs_ecr_viewer_wizard"
@@ -354,15 +358,20 @@ check_var() {
     echo ""
     add_env "$1" "http://dibbs-orchestration:8080"
   else
-    while IFS= read -r line; do
-      case $line in
-      $1=*)
-        # get the value after the first =, do not cut any other = signs
-        # this is to avoid cutting the value in case it has an = sign
-        var=$(echo "$line" | cut -d'=' -f2-)
-        ;;
-      esac
-    done <"$dibbs_ecr_viewer_env"
+    if [[ ! -f "$dibbs_ecr_viewer_env" ]]; then
+      # File doesn't exist yet, skip parsing and use empty default
+      var=""
+    else
+      while IFS= read -r line; do
+        case $line in
+        $1=*)
+          # get the value after the first =, do not cut any other = signs
+          # this is to avoid cutting the value in case it has an = sign
+          var=$(echo "$line" | cut -d'=' -f2-)
+          ;;
+        esac
+      done <"$dibbs_ecr_viewer_env"
+    fi
     if [[ $var == "" ]]; then
       echo -e "\e[1;33m$1 is not set.\e[0m"
       echo ""

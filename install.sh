@@ -152,6 +152,8 @@ main() {
     check_privileges
     check_prerequisites
     clone_repository
+
+    
     run_wizard
     run_playbook
 
