@@ -253,14 +253,14 @@ set_vars() {
 }
 
 confirm_dot_env_var() {
-  value=$1
-  default=$2
-  read -rp $'  \e[3m'"$value (Current Value: $default): "$'\e[0m' choice
+  local value=$1
+  local default=$2
+  read -rp "  ${value} (Current Value: ${default}): " choice
   if [ -z "$choice" ]; then
     choice="$default"
   fi
   echo ""
-  echo -e "  \e[1;36mSetting: $value=$choice\e[0m"
+  echo "  Setting: $value=$choice"
   echo ""
   add_env "$value" "$choice"
 }
