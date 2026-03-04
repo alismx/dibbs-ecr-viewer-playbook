@@ -37,8 +37,8 @@ dibbs_ecr_viewer_wizard=$DIBBS_ECR_VIEWER_DIR/docker/dibbs-ecr-viewer.wizard
 # Create project directory structure if it doesn't exist
 mkdir -p "$DIBBS_ECR_VIEWER_DIR/docker"
 
-# Create default .env file if it doesn't exist
-: >"$dibbs_ecr_viewer_env"
+# Create default .env file if it doesn't exist (don't overwrite)
+[[ ! -f "$dibbs_ecr_viewer_env" ]] && : >"$dibbs_ecr_viewer_env"
 
 clear_dot_env() {
   : >"$dibbs_ecr_viewer_wizard"
