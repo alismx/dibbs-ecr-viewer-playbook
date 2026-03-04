@@ -4,7 +4,7 @@
   ansible.builtin.command:
     cmd: docker compose up -d
   args:
-    chdir: /home/ecr-viewer/project/docker/
+    chdir: "{{ dibbs_project_dir }}/docker/"
   environment:
     # - CONFIG_NAME: "{{ CONFIG_NAME }}"
     # - DIBBS_SERVICE: "{{ DIBBS_SERVICE }}"

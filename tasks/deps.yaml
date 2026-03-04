@@ -98,7 +98,7 @@
   ansible.builtin.user:
     name: ecr-viewer
     groups: docker
-    home: /home/ecr-viewer
+    home: "{{ dibbs_project_dir }}"
     create_home: yes
     password: "!"
     append: yes

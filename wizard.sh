@@ -27,7 +27,7 @@
 # 6. Replaces the contents of the dibbs_ecr_viewer_env file with the contents of the dibbs_ecr_viewer_wizard file.
 # 7. Restarts Docker Compose with the updated environment variables.
 
-project_dir=/home/ecr-viewer/project/docker
+project_dir="${HOME}/ecr-viewer/project/docker"
 
 dibbs_ecr_viewer_env=$project_dir/dibbs-ecr-viewer.env
 dibbs_ecr_viewer_bak=$project_dir/dibbs-ecr-viewer.bak

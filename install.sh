@@ -4,7 +4,7 @@
 # Usage: curl -sSL https://github.com/alismx/dibbs-ecr-viewer-playbook/install.sh | bash
 #
 # This script will:
-# 1. Clone the repository to /opt/dibbs-ecr-viewer-playbook
+# 1. Clone the repository to ~/dibbs-ecr-viewer-playbook
 # 2. Run the wizard.sh setup script interactively
 # 3. Execute the Ansible playbook
 
@@ -43,8 +43,8 @@ check_privileges() {
 
 # Configuration
 REPO_URL="https://github.com/alismx/dibbs-ecr-viewer-playbook"
-INSTALL_DIR="/opt/dibbs-ecr-viewer-playbook"
-PROJECT_DIR="/home/ecr-viewer/project"
+INSTALL_DIR="${HOME}/dibbs-ecr-viewer-playbook"
+PROJECT_DIR="${HOME}/ecr-viewer/project"
 
 # Detect and store package manager
 detect_package_manager() {

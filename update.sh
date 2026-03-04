@@ -16,8 +16,8 @@ echo "========================================"
 echo ""
 
 # Configuration
-REPO_DIR="${REPO_DIR:-/opt/dibbs-ecr-viewer-playbook}"
-PROJECT_DIR="/home/ecr-viewer/project/docker"
+REPO_DIR="${REPO_DIR:-${HOME}/dibbs-ecr-viewer-playbook}"
+PROJECT_DIR="${HOME}/ecr-viewer/project/docker"
 
 # Verify we're in the correct directory
 if [ ! -f "$REPO_DIR/playbook.yaml" ]; then
