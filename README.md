@@ -25,9 +25,7 @@ This playbook automates the deployment of the following services:
 - **Tools**:
   - Git
   - Ansible
-- **User**: A non-root user with sudo privileges to run the wizard script
-
-## Installation
+- **User**: A non-root user with sudo privileges to install packages and run the playbook
 
 ### Automated Installation
 
@@ -38,22 +36,26 @@ curl -sSL https://github.com/alismx/dibbs-ecr-viewer-playbook/install.sh | bash
 ```
 
 The script will:
-1. Clone the repository to `/opt/dibbs-ecr-viewer-playbook`
+1. Clone the repository to `~/dibbs-ecr-viewer-playbook`
 2. Run the setup wizard for interactive configuration
 3. Execute the Ansible playbook to deploy eCR Viewer
+
+**Note**: The installation script requires sudo access to install system packages (Docker, Ansible) and will prompt for your password when needed.
 
 ### Updating
 
 If you used the automated installation, run the update script from the installed location:
 
 ```bash
-cd /opt/dibbs-ecr-viewer-playbook && ./update.sh
+cd ~/dibbs-ecr-viewer-playbook && ./update.sh
 ```
 
 The update script will:
 1. Pull the latest changes from the repository
 2. Re-run the Ansible playbook to apply configuration updates
 3. Restart Docker Compose services
+
+**Note**: The update script requires sudo access and will prompt for your password when needed.
 
 ### Manual Installation
 
@@ -122,7 +124,7 @@ The wizard supports 15 different configurations combining:
 
 ## Environment Files
 
-After running the wizard, environment files are created at `/home/ecr-viewer/project/docker/`:
+After running the wizard, environment files are created at `~/ecr-viewer/project/docker/`:
 
 - **dibbs-ecr-viewer.env** - Main application configuration (cloud credentials, database connection, auth settings)
 - **dibbs-orchestration.env** - Service URL configuration for internal communication
@@ -136,12 +138,12 @@ docker compose logs -f ecr-viewer
 
 ### Restart Services
 ```bash
-cd /home/ecr-viewer/project/docker && docker compose restart
+cd ~/ecr-viewer/project/docker && docker compose restart
 ```
 
 ### Stop Services
 ```bash
-cd /home/ecr-viewer/project/docker && docker compose down
+cd ~/ecr-viewer/project/docker && docker compose down
 ```
 
 ### Access Portainer
@@ -153,10 +155,10 @@ If you prefer not to use the wizard, manually edit the environment files:
 
 ```bash
 # Edit the main configuration
-vim /home/ecr-viewer/project/docker/dibbs-ecr-viewer.env
+vim ~/ecr-viewer/project/docker/dibbs-ecr-viewer.env
 
 # Restart services to apply changes
-docker compose -f /home/ecr-viewer/project/docker/docker-compose.yaml up -d
+docker compose -f ~/ecr-viewer/project/docker/docker-compose.yaml up -d
 ```
 
 ## Required Environment Variables
