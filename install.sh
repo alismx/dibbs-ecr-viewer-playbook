@@ -124,7 +124,7 @@ run_wizard() {
 
     if [ -f "$DIBBS_ECR_VIEWER_DIR/docker/dibbs-ecr-viewer.env" ]; then
         echo "WARNING: Existing environment file found at $DIBBS_ECR_VIEWER_DIR/docker/dibbs-ecr-viewer.env"
-        read -p "Do you want to overwrite it? (y/N): " confirm
+        read -p "Do you want to overwrite it? (y/N): " confirm < /dev/tty
         if [ "$confirm" != "y" ] && [ "$confirm" != "Y" ]; then
             echo "Aborting installation."
             exit 0
