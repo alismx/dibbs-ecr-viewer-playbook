@@ -255,7 +255,7 @@ set_vars() {
 confirm_dot_env_var() {
   local value=$1
   local default=$2
-  read -rp "  ${value} (Current Value: ${default}): " choice
+  read -rp "  ${value} (Current Value: ${default}): " choice < /dev/tty
   if [ -z "$choice" ]; then
     choice="$default"
   fi
@@ -270,7 +270,7 @@ confirm_update() {
   vars=$(cat "$dibbs_ecr_viewer_wizard")
   echo -e "\e[1;36m$vars\e[0m"
   echo ""
-  read -p "Is this information correct? (y/n): " choice
+  read -p "Is this information correct? (y/n): " choice < /dev/tty
   if [ "$choice" != "y" ]; then
     echo "Please run the script again and provide the correct information."
     exit 1
