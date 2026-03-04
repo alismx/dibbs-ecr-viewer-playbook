@@ -65,7 +65,7 @@ echo ""
 if [ ! -f "$DIBBS_ECR_VIEWER_DIR/docker/dibbs-ecr-viewer.env" ]; then
     echo "WARNING: Environment file not found at $DIBBS_ECR_VIEWER_DIR/docker/dibbs-ecr-viewer.env"
     echo "The playbook will create this file during installation."
-    read -p "Continue with playbook run? (y/N): " confirm
+    read -p "Continue with playbook run? (y/N): " confirm < /dev/tty
     if [ "$confirm" != "y" ] && [ "$confirm" != "Y" ]; then
         echo "Aborting update."
         exit 0
