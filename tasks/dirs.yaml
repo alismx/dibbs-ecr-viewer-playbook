@@ -1,10 +1,10 @@
 ---
 - name: add project directory if doesn't exist
   ansible.builtin.file:
-      path: "{{ dibbs_project_dir }}"
+      path: "{{ dibbs_ecr_viewer_dir }}"
       state: directory
 
 - name: copy files to project directory
   ansible.builtin.copy:
     src: ./project/
-    dest: "{{ dibbs_project_dir }}/"
+    dest: "{{ dibbs_ecr_viewer_dir }}/"
