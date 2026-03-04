@@ -17,7 +17,7 @@ echo ""
 
 # Configuration
 DIBBS_PLAYBOOK_DIR="${REPO_DIR:-${HOME}/dibbs-ecr-viewer-playbook}"
-DIBBS_ECR_VIEWER_DIR="${HOME}/ecr-viewer/project/docker"
+DIBBS_ECR_VIEWER_DIR="${HOME}/ecr-viewer/project"
 
 # Verify we're in the correct directory
 if [ ! -f "$DIBBS_PLAYBOOK_DIR/playbook.yaml" ]; then
@@ -62,8 +62,8 @@ git pull
 echo ""
 
 # Check if environment file exists
-if [ ! -f "$DIBBS_ECR_VIEWER_DIR/dibbs-ecr-viewer.env" ]; then
-    echo "WARNING: Environment file not found at $DIBBS_ECR_VIEWER_DIR/dibbs-ecr-viewer.env"
+if [ ! -f "$DIBBS_ECR_VIEWER_DIR/docker/dibbs-ecr-viewer.env" ]; then
+    echo "WARNING: Environment file not found at $DIBBS_ECR_VIEWER_DIR/docker/dibbs-ecr-viewer.env"
     echo "The playbook will create this file during installation."
     read -p "Continue with playbook run? (y/N): " confirm
     if [ "$confirm" != "y" ] && [ "$confirm" != "Y" ]; then
