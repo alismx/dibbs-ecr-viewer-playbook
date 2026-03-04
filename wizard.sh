@@ -19,13 +19,14 @@
 # - azure: Sets environment variables for Azure configuration.
 #
 # The script follows these steps:
-# 1. Clears the dibbs_ecr_viewer_wizard file.
-# 2. Displays an introductory message.
-# 3. Prompts the user to select a configuration name.
-# 4. Sets environment variables based on the selected configuration.
-# 5. Prompts the user to confirm the environment variables.
-# 6. Replaces the contents of the dibbs_ecr_viewer_env file with the contents of the dibbs_ecr_viewer_wizard file.
-# 7. Restarts Docker Compose with the updated environment variables.
+# 1. Creates project directory structure if it doesn't exist
+# 2. Clears the dibbs_ecr_viewer_wizard file
+# 3. Displays an introductory message
+# 4. Parses existing environment defaults (if available)
+# 5. Prompts the user to select a configuration name
+# 6. Sets environment variables based on the selected configuration
+# 7. Prompts the user to confirm the environment variables
+# 8. Replaces the contents of the dibbs_ecr_viewer_env file with the contents of the dibbs_ecr_viewer_wizard file
 
 DIBBS_ECR_VIEWER_DIR="${HOME}/ecr-viewer/project"
 
