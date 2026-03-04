@@ -253,14 +253,14 @@ set_vars() {
 }
 
 confirm_dot_env_var() {
-  local value=$1
-  local default=$2
-  read -rp "  ${value} (Current Value: ${default}): " choice < /dev/tty
+  value=$1
+  default=$2
+  read -rp $'  \e[3m'"$value (Current Value: $default): "$'\e[0m' choice < /dev/tty
   if [ -z "$choice" ]; then
     choice="$default"
   fi
   echo ""
-  echo "  Setting: $value=$choice"
+  echo -e "  \e[1;36mSetting: $value=$choice\e[0m"
   echo ""
   add_env "$value" "$choice"
 }
@@ -270,7 +270,7 @@ confirm_update() {
   vars=$(cat "$dibbs_ecr_viewer_wizard")
   echo -e "\e[1;36m$vars\e[0m"
   echo ""
-  read -p "Is this information correct? (y/n): " choice < /dev/tty
+  read -rp $'  \e[3m'"Is this information correct? (y/n): "$'\e[0m' choice < /dev/tty
   if [ "$choice" != "y" ]; then
     echo "Please run the script again and provide the correct information."
     exit 1
