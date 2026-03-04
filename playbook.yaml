@@ -1,5 +1,8 @@
 - name: DIBBS ecr-viewer machine setup
   hosts: localhost
+  vars:
+    dibbs_playbook_dir: "{{ lookup('env', 'DIBBS_PLAYBOOK_DIR') | default('$HOME/dibbs-ecr-viewer-playbook', true) }}"
+    dibbs_ecr_viewer_dir: "{{ lookup('env', 'DIBBS_ECR_VIEWER_DIR') | default('~/ecr-viewer/project', true) }}"
   vars_files:
     - ./vars.yaml
   handlers:

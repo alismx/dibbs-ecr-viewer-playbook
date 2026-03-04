@@ -4,7 +4,7 @@
 # Usage: curl -sSL https://github.com/alismx/dibbs-ecr-viewer-playbook/install.sh | bash
 #
 # This script will:
-# 1. Clone the repository to /opt/dibbs-ecr-viewer-playbook
+# 1. Clone the repository to ~/dibbs-ecr-viewer-playbook
 # 2. Run the wizard.sh setup script interactively
 # 3. Execute the Ansible playbook
 
@@ -43,8 +43,8 @@ check_privileges() {
 
 # Configuration
 REPO_URL="https://github.com/alismx/dibbs-ecr-viewer-playbook"
-INSTALL_DIR="/opt/dibbs-ecr-viewer-playbook"
-PROJECT_DIR="/home/ecr-viewer/project"
+DIBBS_PLAYBOOK_DIR="${HOME}/dibbs-ecr-viewer-playbook"
+DIBBS_ECR_VIEWER_DIR="${HOME}/ecr-viewer/project"
 
 # Detect and store package manager
 detect_package_manager() {
@@ -114,11 +114,11 @@ clone_repository() {
     echo "Cloning repository..."
 
     # Remove existing clone if present
-    rm -rf "$INSTALL_DIR"
+    rm -rf "$DIBBS_PLAYBOOK_DIR"
 
-    git clone --depth 1 "$REPO_URL" "$INSTALL_DIR"
+    git clone --depth 1 "$REPO_URL" "$DIBBS_PLAYBOOK_DIR"
 
-    echo "Repository cloned to: $INSTALL_DIR"
+    echo "Repository cloned to: $DIBBS_PLAYBOOK_DIR"
     echo ""
 }
 
@@ -127,8 +127,8 @@ run_wizard() {
     echo "The wizard will prompt you for configuration details."
     echo ""
 
-    if [ -f "$PROJECT_DIR/docker/dibbs-ecr-viewer.env" ]; then
-        echo "WARNING: Existing environment file found at $PROJECT_DIR/docker/dibbs-ecr-viewer.env"
+    if [ -f "$DIBBS_ECR_VIEWER_DIR/docker/dibbs-ecr-viewer.env" ]; then
+        echo "WARNING: Existing environment file found at $DIBBS_ECR_VIEWER_DIR/docker/dibbs-ecr-viewer.env"
         read -p "Do you want to overwrite it? (y/N): " confirm
         if [ "$confirm" != "y" ] && [ "$confirm" != "Y" ]; then
             echo "Aborting installation."
@@ -137,7 +137,7 @@ run_wizard() {
     fi
 
     # Run the wizard script from its own directory
-    bash "$INSTALL_DIR/wizard.sh"
+    bash "$DIBBS_PLAYBOOK_DIR/wizard.sh"
 
     echo ""
 }
@@ -146,7 +146,7 @@ run_playbook() {
     echo "Running Ansible playbook..."
     echo ""
 
-    cd "$INSTALL_DIR"
+    cd "$DIBBS_PLAYBOOK_DIR"
 
     ansible-playbook -c local playbook.yaml
 }
@@ -165,7 +165,7 @@ main() {
     echo "  Installation Complete!"
     echo "========================================"
     echo ""
-    echo "Your eCR Viewer is now installed at: $PROJECT_DIR/docker/"
+    echo "Your eCR Viewer is now installed at: $DIBBS_ECR_VIEWER_DIR/docker/"
     echo "Check the .env file for your configuration."
 }
 

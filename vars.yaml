@@ -1,1 +1,2 @@
-# empy file for use by wizard script and playbook
+# Variables file for dibbs-ecr-viewer-playbook
+# This file is sourced by the wizard script to set configuration values

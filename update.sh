@@ -16,11 +16,11 @@ echo "========================================"
 echo ""
 
 # Configuration
-REPO_DIR="${REPO_DIR:-/opt/dibbs-ecr-viewer-playbook}"
-PROJECT_DIR="/home/ecr-viewer/project/docker"
+DIBBS_PLAYBOOK_DIR="${REPO_DIR:-${HOME}/dibbs-ecr-viewer-playbook}"
+DIBBS_ECR_VIEWER_DIR="${HOME}/ecr-viewer/project/docker"
 
 # Verify we're in the correct directory
-if [ ! -f "$REPO_DIR/playbook.yaml" ]; then
+if [ ! -f "$DIBBS_PLAYBOOK_DIR/playbook.yaml" ]; then
     echo "ERROR: playbook.yaml not found. Please run this script from the repository root."
     exit 1
 fi
@@ -62,13 +62,13 @@ check_privileges
 
 # Pull latest changes
 echo "Pulling latest changes..."
-cd "$REPO_DIR"
+cd "$DIBBS_PLAYBOOK_DIR"
 git pull
 echo ""
 
 # Check if environment file exists
-if [ ! -f "$PROJECT_DIR/dibbs-ecr-viewer.env" ]; then
-    echo "WARNING: Environment file not found at $PROJECT_DIR/dibbs-ecr-viewer.env"
+if [ ! -f "$DIBBS_ECR_VIEWER_DIR/dibbs-ecr-viewer.env" ]; then
+    echo "WARNING: Environment file not found at $DIBBS_ECR_VIEWER_DIR/dibbs-ecr-viewer.env"
     echo "The playbook will create this file during installation."
     read -p "Continue with playbook run? (y/N): " confirm
     if [ "$confirm" != "y" ] && [ "$confirm" != "Y" ]; then
@@ -80,14 +80,14 @@ fi
 # Run Ansible playbook
 echo ""
 echo "Running Ansible playbook to apply configuration updates..."
-cd "$REPO_DIR"
+cd "$DIBBS_PLAYBOOK_DIR"
 ansible-playbook -c local playbook.yaml
 
 echo ""
 
 # Restart Docker Compose services
 echo "Restarting Docker Compose services..."
-cd "$PROJECT_DIR"
+cd "$DIBBS_ECR_VIEWER_DIR"
 docker compose down
 docker compose up -d
 
