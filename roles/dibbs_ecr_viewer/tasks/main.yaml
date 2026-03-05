@@ -10,20 +10,11 @@
 - name: Install and configure fail2ban
   ansible.builtin.include_tasks: fail2ban.yaml
 
-- name: Check for existing configuration
-  ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.env" 2>/dev/null || true
-    echo "DIBBS_VERSION=${DIBBS_VERSION:-}"
-  register: env_check
-  changed_when: false
-
-# Run wizard if force_wizard flag is set, or if config is missing (DIBBS_VERSION not found)
+# Run wizard only if force_wizard flag is set to true
 - name: Run setup wizard
   ansible.builtin.include_tasks: wizard.yaml
   when:
-    - force_wizard | default(false) | bool
-    - or
-    - '"DIBBS_VERSION=" in env_check.stdout'
+    - force_wizard | default('not_set') == 'true'
 
 # Always run start_stack (after wizard completes or if config already exists)
 - name: Start Docker Compose stack
