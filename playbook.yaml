@@ -1,46 +1,6 @@
 ---
 - name: DIBBS ecr-viewer machine setup
   hosts: localhost
-  vars:
-    dibbs_playbook_dir: "{{ lookup('env', 'DIBBS_PLAYBOOK_DIR') | default('$HOME/dibbs-ecr-viewer-playbook', true) }}"
-    dibbs_ecr_viewer_dir: "{{ lookup('env', 'DIBBS_ECR_VIEWER_DIR') | default('~/ecr-viewer/project', true) }}"
-    ansible_python_interpreter: /usr/bin/python3
-  vars_files:
-    - ./vars.yaml
-  handlers:
-    - name: restart and enable fail2ban
-      ansible.builtin.systemd:
-        name: fail2ban
-        state: restarted
-        enabled: true
-
-  tasks:
-    - name: Install deps
-      include_tasks: tasks/deps.yaml
-
-    - name: Add project directories
-      include_tasks: tasks/dirs.yaml
-
-    # - name: Run AWS specific setup
-    #   include_tasks: tasks/aws.yaml
-
-    - name: Install and configure fail2ban
-      include_tasks: tasks/fail2ban.yaml
-
-    # Check if wizard has been run (DIBBS_VERSION and DIBBS_SERVICE should be defined)
-    - name: Check for required environment variables
-      ansible.builtin.shell: |
-        source "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.env"
-        echo "DIBBS_VERSION=$DIBBS_VERSION"
-        echo "DIBBS_SERVICE=$DIBBS_SERVICE"
-      register: env_check
-      failed_when: false
-      changed_when: false
-
-    # Run setup wizard on first run (when DIBBS_VERSION or DIBBS_SERVICE is missing)
-    - name: Run setup wizard (first run)
-      ansible.builtin.include_tasks: tasks/wizard.yaml
-      when: '"DIBBS_VERSION=" not in env_check.stdout or "DIBBS_SERVICE=" not in env_check.stdout'
-
-    - name: Run ecr-viewer compose
-      include_tasks: tasks/viewer.yaml
+  gather_facts: true
+  roles:
+    - role: dibbs_ecr_viewer

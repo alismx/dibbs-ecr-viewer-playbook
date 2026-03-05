@@ -1,7 +1,7 @@
 ---
 # Optional Configuration Tasks
 
-- name: Prompt for SAVE_XML (optional, press Enter to skip)
+- name: Prompt for SAVE_XML (optional)
   ansible.builtin.pause:
     prompt: |
       SAVE_XML (Optional: leave blank for use defaults):
@@ -18,7 +18,7 @@
     create: true
     mode: '0644'
 
-- name: Prompt for DISPLAY_FEEDBACK_LINKS (optional, press Enter to skip)
+- name: Prompt for DISPLAY_FEEDBACK_LINKS (optional)
   ansible.builtin.pause:
     prompt: |
       DISPLAY_FEEDBACK_LINKS (Optional: leave blank for use defaults):
@@ -35,7 +35,7 @@
     create: true
     mode: '0644'
 
-- name: Prompt for ECR_PROCESSING_TIMEOUT (optional, press Enter to skip)
+- name: Prompt for ECR_PROCESSING_TIMEOUT (optional)
   ansible.builtin.pause:
     prompt: |
       ECR_PROCESSING_TIMEOUT (Optional: leave blank for use defaults):

@@ -69,7 +69,7 @@
     create: true
     mode: '0644'
 
-- name: Prompt for AUTH_SESSION_DURATION_MIN (optional, press Enter to skip)
+- name: Prompt for AUTH_SESSION_DURATION_MIN (optional)
   ansible.builtin.pause:
     prompt: |
       AUTH_SESSION_DURATION_MIN (Optional: leave blank for use defaults):

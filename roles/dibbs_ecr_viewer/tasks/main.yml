@@ -1,0 +1,33 @@
+---
+# Main role tasks - orchestrates the entire setup
+
+- name: Include prerequisites installation
+  ansible.builtin.include_tasks: prereqs.yaml
+
+- name: Create project directories
+  ansible.builtin.include_tasks: create_dirs.yaml
+
+- name: Install and configure fail2ban
+  ansible.builtin.include_tasks: fail2ban.yaml
+
+- name: Check for existing configuration
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.env" 2>/dev/null || true
+    echo "DIBBS_VERSION=${DIBBS_VERSION:-}"
+    echo "DIBBS_SERVICE=${DIBBS_SERVICE:-}"
+  register: env_check
+  changed_when: false
+
+# Set backup_needed flag if configuration exists (will be used in wizard.yml)
+- name: Set backup_needed flag
+  ansible.builtin.set_fact:
+    backup_needed: true
+  when: '"DIBBS_VERSION=" in env_check.stdout and "DIBBS_SERVICE=" in env_check.stdout'
+
+- name: Run setup wizard if configuration is missing
+  ansible.builtin.include_tasks: wizard.yaml
+  when: '"DIBBS_VERSION=" not in env_check.stdout or "DIBBS_SERVICE=" not in env_check.stdout'
+
+# Always run start_stack (after wizard completes or if config already exists)
+- name: Start Docker Compose stack
+  ansible.builtin.include_tasks: start_stack.yaml

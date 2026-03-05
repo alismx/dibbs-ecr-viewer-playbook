@@ -1,13 +1,14 @@
 ---
+# Install Docker and required system packages
 
 # Fedora
-- name: Add signing key
+- name: Add signing key for Docker repository (Fedora)
   ansible.builtin.rpm_key:
     key: "https://download.docker.com/linux/{{ (ansible_distribution | lower) }}/gpg"
     state: present
   when: ansible_facts['distribution'] == "Fedora"
 
-- name: Add repository into repo.d list
+- name: Add Docker repository (Fedora)
   ansible.builtin.yum_repository:
     name: docker
     description: docker repository
@@ -17,7 +18,7 @@
     gpgkey: "https://download.docker.com/linux/{{ (ansible_distribution | lower) }}/gpg"
   when: ansible_facts['distribution'] == "Fedora"
 
-- name: Install Docker
+- name: Install Docker packages (Fedora)
   ansible.builtin.yum:
     name:
       - docker-ce
@@ -26,8 +27,10 @@
     state: latest
     update_cache: true
   when: ansible_facts['distribution'] == "Fedora"
+  notify: restart and enable docker
 
-- name: Install required system packages
+# Debian/Ubuntu
+- name: Install required system packages (Debian/Ubuntu)
   ansible.builtin.apt:
     name:
       - apt-transport-https
@@ -52,7 +55,7 @@
     update_cache: true
   when: ansible_facts['distribution'] == "Ubuntu"
 
-- name: Update apt and install Docker packages for Ubuntu
+- name: Install Docker packages (Ubuntu)
   ansible.builtin.apt:
     name:
       - docker-ce
@@ -62,6 +65,7 @@
     state: latest
     update_cache: true
   when: ansible_facts['distribution'] == "Ubuntu"
+  notify: restart and enable docker
 
 - name: Add Docker GPG apt Key for Debian
   ansible.builtin.apt_key:
@@ -76,7 +80,7 @@
     update_cache: true
   when: ansible_facts['distribution'] == "Debian"
 
-- name: Update apt and install Docker packages for Debian
+- name: Install Docker packages (Debian)
   ansible.builtin.apt:
     name:
       - docker-ce
@@ -86,19 +90,12 @@
     state: latest
     update_cache: true
   when: ansible_facts['distribution'] == "Debian"
+  notify: restart and enable docker
 
-# generic
-- name: Start Docker
+# Generic - start Docker service
+- name: Start Docker service
   ansible.builtin.systemd:
     name: "docker"
     enabled: true
     state: started
-
-- name: add user with docker permissions
-  ansible.builtin.user:
-    name: ecr-viewer
-    groups: docker
-    home: "{{ dibbs_ecr_viewer_dir }}"
-    create_home: yes
-    password: "!"
-    append: yes
+  notify: restart and enable docker

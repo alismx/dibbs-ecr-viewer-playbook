@@ -1,9 +1,9 @@
 ---
-# Parse eCR Viewer for default environment variables
+# Docker Compose variables configuration
 
 - name: Get latest release info from GitHub API
   ansible.builtin.uri:
-    url: "https://api.github.com/repos/CDCgov/dibbs-ecr-viewer/releases/latest"
+    url: "{{ dibbs_ecr_viewer_release_url }}"
     return_content: true
   register: github_release
   failed_when: false
@@ -19,7 +19,7 @@
   when: release_info | length > 0
 
 # DIBBS_SERVICE - always set to dibbs-ecr-viewer
-- name: Prompt for DIBBS_SERVICE (default: dibbs-ecr-viewer)
+- name: Prompt for DIBBS_SERVICE
   ansible.builtin.pause:
     prompt: |
       DIBBS_SERVICE (Current Value: dibbs-ecr-viewer):
@@ -37,7 +37,7 @@
     mode: '0644'
 
 # ORCHESTRATION_URL - default to http://dibbs-orchestration:8080
-- name: Prompt for ORCHESTRATION_URL (default: http://dibbs-orchestration:8080)
+- name: Prompt for ORCHESTRATION_URL
   ansible.builtin.pause:
     prompt: |
       ORCHESTRATION_URL (Current Value: http://dibbs-orchestration:8080):
@@ -55,7 +55,7 @@
     mode: '0644'
 
 # DIBBS_VERSION - empty by default (injected at runtime)
-- name: Prompt for DIBBS_VERSION (optional, press Enter to skip):
+- name: Prompt for DIBBS_VERSION
   ansible.builtin.pause:
     prompt: |
       DIBBS_VERSION (Current Value: ):

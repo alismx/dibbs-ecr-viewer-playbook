@@ -1,5 +1,5 @@
 ---
-# Wizard tasks - replaced bash wizard.sh with Ansible interactive prompts
+# Main wizard orchestration task
 
 - name: Display wizard intro
   ansible.builtin.debug:
@@ -8,20 +8,7 @@
       *   Welcome to the eCR Viewer setup wizard   *
       **********************************************
 
-- name: Create project directory structure
-  ansible.builtin.file:
-    path: "{{ dibbs_ecr_viewer_dir }}/docker"
-    state: directory
-    mode: '0755'
-
-# Clear/create wizard file
-- name: Clear wizard temp file
-  ansible.builtin.copy:
-    content: ""
-    dest: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.wizard"
-    mode: '0644'
-
-# Parse existing CONFIG_NAME from .env file (if exists)
+# CONFIG_NAME selection
 - name: Read existing .env file to get current CONFIG_NAME
   ansible.builtin.shell: |
     source "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.env" 2>/dev/null || true
@@ -30,7 +17,6 @@
   failed_when: false
   changed_when: false
 
-# CONFIG_NAME selection
 - name: Display configuration options
   ansible.builtin.debug:
     msg: |
@@ -95,46 +81,46 @@
 
 # Parse eCR Viewer defaults (DIBBS_SERVICE, ORCHESTRATION_URL)
 - name: Parse eCR Viewer for default environment variables
-  ansible.builtin.include_tasks: docker_compose_vars.yaml
+  ansible.builtin.include_tasks: docker_compose_vars.yml
 
 # Cloud-specific tasks based on CONFIG_NAME
 - name: Configure AWS settings
-  ansible.builtin.include_tasks: aws.yaml
+  ansible.builtin.include_tasks: aws.yml
   when: "'AWS' in CONFIG_NAME"
 
 - name: Configure Azure settings
-  ansible.builtin.include_tasks: azure.yaml
+  ansible.builtin.include_tasks: azure.yml
   when: "'AZURE" in CONFIG_NAME"
 
 - name: Configure GCP settings
-  ansible.builtin.include_tasks: gcp.yaml
+  ansible.builtin.include_tasks: gcp.yml
   when: "'GCP' in CONFIG_NAME"
 
 # Database-specific tasks based on CONFIG_NAME
 - name: Configure PostgreSQL settings
-  ansible.builtin.include_tasks: postgresql.yaml
-  when: "'PG" in CONFIG_NAME and "'SQLSERVER" not in CONFIG_NAME"
+  ansible.builtin.include_tasks: postgresql.yml
+  when: "'PG" in CONFIG_NAME and "'SQLSERVER" not in CONFIG_NAME'
 
 - name: Configure SQL Server settings
-  ansible.builtin.include_tasks: sqlserver.yaml
+  ansible.builtin.include_tasks: sqlserver.yml
   when: "'SQLSERVER" in CONFIG_NAME'
 
 # NBS tasks (for DUAL or INTEGRATED modes)
 - name: Configure NBS settings
-  ansible.builtin.include_tasks: nbs.yaml
+  ansible.builtin.include_tasks: nbs.yml
   when: "'DUAL' in CONFIG_NAME or 'INTEGRATED' in CONFIG_NAME"
 
 # Authentication tasks
 - name: Configure authentication settings
-  ansible.builtin.include_tasks: auth.yaml
+  ansible.builtin.include_tasks: auth.yml
 
 # NextAuth tasks
 - name: Configure NextAuth settings
-  ansible.builtin.include_tasks: nextauth.yaml
+  ansible.builtin.include_tasks: nextauth.yml
 
 # Optional settings
 - name: Configure optional settings
-  ansible.builtin.include_tasks: optional.yaml
+  ansible.builtin.include_tasks: optional.yml
 
 # Final confirmation and file update
 - name: Read wizard file contents

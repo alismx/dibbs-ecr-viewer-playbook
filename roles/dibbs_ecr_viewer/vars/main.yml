@@ -1,0 +1,4 @@
+---
+# Role-specific variables
+
+dibbs_ecr_viewer_release_url: "https://api.github.com/repos/CDCgov/dibbs-ecr-viewer/releases/latest"

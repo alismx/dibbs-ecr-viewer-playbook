@@ -1,0 +1,14 @@
+---
+# Handlers for dibbs_ecr_viewer role
+
+- name: restart and enable fail2ban
+  ansible.builtin.systemd:
+    name: fail2ban
+    state: restarted
+    enabled: true
+
+- name: restart and enable docker
+  ansible.builtin.systemd:
+    name: docker
+    state: restarted
+    enabled: true
