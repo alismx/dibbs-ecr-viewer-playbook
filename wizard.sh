@@ -54,6 +54,7 @@ display_intro() {
 }
 
 set_vars() {
+
   while IFS= read -r line; do
     case $line in
     CONFIG_NAME=*)
@@ -255,7 +256,7 @@ set_vars() {
 confirm_dot_env_var() {
   value=$1
   default=$2
-  read -rp $'  \e[3m'"$value (Current Value: $default): "$'\e[0m' choice < /dev/tty
+  read -rp $'  \e[3m'"$value (Current Value: $default): "$'\e[0m' choice
   if [ -z "$choice" ]; then
     choice="$default"
   fi
@@ -270,7 +271,7 @@ confirm_update() {
   vars=$(cat "$dibbs_ecr_viewer_wizard")
   echo -e "\e[1;36m$vars\e[0m"
   echo ""
-  read -rp $'  \e[3m'"Is this information correct? (y/n): "$'\e[0m' choice < /dev/tty
+  read -rp $'  \e[3m'"Is this information correct? (y/n): "$'\e[0m' choice
   if [ "$choice" != "y" ]; then
     echo "Please run the script again and provide the correct information."
     exit 1
@@ -388,6 +389,10 @@ check_var() {
 docker_compose_vars() {
   # parse ecr-viewer.env file for environment variables
   echo -e "\e[1;33mParsing eCR Viewer for default environment variables...\e[0m"
+  echo ""
+  release_info=$(curl -s https://api.github.com/repos/CDCgov/dibbs-ecr-viewer/releases/latest | jq '.html_url')
+  release_info=${release_info//\"/}
+  echo -e "  \e[1;35mLatest release information: $release_info\e[0m"
   echo ""
   check_var DIBBS_SERVICE
   check_var ORCHESTRATION_URL

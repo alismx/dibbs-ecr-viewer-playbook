@@ -117,42 +117,11 @@ clone_repository() {
     echo ""
 }
 
-run_wizard() {
-    echo "Running setup wizard..."
-    echo "The wizard will prompt you for configuration details."
-    echo ""
-
-    if [ -f "$DIBBS_ECR_VIEWER_DIR/docker/dibbs-ecr-viewer.env" ]; then
-        echo "WARNING: Existing environment file found at $DIBBS_ECR_VIEWER_DIR/docker/dibbs-ecr-viewer.env"
-        read -p "Do you want to overwrite it? (y/N): " confirm < /dev/tty
-        if [ "$confirm" != "y" ] && [ "$confirm" != "Y" ]; then
-            echo "Aborting installation."
-            exit 0
-        fi
-    fi
-
-    # Run the wizard script from its own directory
-    bash "$DIBBS_PLAYBOOK_DIR/wizard.sh"
-
-    echo ""
-}
-
-run_playbook() {
-    echo "Running Ansible playbook..."
-    echo ""
-
-    cd "$DIBBS_PLAYBOOK_DIR"
-
-    ansible-playbook -c local playbook.yaml
-}
-
-
 # Main execution
 main() {
     check_privileges
     check_prerequisites
     clone_repository
-
 
     echo ""
     echo "========================================"
