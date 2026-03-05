@@ -46,4 +46,4 @@
       when: '"DIBBS_VERSION=" not in env_check.stdout or "DIBBS_SERVICE=" not in env_check.stdout'
 
     - name: Run ecr-viewer compose
-      include_tasks: tasks/compose.yaml
+      include_tasks: tasks/viewer.yaml
