@@ -17,10 +17,13 @@
   register: env_check
   changed_when: false
 
-# Run setup wizard if DIBBS_VERSION is not set (wizard hasn't been run)
-- name: Run setup wizard if configuration is missing
+# Run wizard if force_wizard flag is set, or if config is missing (DIBBS_VERSION not found)
+- name: Run setup wizard
   ansible.builtin.include_tasks: wizard.yaml
-  when: '"DIBBS_VERSION=" in env_check.stdout'
+  when:
+    - force_wizard | default(false) | bool
+    - or
+    - '"DIBBS_VERSION=" in env_check.stdout'
 
 # Always run start_stack (after wizard completes or if config already exists)
 - name: Start Docker Compose stack
