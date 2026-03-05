@@ -14,25 +14,13 @@
   ansible.builtin.shell: |
     source "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.env" 2>/dev/null || true
     echo "DIBBS_VERSION=${DIBBS_VERSION:-}"
-    echo "DIBBS_SERVICE=${DIBBS_SERVICE:-}"
   register: env_check
   changed_when: false
 
-- name: Debug environment check output
-  ansible.builtin.debug:
-    msg: |
-      DIBBS_ECR_VIEWER_DIR: {{ dibbs_ecr_viewer_dir }}
-      ENV_CHECK_STDOUT: {{ env_check.stdout }}
-
-# Set backup_needed flag if configuration exists (will be used in wizard.yaml)
-- name: Set backup_needed flag
-  ansible.builtin.set_fact:
-    backup_needed: true
-  when: '"DIBBS_VERSION=" in env_check.stdout and "DIBBS_SERVICE=" in env_check.stdout'
-
+# Run setup wizard if DIBBS_VERSION is not set (wizard hasn't been run)
 - name: Run setup wizard if configuration is missing
   ansible.builtin.include_tasks: wizard.yaml
-  when: '"DIBBS_VERSION=" not in env_check.stdout or "DIBBS_SERVICE=" not in env_check.stdout'
+  when: '"DIBBS_VERSION=" in env_check.stdout'
 
 # Always run start_stack (after wizard completes or if config already exists)
 - name: Start Docker Compose stack
