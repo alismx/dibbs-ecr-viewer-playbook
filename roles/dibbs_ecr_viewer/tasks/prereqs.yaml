@@ -7,7 +7,6 @@
     key: "https://download.docker.com/linux/{{ (ansible_distribution | lower) }}/gpg"
     state: present
   when: ansible_facts['distribution'] == "Fedora"
-  become: true
 
 - name: Add Docker repository (Fedora)
   ansible.builtin.yum_repository:
@@ -18,7 +17,6 @@
     gpgcheck: true
     gpgkey: "https://download.docker.com/linux/{{ (ansible_distribution | lower) }}/gpg"
   when: ansible_facts['distribution'] == "Fedora"
-  become: true
 
 - name: Install Docker packages (Fedora)
   ansible.builtin.yum:
@@ -29,7 +27,6 @@
     state: latest
     update_cache: true
   when: ansible_facts['distribution'] == "Fedora"
-  become: true
   notify: restart and enable docker
 
 # Debian/Ubuntu
@@ -44,14 +41,12 @@
     state: latest
     update_cache: true
   when: ansible_facts['os_family'] == "Debian"
-  become: true
 
 - name: Add Docker GPG apt Key for Ubuntu
   ansible.builtin.apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
     state: present
   when: ansible_facts['distribution'] == "Ubuntu"
-  become: true
 
 - name: Add Docker Repository for Ubuntu
   ansible.builtin.apt_repository:
@@ -59,7 +54,6 @@
     state: present
     update_cache: true
   when: ansible_facts['distribution'] == "Ubuntu"
-  become: true
 
 - name: Install Docker packages (Ubuntu)
   ansible.builtin.apt:
@@ -71,7 +65,6 @@
     state: latest
     update_cache: true
   when: ansible_facts['distribution'] == "Ubuntu"
-  become: true
   notify: restart and enable docker
 
 - name: Add Docker GPG apt Key for Debian
@@ -79,7 +72,6 @@
     url: https://download.docker.com/linux/debian/gpg
     state: present
   when: ansible_facts['distribution'] == "Debian"
-  become: true
 
 - name: Add Docker Repository for Debian
   ansible.builtin.apt_repository:
@@ -87,7 +79,6 @@
     state: present
     update_cache: true
   when: ansible_facts['distribution'] == "Debian"
-  become: true
 
 - name: Install Docker packages (Debian)
   ansible.builtin.apt:
@@ -99,7 +90,6 @@
     state: latest
     update_cache: true
   when: ansible_facts['distribution'] == "Debian"
-  become: true
   notify: restart and enable docker
 
 # Generic - start Docker service
@@ -108,5 +98,4 @@
     name: "docker"
     enabled: true
     state: started
-  become: true
   notify: restart and enable docker
