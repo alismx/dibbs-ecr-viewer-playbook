@@ -1,8 +1,8 @@
 ---
 # Default variables for dibbs_ecr_viewer role
 
-dibbs_playbook_dir: "{{ lookup('env', 'DIBBS_PLAYBOOK_DIR') | default('$HOME/dibbs-ecr-viewer-playbook', true) }}"
-dibbs_ecr_viewer_dir: "{{ lookup('env', 'DIBBS_ECR_VIEWER_DIR') | default('$HOME/ecr-viewer/project', true) }}"
+dibbs_playbook_dir: "{{ lookup('env', 'DIBBS_PLAYBOOK_DIR') | default(lookup('env', 'HOME') + '/dibbs-ecr-viewer-playbook', true) }}"
+dibbs_ecr_viewer_dir: "{{ lookup('env', 'DIBBS_ECR_VIEWER_DIR') | default(lookup('env', 'HOME') + '/ecr-viewer/project', true) }}"
 ansible_python_interpreter: /usr/bin/python3
 
 # Docker user configuration
