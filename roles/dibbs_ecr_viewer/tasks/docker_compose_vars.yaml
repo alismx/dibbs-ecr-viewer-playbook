@@ -18,24 +18,6 @@
     msg: "Latest release information: {{ release_info }}"
   when: release_info | length > 0
 
-# DIBBS_SERVICE - always set to dibbs-ecr-viewer
-- name: Prompt for DIBBS_SERVICE
-  ansible.builtin.pause:
-    prompt: |
-      DIBBS_SERVICE (Current Value: dibbs-ecr-viewer):
-  register: dibbs_service_input
-
-- name: Set DIBBS_SERVICE fact
-  ansible.builtin.set_fact:
-    DIBBS_SERVICE: "{{ dibbs_service_input.user_input | default('dibbs-ecr-viewer') }}"
-
-- name: Add DIBBS_SERVICE to wizard file
-  ansible.builtin.lineinfile:
-    path: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.wizard"
-    line: 'DIBBS_SERVICE="{{ DIBBS_SERVICE }}"'
-    create: true
-    mode: '0644'
-
 # ORCHESTRATION_URL - default to http://dibbs-orchestration:8080
 - name: Prompt for ORCHESTRATION_URL
   ansible.builtin.pause:

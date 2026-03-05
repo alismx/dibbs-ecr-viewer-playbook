@@ -1,6 +1,6 @@
 services:
   ecr-viewer:
-    image: ghcr.io/cdcgov/$DIBBS_SERVICE/ecr-viewer:$DIBBS_VERSION
+    image: ghcr.io/cdcgov/dibbs-ecr-viewer/ecr-viewer:$DIBBS_VERSION
     container_name: dibbs-ecr-viewer
     restart: always
     env_file: "dibbs-ecr-viewer.env"
@@ -10,7 +10,7 @@ services:
       - dibbs
 
   ingestion:
-    image: ghcr.io/cdcgov/$DIBBS_SERVICE/ingestion:$DIBBS_VERSION
+    image: ghcr.io/cdcgov/dibbs-ecr-viewer/ingestion:$DIBBS_VERSION
     container_name: dibbs-ingestion
     restart: always
     ports:
@@ -19,7 +19,7 @@ services:
       - dibbs
 
   fhir-converter:
-    image: ghcr.io/cdcgov/$DIBBS_SERVICE/fhir-converter:$DIBBS_VERSION
+    image: ghcr.io/cdcgov/dibbs-ecr-viewer/fhir-converter:$DIBBS_VERSION
     container_name: dibbs-fhir-converter
     restart: always
     ports:
@@ -28,7 +28,7 @@ services:
       - dibbs
 
   message-parser:
-    image: ghcr.io/cdcgov/$DIBBS_SERVICE/message-parser:$DIBBS_VERSION
+    image: ghcr.io/cdcgov/dibbs-ecr-viewer/message-parser:$DIBBS_VERSION
     container_name: dibbs-message-parser
     restart: always
     ports:
@@ -37,7 +37,7 @@ services:
       - dibbs
 
   trigger-code-reference:
-    image: ghcr.io/cdcgov/$DIBBS_SERVICE/trigger-code-reference:$DIBBS_VERSION
+    image: ghcr.io/cdcgov/dibbs-ecr-viewer/trigger-code-reference:$DIBBS_VERSION
     container_name: dibbs-trigger-code-reference
     restart: always
     ports:
@@ -46,7 +46,7 @@ services:
       - dibbs
 
   orchestration:
-    image: ghcr.io/cdcgov/$DIBBS_SERVICE/orchestration:$DIBBS_VERSION
+    image: ghcr.io/cdcgov/dibbs-ecr-viewer/orchestration:$DIBBS_VERSION
     container_name: dibbs-orchestration
     env_file: "dibbs-orchestration.env"
     restart: always

@@ -8,7 +8,6 @@
     chdir: "{{ dibbs_ecr_viewer_dir }}/docker/"
   environment:
     CONFIG_NAME: "{{ CONFIG_NAME | default(omit) }}"
-    DIBBS_SERVICE: "{{ DIBBS_SERVICE | default(omit) }}"
     ORCHESTRATION_URL: "{{ ORCHESTRATION_URL | default(omit) }}"
     DIBBS_VERSION: "{{ DIBBS_VERSION | default(omit) }}"
     DATABASE_URL: "{{ DATABASE_URL | default(omit) }}"
