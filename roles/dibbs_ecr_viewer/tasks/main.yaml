@@ -18,6 +18,12 @@
   register: env_check
   changed_when: false
 
+- name: Debug environment check output
+  ansible.builtin.debug:
+    msg: |
+      DIBBS_ECR_VIEWER_DIR: {{ dibbs_ecr_viewer_dir }}
+      ENV_CHECK_STDOUT: {{ env_check.stdout }}
+
 # Set backup_needed flag if configuration exists (will be used in wizard.yaml)
 - name: Set backup_needed flag
   ansible.builtin.set_fact:
