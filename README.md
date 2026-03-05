@@ -27,9 +27,7 @@ This playbook automates the deployment of the following services:
   - Ansible
 - **User**: A non-root user with sudo privileges to install packages and run the playbook
 
-### Automated Installation (Piped)
-
-For piped execution, first run without wizard and playbook, then configure interactively:
+### Installation
 
 ```bash
 # Download and setup repository (non-interactive)
@@ -65,54 +63,6 @@ The update script will:
 3. Restart Docker Compose services
 
 **Note**: The update script requires sudo access and will prompt for your password when needed.
-
-### Manual Installation
-
-If you prefer more control over the process:
-
-1. **Clone this repository**
-   ```bash
-   git clone <repository-url>
-   cd dibbs-ecr-viewer-playbook
-   ```
-
-2. **Run the setup wizard**
-   ```bash
-   ./wizard.sh
-   ```
-   The wizard will:
-   - Parse existing environment defaults
-   - Guide you through selecting a configuration (AWS/Azure/GCP + PostgreSQL/SQL Server)
-   - Prompt for required credentials and settings
-   - Generate environment files and restart the Docker Compose stack
-
-3. **Verify deployment**
-   ```bash
-   docker compose ps
-   ```
-
-## Quick Start
-
-1. **Clone this repository**
-   ```bash
-   git clone <repository-url>
-   cd dibbs-ecr-viewer-playbook
-   ```
-
-2. **Run the setup wizard**
-   ```bash
-   ./wizard.sh
-   ```
-   The wizard will:
-   - Parse existing environment defaults
-   - Guide you through selecting a configuration (AWS/Azure/GCP + PostgreSQL/SQL Server)
-   - Prompt for required credentials and settings
-   - Generate environment files and restart the Docker Compose stack
-
-3. **Verify deployment**
-   ```bash
-   docker compose ps
-   ```
 
 ## Configuration Options
 
