@@ -1,6 +1,26 @@
 ---
 # Start Docker Compose stack
 
+# Check that DIBBS_VERSION is set before starting compose
+- name: Check for required environment variables
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.env" 2>/dev/null || true
+    echo "DIBBS_VERSION=${DIBBS_VERSION:-}"
+  register: env_check
+  changed_when: false
+
+- name: Fail if DIBBS_VERSION is not set
+  ansible.builtin.fail:
+    msg: |
+      Configuration incomplete. DIBBS_VERSION is not set.
+
+      Please run the playbook with force_wizard to configure:
+
+        ansible-playbook -c local playbook.yaml --extra-var "force_wizard=true"
+
+      This will prompt you for all configuration settings.
+  when: '"DIBBS_VERSION=" in env_check.stdout or env_check.stdout == ""'
+
 - name: Up ecr-viewer compose
   ansible.builtin.command:
     cmd: docker compose up -d
