@@ -27,18 +27,27 @@ This playbook automates the deployment of the following services:
   - Ansible
 - **User**: A non-root user with sudo privileges to install packages and run the playbook
 
-### Automated Installation
+### Automated Installation (Piped)
 
-Run the installation script to automate the full deployment:
+For piped execution, first run without wizard and playbook, then configure interactively:
 
 ```bash
+# Download and setup repository (non-interactive)
 curl -sSL https://github.com/alismx/dibbs-ecr-viewer-playbook/install.sh | bash
+
+# Navigate to the installed directory
+cd ~/dibbs-ecr-viewer-playbook
+
+# Run the wizard for interactive configuration
+./wizard.sh
+
+# Run the Ansible playbook to deploy
+ansible-playbook -c local playbook.yaml
 ```
 
-The script will:
-1. Clone the repository to `~/dibbs-ecr-viewer-playbook`
-2. Run the setup wizard for interactive configuration
-3. Execute the Ansible playbook to deploy eCR Viewer
+The wizard requires an interactive terminal and will prompt you for:
+1. Configuration selection (AWS/Azure/GCP + PostgreSQL/SQL Server)
+2. Required credentials and settings
 
 **Note**: The installation script requires sudo access to install system packages (Docker, Ansible) and will prompt for your password when needed.
 

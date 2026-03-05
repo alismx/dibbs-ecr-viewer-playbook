@@ -25,5 +25,25 @@
     - name: Install and configure fail2ban
       include_tasks: tasks/fail2ban.yaml
 
+    # Check if wizard has been run (DIBBS_VERSION and DIBBS_SERVICE should be defined)
+    - name: Check for required environment variables
+      ansible.builtin.shell: |
+        source "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.env"
+        echo "DIBBS_VERSION=$DIBBS_VERSION"
+        echo "DIBBS_SERVICE=$DIBBS_SERVICE"
+      register: env_check
+      failed_when: false
+      changed_when: false
+
+    - name: Fail if wizard not run
+      ansible.builtin.fail:
+        msg: |
+          Configuration incomplete. Please run the setup wizard first:
+
+            cd ~/dibbs-ecr-viewer-playbook && ./wizard.sh
+
+          This will configure your environment and generate the required .env file.
+      when: '"DIBBS_VERSION=" not in env_check.stdout or "DIBBS_SERVICE=" not in env_check.stdout'
+
     - name: Run ecr-viewer compose
       include_tasks: tasks/compose.yaml

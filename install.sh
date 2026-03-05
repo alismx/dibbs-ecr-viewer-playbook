@@ -153,17 +153,17 @@ main() {
     check_prerequisites
     clone_repository
 
-    
-    run_wizard
-    run_playbook
 
     echo ""
     echo "========================================"
     echo "  Installation Complete!"
     echo "========================================"
     echo ""
-    echo "Your eCR Viewer is now installed at: $DIBBS_ECR_VIEWER_DIR/docker/"
-    echo "Check the .env file for your configuration."
+    echo "Repository installed at: $DIBBS_ECR_VIEWER_DIR/docker/"
+    echo ""
+    echo "Next steps:"
+    echo "1. Run the setup wizard: cd ~/dibbs-ecr-viewer-playbook && ./wizard.sh"
+    echo "2. After configuring, run: ansible-playbook -c local playbook.yaml"
 }
 
 main
