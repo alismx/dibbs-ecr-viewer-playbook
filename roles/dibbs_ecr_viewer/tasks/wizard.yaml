@@ -18,34 +18,37 @@
   changed_when: false
 
 - name: Prompt for CONFIG_NAME selection
-  ansible.builtin.pause:
-    prompt: |
-      Current configuration: {{ env_config_name.stdout | default('NONE SELECTED') }}
-
-      Please select your CONFIG_NAME:
-
-      1. AWS_PG_NON_INTEGRATED
-      2. AWS_PG_DUAL
-      3. AWS_SQLSERVER_NON_INTEGRATED
-      4. AWS_SQLSERVER_DUAL
-      5. AWS_INTEGRATED
-      6. AZURE_PG_NON_INTEGRATED
-      7. AZURE_PG_DUAL
-      8. AZURE_SQLSERVER_NON_INTEGRATED
-      9. AZURE_SQLSERVER_DUAL
-      10. AZURE_INTEGRATED
-      11. GCP_PG_NON_INTEGRATED
-      12. GCP_PG_DUAL
-      13. GCP_SQLSERVER_NON_INTEGRATED
-      14. GCP_SQLSERVER_DUAL
-      15. GCP_INTEGRATED
-
-      "Enter the number of your configuration (1-15) or 'quit': "
+  ansible.builtin.shell: |
+    #!/bin/bash
+    echo -e "\e[1;36mCurrent configuration:\e[0m {{ env_config_name.stdout | default('NONE SELECTED') }}"
+    echo ""
+    echo -e "\e[1;32mPlease select your CONFIG_NAME:\e[0m"
+    echo ""
+    echo "  1. AWS_PG_NON_INTEGRATED"
+    echo "  2. AWS_PG_DUAL"
+    echo "  3. AWS_SQLSERVER_NON_INTEGRATED"
+    echo "  4. AWS_SQLSERVER_DUAL"
+    echo "  5. AWS_INTEGRATED"
+    echo "  6. AZURE_PG_NON_INTEGRATED"
+    echo "  7. AZURE_PG_DUAL"
+    echo "  8. AZURE_SQLSERVER_NON_INTEGRATED"
+    echo "  9. AZURE_SQLSERVER_DUAL"
+    echo " 10. AZURE_INTEGRATED"
+    echo " 11. GCP_PG_NON_INTEGRATED"
+    echo " 12. GCP_PG_DUAL"
+    echo " 13. GCP_SQLSERVER_NON_INTEGRATED"
+    echo " 14. GCP_SQLSERVER_DUAL"
+    echo " 15. GCP_INTEGRATED"
+    echo ""
+    read -rp $'\e[1;36mEnter the number of your configuration (1-15) or quit:\e[0m ' choice
+    echo "$choice"
+  args:
+    executable: /bin/bash
   register: config_selection
 
 - name: Set CONFIG_NAME based on selection
   ansible.builtin.set_fact:
-    CONFIG_NAME: "{{ config_options[config_selection.user_input | int - 1] }}"
+    CONFIG_NAME: "{{ config_options[config_selection.stdout | int - 1] }}"
   vars:
     config_options:
       - "AWS_PG_NON_INTEGRATED"
@@ -67,7 +70,7 @@
 - name: Handle quit selection
   ansible.builtin.fail:
     msg: "Wizard cancelled by user."
-  when: "'quit' in config_selection.user_input | lower"
+  when: "'quit' in config_selection.stdout | lower"
 
 # Add CONFIG_NAME to wizard file
 - name: Add CONFIG_NAME to wizard file
@@ -108,9 +111,10 @@
   ansible.builtin.include_tasks: nbs.yaml
   when: "'_DUAL' in CONFIG_NAME or '_INTEGRATED' in CONFIG_NAME"
 
-# Authentication tasks
+# Authentication tasks (run for NON_INTEGRATED and DUAL, not INTEGRATED)
 - name: Configure authentication settings
   ansible.builtin.include_tasks: auth.yaml
+  when: "'NON_INTEGRATED' in CONFIG_NAME or '_DUAL' in CONFIG_NAME"
 
 # NextAuth tasks
 - name: Configure NextAuth settings
@@ -127,19 +131,22 @@
   register: wizard_content
 
 - name: Prompt for configuration confirmation
-  ansible.builtin.pause:
-    prompt: |
-      Please confirm the following settings (Double check for special characters that should be escaped):
-
-      {{ wizard_content.content | b64decode }} 
-
-      "Is this information correct? (y/n): "
+  ansible.builtin.shell: |
+    #!/bin/bash
+    echo -e "\e[1;33mPlease confirm the following settings (Double check for special characters that should be escaped):\e[0m"
+    echo ""
+    printf '%s\n' "{{ wizard_content.content | b64decode }}"
+    echo ""
+    read -rp $'\e[1;36mIs this information correct? (y/n): \e[0m ' choice
+    echo "$choice"
+  args:
+    executable: /bin/bash
   register: confirm_input
 
 - name: Fail if configuration not confirmed
   ansible.builtin.fail:
     msg: "Configuration cancelled. Please run the playbook again."
-  when: "'n' in confirm_input.user_input | lower or 'y' not in confirm_input.user_input | lower"
+  when: "'n' in confirm_input.stdout | lower or 'y' not in confirm_input.stdout | lower"
 
 - name: Backup existing .env file if it exists
   ansible.builtin.copy:
