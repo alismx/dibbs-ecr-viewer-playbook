@@ -126,16 +126,14 @@
     src: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.wizard"
   register: wizard_content
 
-- name: Display configuration for confirmation
-  ansible.builtin.debug:
-    msg: |
-      Please confirm the following settings (Double check for special characters that should be escaped):
-
-      {{ wizard_content.content | b64decode }}
-
 - name: Prompt for configuration confirmation
   ansible.builtin.pause:
-    prompt: "Is this information correct? (y/n): "
+    prompt: |
+      Please confirm the following settings (Double check for special characters that should be escaped):
+
+      {{ wizard_content.content | b64decode }} 
+
+      "Is this information correct? (y/n): "
   register: confirm_input
 
 - name: Fail if configuration not confirmed
