@@ -11,7 +11,7 @@
 
 - name: Extract release URL
   ansible.builtin.set_fact:
-    release_info: "{{ github_release.content | from_json | default({}) | json_query('html_url') | default('') }}"
+    release_info: "{{ (github_release.content | from_json).html_url | default('') }}"
 
 - name: Display latest release info
   ansible.builtin.debug:
