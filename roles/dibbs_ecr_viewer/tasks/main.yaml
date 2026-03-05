@@ -18,7 +18,7 @@
   register: env_check
   changed_when: false
 
-# Set backup_needed flag if configuration exists (will be used in wizard.yml)
+# Set backup_needed flag if configuration exists (will be used in wizard.yaml)
 - name: Set backup_needed flag
   ansible.builtin.set_fact:
     backup_needed: true
