@@ -81,42 +81,42 @@
 
 # Parse eCR Viewer defaults (ORCHESTRATION_URL)
 - name: Parse eCR Viewer for default environment variables
-  ansible.builtin.include_tasks: docker_compose_vars.yml
+  ansible.builtin.include_tasks: docker_compose_vars.yaml
 
 # Cloud-specific tasks based on CONFIG_NAME
 - name: Configure AWS settings
-  ansible.builtin.include_tasks: aws.yml
+  ansible.builtin.include_tasks: aws.yaml
   when: "'AWS' in CONFIG_NAME"
 
 - name: Configure Azure settings
-  ansible.builtin.include_tasks: azure.yml
-  when: "'AZURE" in CONFIG_NAME"
+  ansible.builtin.include_tasks: azure.yaml
+  when: "'AZURE' in CONFIG_NAME"
 
 - name: Configure GCP settings
-  ansible.builtin.include_tasks: gcp.yml
+  ansible.builtin.include_tasks: gcp.yaml
   when: "'GCP' in CONFIG_NAME"
 
 # Database-specific tasks based on CONFIG_NAME
 - name: Configure PostgreSQL settings
-  ansible.builtin.include_tasks: postgresql.yml
-  when: "'PG" in CONFIG_NAME and "'SQLSERVER" not in CONFIG_NAME'
+  ansible.builtin.include_tasks: postgresql.yaml
+  when: "'_PG_' in CONFIG_NAME or '_PG' in CONFIG_NAME"
 
 - name: Configure SQL Server settings
-  ansible.builtin.include_tasks: sqlserver.yml
-  when: "'SQLSERVER" in CONFIG_NAME'
+  ansible.builtin.include_tasks: sqlserver.yaml
+  when: "'SQLSERVER' in CONFIG_NAME"
 
 # NBS tasks (for DUAL or INTEGRATED modes)
 - name: Configure NBS settings
-  ansible.builtin.include_tasks: nbs.yml
-  when: "'DUAL' in CONFIG_NAME or 'INTEGRATED' in CONFIG_NAME"
+  ansible.builtin.include_tasks: nbs.yaml
+  when: "'_DUAL' in CONFIG_NAME or '_INTEGRATED' in CONFIG_NAME"
 
 # Authentication tasks
 - name: Configure authentication settings
-  ansible.builtin.include_tasks: auth.yml
+  ansible.builtin.include_tasks: auth.yaml
 
 # NextAuth tasks
 - name: Configure NextAuth settings
-  ansible.builtin.include_tasks: nextauth.yml
+  ansible.builtin.include_tasks: nextauth.yaml
 
 # Optional settings
 - name: Configure optional settings
