@@ -1,0 +1,104 @@
+---
+# Authentication Configuration Tasks
+
+- name: Prompt for AUTH_PROVIDER
+  ansible.builtin.pause:
+    prompt: |
+      AUTH_PROVIDER (Valid options are 'ad' or 'keycloak'):
+  register: auth_provider_input
+
+- name: Set AUTH_PROVIDER fact
+  ansible.builtin.set_fact:
+    AUTH_PROVIDER: "{{ auth_provider_input.user_input }}"
+
+- name: Add AUTH_PROVIDER to wizard file
+  ansible.builtin.lineinfile:
+    path: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.wizard"
+    line: 'AUTH_PROVIDER="{{ AUTH_PROVIDER }}"'
+    create: true
+    mode: '0644'
+
+- name: Prompt for AUTH_CLIENT_ID
+  ansible.builtin.pause:
+    prompt: |
+      AUTH_CLIENT_ID:
+  register: auth_client_id_input
+
+- name: Set AUTH_CLIENT_ID fact
+  ansible.builtin.set_fact:
+    AUTH_CLIENT_ID: "{{ auth_client_id_input.user_input }}"
+
+- name: Add AUTH_CLIENT_ID to wizard file
+  ansible.builtin.lineinfile:
+    path: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.wizard"
+    line: 'AUTH_CLIENT_ID="{{ AUTH_CLIENT_ID }}"'
+    create: true
+    mode: '0644'
+
+- name: Prompt for AUTH_CLIENT_SECRET
+  ansible.builtin.pause:
+    prompt: |
+      AUTH_CLIENT_SECRET:
+  register: auth_client_secret_input
+
+- name: Set AUTH_CLIENT_SECRET fact
+  ansible.builtin.set_fact:
+    AUTH_CLIENT_SECRET: "{{ auth_client_secret_input.user_input }}"
+
+- name: Add AUTH_CLIENT_SECRET to wizard file
+  ansible.builtin.lineinfile:
+    path: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.wizard"
+    line: 'AUTH_CLIENT_SECRET="{{ AUTH_CLIENT_SECRET }}"'
+    create: true
+    mode: '0644'
+
+- name: Prompt for AUTH_ISSUER
+  ansible.builtin.pause:
+    prompt: |
+      AUTH_ISSUER:
+  register: auth_issuer_input
+
+- name: Set AUTH_ISSUER fact
+  ansible.builtin.set_fact:
+    AUTH_ISSUER: "{{ auth_issuer_input.user_input }}"
+
+- name: Add AUTH_ISSUER to wizard file
+  ansible.builtin.lineinfile:
+    path: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.wizard"
+    line: 'AUTH_ISSUER="{{ AUTH_ISSUER }}"'
+    create: true
+    mode: '0644'
+
+- name: Prompt for AUTH_SESSION_DURATION_MIN (optional, press Enter to skip)
+  ansible.builtin.pause:
+    prompt: |
+      AUTH_SESSION_DURATION_MIN (Optional: leave blank for use defaults):
+  register: auth_session_duration_input
+
+- name: Set AUTH_SESSION_DURATION_MIN fact
+  ansible.builtin.set_fact:
+    AUTH_SESSION_DURATION_MIN: "{{ auth_session_duration_input.user_input }}"
+
+- name: Add AUTH_SESSION_DURATION_MIN to wizard file
+  ansible.builtin.lineinfile:
+    path: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.wizard"
+    line: 'AUTH_SESSION_DURATION_MIN="{{ AUTH_SESSION_DURATION_MIN }}"'
+    create: true
+    mode: '0644'
+
+- name: Prompt for NEXTAUTH_URL
+  ansible.builtin.pause:
+    prompt: |
+      NEXTAUTH_URL (URL for the eCR Viewer application authentication: http(s)://(DOMAIN||IP:PORT)/ecr-viewer/api/auth/):
+  register: nextauth_url_input
+
+- name: Set NEXTAUTH_URL fact
+  ansible.builtin.set_fact:
+    NEXTAUTH_URL: "{{ nextauth_url_input.user_input }}"
+
+- name: Add NEXTAUTH_URL to wizard file
+  ansible.builtin.lineinfile:
+    path: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.wizard"
+    line: 'NEXTAUTH_URL="{{ NEXTAUTH_URL }}"'
+    create: true
+    mode: '0644'

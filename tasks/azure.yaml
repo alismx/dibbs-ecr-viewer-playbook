@@ -1,0 +1,36 @@
+---
+# Azure Configuration Tasks
+
+- name: Prompt for AZURE_STORAGE_CONNECTION_STRING
+  ansible.builtin.pause:
+    prompt: |
+      AZURE_STORAGE_CONNECTION_STRING:
+  register: azure_connection_input
+
+- name: Set AZURE_STORAGE_CONNECTION_STRING fact
+  ansible.builtin.set_fact:
+    AZURE_STORAGE_CONNECTION_STRING: "{{ azure_connection_input.user_input }}"
+
+- name: Add AZURE_STORAGE_CONNECTION_STRING to wizard file
+  ansible.builtin.lineinfile:
+    path: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.wizard"
+    line: 'AZURE_STORAGE_CONNECTION_STRING="{{ AZURE_STORAGE_CONNECTION_STRING }}"'
+    create: true
+    mode: '0644'
+
+- name: Prompt for AZURE_CONTAINER_NAME
+  ansible.builtin.pause:
+    prompt: |
+      AZURE_CONTAINER_NAME:
+  register: azure_container_input
+
+- name: Set AZURE_CONTAINER_NAME fact
+  ansible.builtin.set_fact:
+    AZURE_CONTAINER_NAME: "{{ azure_container_input.user_input }}"
+
+- name: Add AZURE_CONTAINER_NAME to wizard file
+  ansible.builtin.lineinfile:
+    path: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.wizard"
+    line: 'AZURE_CONTAINER_NAME="{{ AZURE_CONTAINER_NAME }}"'
+    create: true
+    mode: '0644'

@@ -1,0 +1,53 @@
+---
+# Optional Configuration Tasks
+
+- name: Prompt for SAVE_XML (optional, press Enter to skip)
+  ansible.builtin.pause:
+    prompt: |
+      SAVE_XML (Optional: leave blank for use defaults):
+  register: save_xml_input
+
+- name: Set SAVE_XML fact
+  ansible.builtin.set_fact:
+    SAVE_XML: "{{ save_xml_input.user_input }}"
+
+- name: Add SAVE_XML to wizard file
+  ansible.builtin.lineinfile:
+    path: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.wizard"
+    line: 'SAVE_XML="{{ SAVE_XML }}"'
+    create: true
+    mode: '0644'
+
+- name: Prompt for DISPLAY_FEEDBACK_LINKS (optional, press Enter to skip)
+  ansible.builtin.pause:
+    prompt: |
+      DISPLAY_FEEDBACK_LINKS (Optional: leave blank for use defaults):
+  register: display_feedback_input
+
+- name: Set DISPLAY_FEEDBACK_LINKS fact
+  ansible.builtin.set_fact:
+    DISPLAY_FEEDBACK_LINKS: "{{ display_feedback_input.user_input }}"
+
+- name: Add DISPLAY_FEEDBACK_LINKS to wizard file
+  ansible.builtin.lineinfile:
+    path: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.wizard"
+    line: 'DISPLAY_FEEDBACK_LINKS="{{ DISPLAY_FEEDBACK_LINKS }}"'
+    create: true
+    mode: '0644'
+
+- name: Prompt for ECR_PROCESSING_TIMEOUT (optional, press Enter to skip)
+  ansible.builtin.pause:
+    prompt: |
+      ECR_PROCESSING_TIMEOUT (Optional: leave blank for use defaults):
+  register: ecr_timeout_input
+
+- name: Set ECR_PROCESSING_TIMEOUT fact
+  ansible.builtin.set_fact:
+    ECR_PROCESSING_TIMEOUT: "{{ ecr_timeout_input.user_input }}"
+
+- name: Add ECR_PROCESSING_TIMEOUT to wizard file
+  ansible.builtin.lineinfile:
+    path: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.wizard"
+    line: 'ECR_PROCESSING_TIMEOUT="{{ ECR_PROCESSING_TIMEOUT }}"'
+    create: true
+    mode: '0644'

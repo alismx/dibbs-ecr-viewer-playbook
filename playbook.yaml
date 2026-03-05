@@ -1,8 +1,10 @@
+---
 - name: DIBBS ecr-viewer machine setup
   hosts: localhost
   vars:
     dibbs_playbook_dir: "{{ lookup('env', 'DIBBS_PLAYBOOK_DIR') | default('$HOME/dibbs-ecr-viewer-playbook', true) }}"
     dibbs_ecr_viewer_dir: "{{ lookup('env', 'DIBBS_ECR_VIEWER_DIR') | default('~/ecr-viewer/project', true) }}"
+    ansible_python_interpreter: /usr/bin/python3
   vars_files:
     - ./vars.yaml
   handlers:
@@ -35,14 +37,9 @@
       failed_when: false
       changed_when: false
 
-    - name: Fail if wizard not run
-      ansible.builtin.fail:
-        msg: |
-          Configuration incomplete. Please run the setup wizard first:
-
-            cd ~/dibbs-ecr-viewer-playbook && ./wizard.sh
-
-          This will configure your environment and generate the required .env file.
+    # Run setup wizard on first run (when DIBBS_VERSION or DIBBS_SERVICE is missing)
+    - name: Run setup wizard (first run)
+      ansible.builtin.include_tasks: tasks/wizard.yaml
       when: '"DIBBS_VERSION=" not in env_check.stdout or "DIBBS_SERVICE=" not in env_check.stdout'
 
     - name: Run ecr-viewer compose

@@ -1,0 +1,73 @@
+---
+# Parse eCR Viewer for default environment variables
+
+- name: Get latest release info from GitHub API
+  ansible.builtin.uri:
+    url: "https://api.github.com/repos/CDCgov/dibbs-ecr-viewer/releases/latest"
+    return_content: true
+  register: github_release
+  failed_when: false
+  changed_when: false
+
+- name: Extract release URL
+  ansible.builtin.set_fact:
+    release_info: "{{ github_release.content | from_json | default({}) | json_query('html_url') | default('') }}"
+
+- name: Display latest release info
+  ansible.builtin.debug:
+    msg: "Latest release information: {{ release_info }}"
+  when: release_info | length > 0
+
+# DIBBS_SERVICE - always set to dibbs-ecr-viewer
+- name: Prompt for DIBBS_SERVICE (default: dibbs-ecr-viewer)
+  ansible.builtin.pause:
+    prompt: |
+      DIBBS_SERVICE (Current Value: dibbs-ecr-viewer):
+  register: dibbs_service_input
+
+- name: Set DIBBS_SERVICE fact
+  ansible.builtin.set_fact:
+    DIBBS_SERVICE: "{{ dibbs_service_input.user_input | default('dibbs-ecr-viewer') }}"
+
+- name: Add DIBBS_SERVICE to wizard file
+  ansible.builtin.lineinfile:
+    path: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.wizard"
+    line: 'DIBBS_SERVICE="{{ DIBBS_SERVICE }}"'
+    create: true
+    mode: '0644'
+
+# ORCHESTRATION_URL - default to http://dibbs-orchestration:8080
+- name: Prompt for ORCHESTRATION_URL (default: http://dibbs-orchestration:8080)
+  ansible.builtin.pause:
+    prompt: |
+      ORCHESTRATION_URL (Current Value: http://dibbs-orchestration:8080):
+  register: orchestration_url_input
+
+- name: Set ORCHESTRATION_URL fact
+  ansible.builtin.set_fact:
+    ORCHESTRATION_URL: "{{ orchestration_url_input.user_input | default('http://dibbs-orchestration:8080') }}"
+
+- name: Add ORCHESTRATION_URL to wizard file
+  ansible.builtin.lineinfile:
+    path: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.wizard"
+    line: 'ORCHESTRATION_URL="{{ ORCHESTRATION_URL }}"'
+    create: true
+    mode: '0644'
+
+# DIBBS_VERSION - empty by default (injected at runtime)
+- name: Prompt for DIBBS_VERSION (optional, press Enter to skip):
+  ansible.builtin.pause:
+    prompt: |
+      DIBBS_VERSION (Current Value: ):
+  register: dibbs_version_input
+
+- name: Set DIBBS_VERSION fact
+  ansible.builtin.set_fact:
+    DIBBS_VERSION: "{{ dibbs_version_input.user_input }}"
+
+- name: Add DIBBS_VERSION to wizard file
+  ansible.builtin.lineinfile:
+    path: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.wizard"
+    line: 'DIBBS_VERSION="{{ DIBBS_VERSION }}"'
+    create: true
+    mode: '0644'
