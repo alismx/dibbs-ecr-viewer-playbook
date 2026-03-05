@@ -40,13 +40,12 @@
       14. GCP_SQLSERVER_DUAL
       15. GCP_INTEGRATED
 
-      Enter the number of your configuration (1-15) or 'quit': 
-
+      "Enter the number of your configuration (1-15) or 'quit': "
   register: config_selection
 
 - name: Set CONFIG_NAME based on selection
   ansible.builtin.set_fact:
-    CONFIG_NAME: "{{ config_options[config_selection.stdout | int - 1] }}"
+    CONFIG_NAME: "{{ config_options[config_selection.user_input | int - 1] }}"
   vars:
     config_options:
       - "AWS_PG_NON_INTEGRATED"
@@ -68,7 +67,7 @@
 - name: Handle quit selection
   ansible.builtin.fail:
     msg: "Wizard cancelled by user."
-  when: "'quit' in config_selection.stdout | lower"
+  when: "'quit' in config_selection.user_input | lower"
 
 # Add CONFIG_NAME to wizard file
 - name: Add CONFIG_NAME to wizard file
@@ -129,22 +128,19 @@
   register: wizard_content
 
 - name: Prompt for configuration confirmation
-  ansible.builtin.shell: |
-    #!/bin/bash
-    echo -e "\e[1;33mPlease confirm the following settings (Double check for special characters that should be escaped):\e[0m"
-    echo ""
-    printf '%s\n' "{{ wizard_content.content | b64decode }}"
-    echo ""
-    read -rp $'\e[1;36mIs this information correct? (y/n): \e[0m ' choice
-    echo "$choice"
-  args:
-    executable: /bin/bash
+  ansible.builtin.pause:
+    prompt: |
+      Please confirm the following settings (Double check for special characters that should be escaped):
+
+      {{ wizard_content.content | b64decode }}
+
+      "Is this information correct? (y/n): "
   register: confirm_input
 
 - name: Fail if configuration not confirmed
   ansible.builtin.fail:
     msg: "Configuration cancelled. Please run the playbook again."
-  when: "'n' in confirm_input.stdout | lower or 'y' not in confirm_input.stdout | lower"
+  when: "'n' in confirm_input.user_input | lower or 'y' not in confirm_input.user_input | lower"
 
 - name: Backup existing .env file if it exists
   ansible.builtin.copy:
