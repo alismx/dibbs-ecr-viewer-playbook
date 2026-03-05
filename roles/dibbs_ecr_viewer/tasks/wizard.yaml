@@ -17,9 +17,9 @@
   failed_when: false
   changed_when: false
 
-- name: Display configuration options
-  ansible.builtin.debug:
-    msg: |
+- name: Prompt for CONFIG_NAME selection
+  ansible.builtin.pause:
+    prompt: |
       Current configuration: {{ env_config_name.stdout | default('NONE SELECTED') }}
 
       Please select your CONFIG_NAME:
@@ -40,9 +40,7 @@
       14. GCP_SQLSERVER_DUAL
       15. GCP_INTEGRATED
 
-- name: Prompt for CONFIG_NAME selection
-  ansible.builtin.pause:
-    prompt: "Enter the number of your configuration (1-15) or 'quit': "
+      "Enter the number of your configuration (1-15) or 'quit': "
   register: config_selection
 
 - name: Set CONFIG_NAME based on selection
@@ -120,7 +118,7 @@
 
 # Optional settings
 - name: Configure optional settings
-  ansible.builtin.include_tasks: optional.yml
+  ansible.builtin.include_tasks: optional.yaml
 
 # Final confirmation and file update
 - name: Read wizard file contents
