@@ -27,18 +27,23 @@ This playbook automates the deployment of the following services:
   - Ansible
 - **User**: A non-root user with sudo privileges to install packages and run the playbook
 
-### Automated Installation
-
-Run the installation script to automate the full deployment:
+## Installation
 
 ```bash
+# Download and setup repository (non-interactive)
 curl -sSL https://github.com/alismx/dibbs-ecr-viewer-playbook/install.sh | bash
+
+# Navigate to the installed directory
+cd ~/dibbs-ecr-viewer-playbook
+
+# Run the Ansible playbook to deploy
+ansible-playbook -c local playbook.yaml
 ```
 
-The script will:
-1. Clone the repository to `~/dibbs-ecr-viewer-playbook`
-2. Run the setup wizard for interactive configuration
-3. Execute the Ansible playbook to deploy eCR Viewer
+The playbook will:
+1. Install Docker and required dependencies
+2. Prompt for configuration interactively (first run only)
+3. Start the Docker Compose stack
 
 **Note**: The installation script requires sudo access to install system packages (Docker, Ansible) and will prompt for your password when needed.
 
@@ -57,57 +62,9 @@ The update script will:
 
 **Note**: The update script requires sudo access and will prompt for your password when needed.
 
-### Manual Installation
-
-If you prefer more control over the process:
-
-1. **Clone this repository**
-   ```bash
-   git clone <repository-url>
-   cd dibbs-ecr-viewer-playbook
-   ```
-
-2. **Run the setup wizard**
-   ```bash
-   ./wizard.sh
-   ```
-   The wizard will:
-   - Parse existing environment defaults
-   - Guide you through selecting a configuration (AWS/Azure/GCP + PostgreSQL/SQL Server)
-   - Prompt for required credentials and settings
-   - Generate environment files and restart the Docker Compose stack
-
-3. **Verify deployment**
-   ```bash
-   docker compose ps
-   ```
-
-## Quick Start
-
-1. **Clone this repository**
-   ```bash
-   git clone <repository-url>
-   cd dibbs-ecr-viewer-playbook
-   ```
-
-2. **Run the setup wizard**
-   ```bash
-   ./wizard.sh
-   ```
-   The wizard will:
-   - Parse existing environment defaults
-   - Guide you through selecting a configuration (AWS/Azure/GCP + PostgreSQL/SQL Server)
-   - Prompt for required credentials and settings
-   - Generate environment files and restart the Docker Compose stack
-
-3. **Verify deployment**
-   ```bash
-   docker compose ps
-   ```
-
 ## Configuration Options
 
-The wizard supports 15 different configurations combining:
+The playbook prompts for 15 different configurations combining:
 
 - **Cloud Providers**: AWS, Azure, GCP
 - **Databases**: PostgreSQL, SQL Server
@@ -124,7 +81,7 @@ The wizard supports 15 different configurations combining:
 
 ## Environment Files
 
-After running the wizard, environment files are created at `~/ecr-viewer/project/docker/`:
+After running the playbook, environment files are created at `~/ecr-viewer/project/docker/`:
 
 - **dibbs-ecr-viewer.env** - Main application configuration (cloud credentials, database connection, auth settings)
 - **dibbs-orchestration.env** - Service URL configuration for internal communication
@@ -151,7 +108,7 @@ Open `http://<server-ip>:9000` to manage containers via the web UI.
 
 ## Manual Configuration
 
-If you prefer not to use the wizard, manually edit the environment files:
+If you prefer not to use the playbook's interactive prompts, manually edit the environment files:
 
 ```bash
 # Edit the main configuration
@@ -182,13 +139,14 @@ docker compose -f ~/ecr-viewer/project/docker/docker-compose.yaml up -d
 ```
 dibbs-ecr-viewer-playbook/
 ├── playbook.yaml          # Main Ansible playbook
-├── wizard.sh              # Interactive setup script
 ├── install.sh             # Automated installation script
-├── tasks/
-│   ├── deps.yaml         # Install Docker dependencies
-│   ├── dirs.yaml         # Create project directories
-│   ├── compose.yaml      # Run docker-compose
-│   └── aws/gcp.yaml      # Cloud-specific tasks (commented)
+├── roles/                 # Ansible role directory
+│   └── dibbs_ecr_viewer/
+│       ├── tasks/         # Task files (main.yaml, prereqs.yaml, wizard.yaml, etc.)
+│       ├── handlers/main.yaml  # Handlers for services
+│       ├── defaults/      # Default variables
+│       ├── vars/          # Role-specific variables
+│       └── meta/          # Role metadata
 ├── project/
 │   └── docker/
 │       ├── docker-compose.yaml
