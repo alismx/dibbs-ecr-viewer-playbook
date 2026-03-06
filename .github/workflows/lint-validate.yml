@@ -1,0 +1,65 @@
+---
+name: Lint and Validate Ansible
+
+on:
+  push:
+    branches: [main, feature/*]
+    paths:
+      - 'roles/**'
+      - 'playbook.yaml'
+      - '.github/workflows/lint-validate.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'roles/**'
+      - 'playbook.yaml'
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Ansible tools
+        run: |
+          pip install ansible-core ansible-lint
+
+      - name: Run ansible-lint
+        run: |
+          ansible-lint roles/dibbs_ecr_viewer/ playbook.yaml --nocolor
+
+  validate:
+    name: Validate
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Ansible
+        run: |
+          pip install ansible-core
+
+      - name: Check syntax
+        run: |
+          ansible-playbook playbook.yaml --syntax-check
+
+      - name: Test role structure
+        run: |
+          [ -d "roles/dibbs_ecr_viewer/tasks" ] || exit 1
+          [ -f "roles/dibbs_ecr_viewer/tasks/main.yaml" ] || exit 1
+          [ -f "roles/dibbs_ecr_viewer/handlers/main.yaml" ] || exit 1
+          echo "Role structure is valid"
