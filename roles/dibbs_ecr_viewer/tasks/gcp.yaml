@@ -5,16 +5,16 @@
   ansible.builtin.pause:
     prompt: |
       GCP_PROJECT_ID:
-  register: gcp_project_input
+  register: dibbs_ecr_viewer_gcp_project_id_input
 
 - name: Set GCP_PROJECT_ID fact
   ansible.builtin.set_fact:
-    GCP_PROJECT_ID: "{{ gcp_project_input.user_input }}"
+    dibbs_ecr_viewer_gcp_project_id: "{{ dibbs_ecr_viewer_gcp_project_id_input.user_input }}"
 
 - name: Add GCP_PROJECT_ID to wizard file
   ansible.builtin.lineinfile:
     path: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.wizard"
-    line: 'GCP_PROJECT_ID="{{ GCP_PROJECT_ID }}"'
+    line: 'GCP_PROJECT_ID="{{ dibbs_ecr_viewer_gcp_project_id }}"'
     create: true
     mode: '0644'
 
@@ -22,15 +22,15 @@
   ansible.builtin.pause:
     prompt: |
       ECR_BUCKET_NAME (e.g., my-ecr-bucket):
-  register: ecr_bucket_input
+  register: dibbs_ecr_viewer_ecr_bucket_name_input
 
 - name: Set ECR_BUCKET_NAME fact
   ansible.builtin.set_fact:
-    ECR_BUCKET_NAME: "{{ ecr_bucket_input.user_input }}"
+    dibbs_ecr_viewer_ecr_bucket_name: "{{ dibbs_ecr_viewer_ecr_bucket_name_input.user_input }}"
 
 - name: Add ECR_BUCKET_NAME to wizard file
   ansible.builtin.lineinfile:
     path: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.wizard"
-    line: 'ECR_BUCKET_NAME="{{ ECR_BUCKET_NAME }}"'
+    line: 'ECR_BUCKET_NAME="{{ dibbs_ecr_viewer_ecr_bucket_name }}"'
     create: true
     mode: '0644'

@@ -5,16 +5,16 @@
   ansible.builtin.pause:
     prompt: |
       SQL_SERVER_USER:
-  register: sql_user_input
+  register: dibbs_ecr_viewer_sql_server_user_input
 
 - name: Set SQL_SERVER_USER fact
   ansible.builtin.set_fact:
-    SQL_SERVER_USER: "{{ sql_user_input.user_input }}"
+    dibbs_ecr_viewer_sql_server_user: "{{ dibbs_ecr_viewer_sql_server_user_input.user_input }}"
 
 - name: Add SQL_SERVER_USER to wizard file
   ansible.builtin.lineinfile:
     path: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.wizard"
-    line: 'SQL_SERVER_USER="{{ SQL_SERVER_USER }}"'
+    line: 'SQL_SERVER_USER="{{ dibbs_ecr_viewer_sql_server_user }}"'
     create: true
     mode: '0644'
 
@@ -22,16 +22,16 @@
   ansible.builtin.pause:
     prompt: |
       SQL_SERVER_PASSWORD:
-  register: sql_password_input
+  register: dibbs_ecr_viewer_sql_server_password_input
 
 - name: Set SQL_SERVER_PASSWORD fact
   ansible.builtin.set_fact:
-    SQL_SERVER_PASSWORD: "{{ sql_password_input.user_input }}"
+    dibbs_ecr_viewer_sql_server_password: "{{ dibbs_ecr_viewer_sql_server_password_input.user_input }}"
 
 - name: Add SQL_SERVER_PASSWORD to wizard file
   ansible.builtin.lineinfile:
     path: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.wizard"
-    line: 'SQL_SERVER_PASSWORD="{{ SQL_SERVER_PASSWORD }}"'
+    line: 'SQL_SERVER_PASSWORD="{{ dibbs_ecr_viewer_sql_server_password }}"'
     create: true
     mode: '0644'
 
@@ -39,16 +39,16 @@
   ansible.builtin.pause:
     prompt: |
       SQL_SERVER_HOST:
-  register: sql_host_input
+  register: dibbs_ecr_viewer_sql_server_host_input
 
 - name: Set SQL_SERVER_HOST fact
   ansible.builtin.set_fact:
-    SQL_SERVER_HOST: "{{ sql_host_input.user_input }}"
+    dibbs_ecr_viewer_sql_server_host: "{{ dibbs_ecr_viewer_sql_server_host_input.user_input }}"
 
 - name: Add SQL_SERVER_HOST to wizard file
   ansible.builtin.lineinfile:
     path: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.wizard"
-    line: 'SQL_SERVER_HOST="{{ SQL_SERVER_HOST }}"'
+    line: 'SQL_SERVER_HOST="{{ dibbs_ecr_viewer_sql_server_host }}"'
     create: true
     mode: '0644'
 
@@ -56,16 +56,16 @@
   ansible.builtin.pause:
     prompt: |
       DB_CIPHER:
-  register: db_cipher_input
+  register: dibbs_ecr_viewer_db_cipher_input
 
 - name: Set DB_CIPHER fact
   ansible.builtin.set_fact:
-    DB_CIPHER: "{{ db_cipher_input.user_input }}"
+    dibbs_ecr_viewer_db_cipher: "{{ dibbs_ecr_viewer_db_cipher_input.user_input }}"
 
 - name: Add DB_CIPHER to wizard file
   ansible.builtin.lineinfile:
     path: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.wizard"
-    line: 'DB_CIPHER="{{ DB_CIPHER }}"'
+    line: 'DB_CIPHER="{{ dibbs_ecr_viewer_db_cipher }}"'
     create: true
     mode: '0644'
 
@@ -73,32 +73,34 @@
   ansible.builtin.pause:
     prompt: |
       METADATA_DATABASE_SCHEMA (Schema options are: 'core' or 'extended'):
-  register: metadata_schema_input
+  register: dibbs_ecr_viewer_metadata_database_schema_input
 
 - name: Set METADATA_DATABASE_SCHEMA fact
   ansible.builtin.set_fact:
-    METADATA_DATABASE_SCHEMA: "{{ metadata_schema_input.user_input }}"
+    dibbs_ecr_viewer_metadata_database_schema: "{{ dibbs_ecr_viewer_metadata_database_schema_input.user_input }}"
 
 - name: Add METADATA_DATABASE_SCHEMA to wizard file
   ansible.builtin.lineinfile:
     path: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.wizard"
-    line: 'METADATA_DATABASE_SCHEMA="{{ METADATA_DATABASE_SCHEMA }}"'
+    line: 'METADATA_DATABASE_SCHEMA="{{ dibbs_ecr_viewer_metadata_database_schema }}"'
     create: true
     mode: '0644'
 
 - name: Prompt for METADATA_DATABASE_MIGRATION_SECRET
   ansible.builtin.pause:
     prompt: |
-      METADATA_DATABASE_MIGRATION_SECRET (Migration secret used to trigger migrations, one will be generated and output to ecr-viewer logs if you do not provide one):
-  register: migration_secret_input
+      METADATA_DATABASE_MIGRATION_SECRET (Migration secret used to trigger
+      migrations; one will be generated and output to ecr-viewer logs if you
+      do not provide one):
+  register: dibbs_ecr_viewer_metadata_database_migration_secret_input
 
 - name: Set METADATA_DATABASE_MIGRATION_SECRET fact
   ansible.builtin.set_fact:
-    METADATA_DATABASE_MIGRATION_SECRET: "{{ migration_secret_input.user_input }}"
+    dibbs_ecr_viewer_metadata_database_migration_secret: "{{ dibbs_ecr_viewer_metadata_database_migration_secret_input.user_input }}"
 
 - name: Add METADATA_DATABASE_MIGRATION_SECRET to wizard file
   ansible.builtin.lineinfile:
     path: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.wizard"
-    line: 'METADATA_DATABASE_MIGRATION_SECRET="{{ METADATA_DATABASE_MIGRATION_SECRET }}"'
+    line: 'METADATA_DATABASE_MIGRATION_SECRET="{{ dibbs_ecr_viewer_metadata_database_migration_secret }}"'
     create: true
     mode: '0644'

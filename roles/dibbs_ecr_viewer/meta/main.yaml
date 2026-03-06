@@ -13,13 +13,16 @@ galaxy_info:
         - "43"
     - name: Ubuntu
       versions:
-        - "24.04"
+        - noble
     - name: Debian
       versions:
-        - "12"
+        - trixie
+        - bookworm
+        - bullseye
   galaxy_tags:
     - dibbs
-    - ecr-viewer
+    - ecr
+    - viewer
     - docker
     - ansible
 

@@ -5,15 +5,15 @@
   ansible.builtin.pause:
     prompt: |
       NEXTAUTH_SECRET (Generate a random secret using: openssl rand -base64 32):
-  register: nextauth_secret_input
+  register: dibbs_ecr_viewer_nextauth_secret_input
 
 - name: Set NEXTAUTH_SECRET fact
   ansible.builtin.set_fact:
-    NEXTAUTH_SECRET: "{{ nextauth_secret_input.user_input }}"
+    dibbs_ecr_viewer_nextauth_secret: "{{ dibbs_ecr_viewer_nextauth_secret_input.user_input }}"
 
 - name: Add NEXTAUTH_SECRET to wizard file
   ansible.builtin.lineinfile:
     path: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.wizard"
-    line: 'NEXTAUTH_SECRET="{{ NEXTAUTH_SECRET }}"'
+    line: 'NEXTAUTH_SECRET="{{ dibbs_ecr_viewer_nextauth_secret }}"'
     create: true
     mode: '0644'

@@ -5,27 +5,27 @@
   ansible.builtin.uri:
     url: "{{ dibbs_ecr_viewer_release_url }}"
     return_content: true
-  register: github_release
+  register: dibbs_ecr_viewer_github_release
   failed_when: false
   changed_when: false
 
 - name: Extract release URL
   ansible.builtin.set_fact:
-    release_info: "{{ (github_release.content | from_json).html_url | default('') }}"
+    dibbs_ecr_viewer_release_info: "{{ (dibbs_ecr_viewer_github_release.content | from_json).html_url | default('') }}"
 
 - name: Display latest release info
   ansible.builtin.debug:
-    msg: "Latest release information: {{ release_info }}"
-  when: release_info | length > 0
+    msg: "Latest release information: {{ dibbs_ecr_viewer_release_info }}"
+  when: dibbs_ecr_viewer_release_info | length > 0
 
 # ORCHESTRATION_URL - set to default value
 - name: Set ORCHESTRATION_URL
   ansible.builtin.set_fact:
-    ORCHESTRATION_URL: "http://dibbs-orchestration:8080"
+    dibbs_ecr_viewer_orchestration_url: "http://dibbs-orchestration:8080"
 
 - name: Add ORCHESTRATION_URL to wizard file
   ansible.builtin.lineinfile:
-    path: "{{ dibbs_playbook_dir }}/docker/dibbs-ecr-viewer.wizard"
+    path: "{{ dibbs_ecr_viewer_playbook_dir }}/docker/dibbs-ecr-viewer.wizard"
     line: 'ORCHESTRATION_URL="http://dibbs-orchestration:8080"'
     create: true
     mode: '0644'
@@ -35,15 +35,15 @@
   ansible.builtin.pause:
     prompt: |
       DIBBS_VERSION (Current Value: ):
-  register: dibbs_version_input
+  register: dibbs_ecr_viewer_dibbs_version_input
 
 - name: Set DIBBS_VERSION fact
   ansible.builtin.set_fact:
-    DIBBS_VERSION: "{{ dibbs_version_input.user_input }}"
+    dibbs_ecr_viewer_dibbs_version: "{{ dibbs_ecr_viewer_dibbs_version_input.user_input }}"
 
 - name: Add DIBBS_VERSION to wizard file
   ansible.builtin.lineinfile:
-    path: "{{ dibbs_playbook_dir }}/docker/dibbs-ecr-viewer.wizard"
-    line: 'DIBBS_VERSION="{{ DIBBS_VERSION }}"'
+    path: "{{ dibbs_ecr_viewer_playbook_dir }}/docker/dibbs-ecr-viewer.wizard"
+    line: 'DIBBS_VERSION="{{ dibbs_ecr_viewer_dibbs_version }}"'
     create: true
     mode: '0644'

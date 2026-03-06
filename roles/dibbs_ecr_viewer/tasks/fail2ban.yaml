@@ -3,11 +3,10 @@
 
 # Fedora fail2ban support
 - name: Install fail2ban on Fedora
-  ansible.builtin.yum:
+  ansible.builtin.dnf:
     name:
       - fail2ban
-    state: latest
-    update_cache: true
+    state: present
   when: ansible_facts['distribution'] == "Fedora"
   notify: restart and enable fail2ban
 
@@ -15,8 +14,7 @@
 - name: Install fail2ban on Debian/Ubuntu
   ansible.builtin.apt:
     name: fail2ban
-    state: latest
-    update_cache: true
+    state: present
   when: ansible_facts['distribution'] in ["Debian", "Ubuntu"]
   notify: restart and enable fail2ban
 
@@ -24,7 +22,7 @@
 - name: Install fail2ban using package manager fallback
   ansible.builtin.package:
     name: fail2ban
-    state: latest
+    state: present
   when: ansible_facts['distribution'] not in ["Fedora", "Debian", "Ubuntu"]
   notify: restart and enable fail2ban
 
