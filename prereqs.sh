@@ -1,17 +1,16 @@
 #!/bin/bash
 
-# Install script for dibbs-ecr-viewer-playbook
-# Usage: curl -sSL https://github.com/alismx/dibbs-ecr-viewer-playbook/install.sh | bash
+# Prerequisites installation script for dibbs-ecr-viewer-playbook
+# Usage: curl -sSL https://raw.githubusercontent.com/alismx/dibbs-ecr-viewer-playbook/main/prereqs.sh | bash
 #
 # This script will:
 # 1. Clone the repository to ~/dibbs-ecr-viewer-playbook
-# 2. Run the wizard.sh setup script interactively
-# 3. Execute the Ansible playbook
+# 2. Install Docker and required dependencies
 
 set -e
 
 echo "========================================"
-echo "  DIBBS eCR Viewer Installation Script"
+echo "  DIBBS eCR Viewer Prerequisites"
 echo "========================================"
 echo ""
 
@@ -39,7 +38,6 @@ check_privileges() {
 # Configuration
 REPO_URL="https://github.com/alismx/dibbs-ecr-viewer-playbook"
 DIBBS_PLAYBOOK_DIR="${HOME}/dibbs-ecr-viewer-playbook"
-DIBBS_ECR_VIEWER_DIR="${HOME}/ecr-viewer/project"
 
 # Detect and store package manager
 detect_package_manager() {
@@ -78,12 +76,6 @@ check_prerequisites() {
     # Detect package manager once at start
     detect_package_manager
 
-    # Check if curl is available
-    if ! command -v curl &> /dev/null; then
-        echo "ERROR: curl is required but not installed."
-        exit 1
-    fi
-
     # Install git if missing
     if ! command -v git &> /dev/null; then
         echo "WARNING: git is not installed. Installing..."
@@ -94,11 +86,6 @@ check_prerequisites() {
     if ! command -v ansible-playbook &> /dev/null; then
         echo "WARNING: ansible-playbook is not installed. Installing..."
         install_package ansible
-    fi
-
-    # Check if docker-compose is available
-    if ! command -v docker-compose &> /dev/null && ! command -v docker &> /dev/null; then
-        echo "WARNING: Docker or Docker Compose not found. Installation will continue but playbook may fail."
     fi
 
     echo "Prerequisites check complete."
@@ -125,14 +112,11 @@ main() {
 
     echo ""
     echo "========================================"
-    echo "  Installation Complete!"
+    echo "  Prereqs Complete!"
     echo "========================================"
     echo ""
-    echo "Repository installed at: $DIBBS_ECR_VIEWER_DIR/docker/"
-    echo ""
     echo "Next steps:"
-    echo "1. Run the setup wizard: cd ~/dibbs-ecr-viewer-playbook && ./wizard.sh"
-    echo "2. After configuring, run: ansible-playbook -c local playbook.yaml"
+    echo "Run: cd ~/dibbs-ecr-viewer-playbook && ansible-playbook -c local playbook.yaml --extra-var 'force_wizard=true'"
 }
 
 main

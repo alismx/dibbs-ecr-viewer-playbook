@@ -2,5 +2,6 @@
 - name: DIBBS ecr-viewer machine setup
   hosts: localhost
   gather_facts: true
+  become: true
   roles:
     - role: dibbs_ecr_viewer

@@ -1,0 +1,108 @@
+services:
+  ecr-viewer:
+    image: ghcr.io/cdcgov/dibbs-ecr-viewer/ecr-viewer:${DIBBS_VERSION}
+    container_name: dibbs-ecr-viewer
+    restart: always
+    environment:
+      - CONFIG_NAME=${CONFIG_NAME}
+      - ORCHESTRATION_URL=${ORCHESTRATION_URL:-http://dibbs-orchestration:8080}
+      - DATABASE_URL=${DATABASE_URL}
+      - METADATA_DATABASE_SCHEMA=${METADATA_DATABASE_SCHEMA}
+      - METADATA_DATABASE_MIGRATION_SECRET=${METADATA_DATABASE_MIGRATION_SECRET}
+      - SQL_SERVER_USER=${SQL_SERVER_USER}
+      - SQL_SERVER_PASSWORD=${SQL_SERVER_PASSWORD}
+      - SQL_SERVER_HOST=${SQL_SERVER_HOST}
+      - DB_CIPHER=${DB_CIPHER}
+      - NBS_API_PUB_KEY=${NBS_API_PUB_KEY}
+      - NBS_PUB_KEY=${NBS_PUB_KEY}
+      - AUTH_PROVIDER=${AUTH_PROVIDER}
+      - AUTH_CLIENT_ID=${AUTH_CLIENT_ID}
+      - AUTH_CLIENT_SECRET=${AUTH_CLIENT_SECRET}
+      - AUTH_ISSUER=${AUTH_ISSUER}
+      - AUTH_SESSION_DURATION_MIN=${AUTH_SESSION_DURATION_MIN}
+      - NEXTAUTH_URL=${NEXTAUTH_URL}
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+      - SAVE_XML=${SAVE_XML}
+      - DISPLAY_FEEDBACK_LINKS=${DISPLAY_FEEDBACK_LINKS}
+      - ECR_PROCESSING_TIMEOUT=${ECR_PROCESSING_TIMEOUT}
+      - AWS_REGION=${AWS_REGION}
+      - AZURE_STORAGE_CONNECTION_STRING=${AZURE_STORAGE_CONNECTION_STRING}
+      - AZURE_CONTAINER_NAME=${AZURE_CONTAINER_NAME}
+      - GCP_PROJECT_ID=${GCP_PROJECT_ID}
+      - ECR_BUCKET_NAME=${ECR_BUCKET_NAME}
+    ports:
+      - "3000:3000"
+    networks:
+      - dibbs
+
+  ingestion:
+    image: ghcr.io/cdcgov/dibbs-ecr-viewer/ingestion:${DIBBS_VERSION}
+    container_name: dibbs-ingestion
+    restart: always
+    ports:
+      - "8080:8080"
+    networks:
+      - dibbs
+
+  fhir-converter:
+    image: ghcr.io/cdcgov/dibbs-ecr-viewer/fhir-converter:${DIBBS_VERSION}
+    container_name: dibbs-fhir-converter
+    restart: always
+    ports:
+      - "8082:8080"
+    networks:
+      - dibbs
+
+  message-parser:
+    image: ghcr.io/cdcgov/dibbs-ecr-viewer/message-parser:${DIBBS_VERSION}
+    container_name: dibbs-message-parser
+    restart: always
+    ports:
+      - "8083:8080"
+    networks:
+      - dibbs
+
+  trigger-code-reference:
+    image: ghcr.io/cdcgov/dibbs-ecr-viewer/trigger-code-reference:${DIBBS_VERSION}
+    container_name: dibbs-trigger-code-reference
+    restart: always
+    ports:
+      - "8084:8080"
+    networks:
+      - dibbs
+
+  orchestration:
+    image: ghcr.io/cdcgov/dibbs-ecr-viewer/orchestration:${DIBBS_VERSION}
+    container_name: dibbs-orchestration
+    restart: always
+    environment:
+      # - WEB_CONCURRENCY=
+      - OTEL_METRICS=${OTEL_METRICS:-none}
+      - OTEL_METRICS_EXPORTER=${OTEL_METRICS_EXPORTER:-none}
+      - ECR_VIEWER_URL=http://dibbs-ecr-viewer:3000/ecr-viewer
+      - INGESTION_URL=http://dibbs-ingestion:8080
+      - FHIR_CONVERTER_URL=http://dibbs-fhir-converter:8080
+      - MESSAGE_PARSER_URL=http://dibbs-message-parser:8080
+      - TRIGGER_CODE_REFERENCE_URL=http://dibbs-trigger-code-reference:8080
+    ports:
+      - "8085:8080"
+    networks:
+      - dibbs
+
+  portainer:
+    image: portainer/portainer-ce
+    container_name: dibbs-portainer
+    restart: always
+    ports:
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    networks:
+      - dibbs
+
+volumes:
+  portainer_data:
+
+networks:
+  dibbs:

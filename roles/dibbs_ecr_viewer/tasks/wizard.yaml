@@ -11,15 +11,15 @@
 # CONFIG_NAME selection
 - name: Read existing .env file to get current CONFIG_NAME
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.env" 2>/dev/null || true
+    source "{{ dibbs_playbook_dir }}/docker/dibbs-ecr-viewer.env" 2>/dev/null || true
     echo "CONFIG_NAME=${CONFIG_NAME:-}"
   register: env_config_name
   failed_when: false
   changed_when: false
 
-- name: Display configuration options
-  ansible.builtin.debug:
-    msg: |
+- name: Prompt for CONFIG_NAME selection
+  ansible.builtin.pause:
+    prompt: |
       Current configuration: {{ env_config_name.stdout | default('NONE SELECTED') }}
 
       Please select your CONFIG_NAME:
@@ -40,9 +40,7 @@
       14. GCP_SQLSERVER_DUAL
       15. GCP_INTEGRATED
 
-- name: Prompt for CONFIG_NAME selection
-  ansible.builtin.pause:
-    prompt: "Enter the number of your configuration (1-15) or 'quit': "
+      "Enter the number of your configuration (1-15) or 'quit': "
   register: config_selection
 
 - name: Set CONFIG_NAME based on selection
@@ -74,70 +72,69 @@
 # Add CONFIG_NAME to wizard file
 - name: Add CONFIG_NAME to wizard file
   ansible.builtin.lineinfile:
-    path: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.wizard"
+    path: "{{ dibbs_playbook_dir }}/docker/dibbs-ecr-viewer.wizard"
     line: 'CONFIG_NAME="{{ CONFIG_NAME }}"'
     create: true
     mode: '0644'
 
-# Parse eCR Viewer defaults (DIBBS_SERVICE, ORCHESTRATION_URL)
+# Parse eCR Viewer defaults (ORCHESTRATION_URL)
 - name: Parse eCR Viewer for default environment variables
-  ansible.builtin.include_tasks: docker_compose_vars.yml
+  ansible.builtin.include_tasks: docker_compose_vars.yaml
 
 # Cloud-specific tasks based on CONFIG_NAME
 - name: Configure AWS settings
-  ansible.builtin.include_tasks: aws.yml
+  ansible.builtin.include_tasks: aws.yaml
   when: "'AWS' in CONFIG_NAME"
 
 - name: Configure Azure settings
-  ansible.builtin.include_tasks: azure.yml
-  when: "'AZURE" in CONFIG_NAME"
+  ansible.builtin.include_tasks: azure.yaml
+  when: "'AZURE' in CONFIG_NAME"
 
 - name: Configure GCP settings
-  ansible.builtin.include_tasks: gcp.yml
+  ansible.builtin.include_tasks: gcp.yaml
   when: "'GCP' in CONFIG_NAME"
 
 # Database-specific tasks based on CONFIG_NAME
 - name: Configure PostgreSQL settings
-  ansible.builtin.include_tasks: postgresql.yml
-  when: "'PG" in CONFIG_NAME and "'SQLSERVER" not in CONFIG_NAME'
+  ansible.builtin.include_tasks: postgresql.yaml
+  when: "'_PG_' in CONFIG_NAME or '_PG' in CONFIG_NAME"
 
 - name: Configure SQL Server settings
-  ansible.builtin.include_tasks: sqlserver.yml
-  when: "'SQLSERVER" in CONFIG_NAME'
+  ansible.builtin.include_tasks: sqlserver.yaml
+  when: "'SQLSERVER' in CONFIG_NAME"
 
 # NBS tasks (for DUAL or INTEGRATED modes)
 - name: Configure NBS settings
-  ansible.builtin.include_tasks: nbs.yml
-  when: "'DUAL' in CONFIG_NAME or 'INTEGRATED' in CONFIG_NAME"
+  ansible.builtin.include_tasks: nbs.yaml
+  when: "'_DUAL' in CONFIG_NAME or '_INTEGRATED' in CONFIG_NAME"
 
-# Authentication tasks
+# Authentication tasks (run for NON_INTEGRATED and DUAL, not INTEGRATED)
 - name: Configure authentication settings
-  ansible.builtin.include_tasks: auth.yml
+  ansible.builtin.include_tasks: auth.yaml
+  when: "'NON_INTEGRATED' in CONFIG_NAME or '_DUAL' in CONFIG_NAME"
 
 # NextAuth tasks
 - name: Configure NextAuth settings
-  ansible.builtin.include_tasks: nextauth.yml
+  ansible.builtin.include_tasks: nextauth.yaml
 
 # Optional settings
 - name: Configure optional settings
-  ansible.builtin.include_tasks: optional.yml
+  ansible.builtin.include_tasks: optional.yaml
 
 # Final confirmation and file update
 - name: Read wizard file contents
   ansible.builtin.slurp:
-    src: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.wizard"
+    src: "{{ dibbs_playbook_dir }}/docker/dibbs-ecr-viewer.wizard"
   register: wizard_content
 
-- name: Display configuration for confirmation
-  ansible.builtin.debug:
-    msg: |
+- name: Prompt for configuration confirmation
+  ansible.builtin.pause:
+    prompt: |
       Please confirm the following settings (Double check for special characters that should be escaped):
 
       {{ wizard_content.content | b64decode }}
 
-- name: Prompt for configuration confirmation
-  ansible.builtin.pause:
-    prompt: "Is this information correct? (y/n): "
+      "Is this information correct? (y/n): "
   register: confirm_input
 
 - name: Fail if configuration not confirmed
@@ -147,16 +144,15 @@
 
 - name: Backup existing .env file if it exists
   ansible.builtin.copy:
-    src: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.env"
-    dest: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.bak"
+    src: "{{ dibbs_playbook_dir }}/docker/dibbs-ecr-viewer.env"
+    dest: "{{ dibbs_playbook_dir }}/docker/dibbs-ecr-viewer.bak"
     remote_src: true
     mode: '0644'
   when: backup_needed | default(false)
-  ignore_errors: true
 
 - name: Copy wizard file to .env file
   ansible.builtin.copy:
-    src: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.wizard"
-    dest: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.env"
+    src: "{{ dibbs_playbook_dir }}/docker/dibbs-ecr-viewer.wizard"
+    dest: "{{ dibbs_playbook_dir }}/docker/dibbs-ecr-viewer.env"
     remote_src: true
     mode: '0644'

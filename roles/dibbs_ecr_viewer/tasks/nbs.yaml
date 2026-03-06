@@ -13,7 +13,7 @@
 
 - name: Add NBS_API_PUB_KEY to wizard file
   ansible.builtin.lineinfile:
-    path: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.wizard"
+    path: "{{ dibbs_playbook_dir }}/docker/dibbs-ecr-viewer.wizard"
     line: 'NBS_API_PUB_KEY="{{ NBS_API_PUB_KEY }}"'
     create: true
     mode: '0644'
@@ -30,7 +30,7 @@
 
 - name: Add NBS_PUB_KEY to wizard file
   ansible.builtin.lineinfile:
-    path: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.wizard"
+    path: "{{ dibbs_playbook_dir }}/docker/dibbs-ecr-viewer.wizard"
     line: 'NBS_PUB_KEY="{{ NBS_PUB_KEY }}"'
     create: true
     mode: '0644'
