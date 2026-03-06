@@ -30,8 +30,8 @@ This playbook automates the deployment of the following services:
 ## Installation
 
 ```bash
-# Download and setup repository (non-interactive)
-curl -sSL https://github.com/alismx/dibbs-ecr-viewer-playbook/install.sh | bash
+# Download and run prerequisites installation (non-interactive)
+curl -sSL https://raw.githubusercontent.com/alismx/dibbs-ecr-viewer-playbook/main/prereqs.sh | bash
 
 # Navigate to the installed directory
 cd ~/dibbs-ecr-viewer-playbook
