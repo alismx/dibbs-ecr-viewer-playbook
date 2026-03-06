@@ -32,25 +32,6 @@
   when:
     - force_wizard | default('not_set') == 'true'
 
-# Read .env file variables for docker compose (when wizard not run)
-- name: Load environment variables from .env file
-  ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.env" 2>/dev/null || true
-    echo "DIBBS_VERSION=${DIBBS_VERSION:-}"
-    echo "ORCHESTRATION_URL=${ORCHESTRATION_URL:-}"
-  register: env_vars
-  changed_when: false
-  when:
-    - force_wizard | default('not_set') != 'true'
-
-# Parse environment variables and set facts
-- name: Set environment variables as facts
-  ansible.builtin.set_fact:
-    DIBBS_VERSION: "{{ env_vars.stdout_lines[0].split('=')[1] if '=' in env_vars.stdout_lines[0] else '' }}"
-    ORCHESTRATION_URL: "{{ env_vars.stdout_lines[1].split('=')[1] if '=' in env_vars.stdout_lines[1] else 'http://dibbs-orchestration:8080' }}"
-  when:
-    - force_wizard | default('not_set') != 'true'
-
 # Always run start_stack (after wizard completes or if config already exists)
 - name: Start Docker Compose stack
   ansible.builtin.include_tasks: start_stack.yaml

@@ -24,7 +24,6 @@
     chdir: "{{ dibbs_ecr_viewer_dir }}/docker/"
   environment:
     CONFIG_NAME: "{{ CONFIG_NAME | default('') }}"
-    DIBBS_SERVICE: "dibbs-ecr-viewer"
     ORCHESTRATION_URL: "{{ ORCHESTRATION_URL | default('http://dibbs-orchestration:8080') }}"
     DIBBS_VERSION: "{{ DIBBS_VERSION | default('') }}"
     DATABASE_URL: "{{ DATABASE_URL | default('') }}"
