@@ -19,7 +19,8 @@ galaxy_info:
         - "12"
   galaxy_tags:
     - dibbs
-    - ecr-viewer
+    - ecr
+    - viewer
     - docker
     - ansible
 

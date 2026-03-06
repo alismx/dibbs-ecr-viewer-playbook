@@ -11,16 +11,16 @@
 # CONFIG_NAME selection
 - name: Read existing .env file to get current CONFIG_NAME
   ansible.builtin.shell: |
-    source "{{ dibbs_playbook_dir }}/docker/dibbs-ecr-viewer.env" 2>/dev/null || true
+    source "{{ dibbs_ecr_viewer_playbook_dir }}/docker/dibbs-ecr-viewer.env" 2>/dev/null || true
     echo "CONFIG_NAME=${CONFIG_NAME:-}"
-  register: env_config_name
+  register: dibbs_ecr_viewer_env_config_name
   failed_when: false
   changed_when: false
 
 - name: Prompt for CONFIG_NAME selection
   ansible.builtin.pause:
     prompt: |
-      Current configuration: {{ env_config_name.stdout | default('NONE SELECTED') }}
+      Current configuration: {{ dibbs_ecr_viewer_env_config_name.stdout | default('NONE SELECTED') }}
 
       Please select your CONFIG_NAME:
 
@@ -41,11 +41,11 @@
       15. GCP_INTEGRATED
 
       "Enter the number of your configuration (1-15) or 'quit': "
-  register: config_selection
+  register: dibbs_ecr_viewer_config_selection
 
 - name: Set CONFIG_NAME based on selection
   ansible.builtin.set_fact:
-    CONFIG_NAME: "{{ config_options[config_selection.user_input | int - 1] }}"
+    dibbs_ecr_viewer_config_name: "{{ config_options[dibbs_ecr_viewer_config_selection.user_input | int - 1] }}"
   vars:
     config_options:
       - "AWS_PG_NON_INTEGRATED"
@@ -67,13 +67,13 @@
 - name: Handle quit selection
   ansible.builtin.fail:
     msg: "Wizard cancelled by user."
-  when: "'quit' in config_selection.user_input | lower"
+  when: "'quit' in dibbs_ecr_viewer_config_selection.user_input | lower"
 
 # Add CONFIG_NAME to wizard file
 - name: Add CONFIG_NAME to wizard file
   ansible.builtin.lineinfile:
-    path: "{{ dibbs_playbook_dir }}/docker/dibbs-ecr-viewer.wizard"
-    line: 'CONFIG_NAME="{{ CONFIG_NAME }}"'
+    path: "{{ dibbs_ecr_viewer_playbook_dir }}/docker/dibbs-ecr-viewer.wizard"
+    line: 'CONFIG_NAME="{{ dibbs_ecr_viewer_config_name }}"'
     create: true
     mode: '0644'
 
@@ -124,35 +124,35 @@
 # Final confirmation and file update
 - name: Read wizard file contents
   ansible.builtin.slurp:
-    src: "{{ dibbs_playbook_dir }}/docker/dibbs-ecr-viewer.wizard"
-  register: wizard_content
+    src: "{{ dibbs_ecr_viewer_playbook_dir }}/docker/dibbs-ecr-viewer.wizard"
+  register: dibbs_ecr_viewer_wizard_content
 
 - name: Prompt for configuration confirmation
   ansible.builtin.pause:
     prompt: |
       Please confirm the following settings (Double check for special characters that should be escaped):
 
-      {{ wizard_content.content | b64decode }}
+      {{ dibbs_ecr_viewer_wizard_content.content | b64decode }}
 
       "Is this information correct? (y/n): "
-  register: confirm_input
+  register: dibbs_ecr_viewer_confirm_input
 
 - name: Fail if configuration not confirmed
   ansible.builtin.fail:
     msg: "Configuration cancelled. Please run the playbook again."
-  when: "'n' in confirm_input.user_input | lower or 'y' not in confirm_input.user_input | lower"
+  when: "'n' in dibbs_ecr_viewer_confirm_input.user_input | lower or 'y' not in dibbs_ecr_viewer_confirm_input.user_input | lower"
 
 - name: Backup existing .env file if it exists
   ansible.builtin.copy:
-    src: "{{ dibbs_playbook_dir }}/docker/dibbs-ecr-viewer.env"
-    dest: "{{ dibbs_playbook_dir }}/docker/dibbs-ecr-viewer.bak"
+    src: "{{ dibbs_ecr_viewer_playbook_dir }}/docker/dibbs-ecr-viewer.env"
+    dest: "{{ dibbs_ecr_viewer_playbook_dir }}/docker/dibbs-ecr-viewer.bak"
     remote_src: true
     mode: '0644'
-  when: backup_needed | default(false)
+  when: dibbs_ecr_viewer_backup_needed | default(false)
 
 - name: Copy wizard file to .env file
   ansible.builtin.copy:
-    src: "{{ dibbs_playbook_dir }}/docker/dibbs-ecr-viewer.wizard"
-    dest: "{{ dibbs_playbook_dir }}/docker/dibbs-ecr-viewer.env"
+    src: "{{ dibbs_ecr_viewer_playbook_dir }}/docker/dibbs-ecr-viewer.wizard"
+    dest: "{{ dibbs_ecr_viewer_playbook_dir }}/docker/dibbs-ecr-viewer.env"
     remote_src: true
     mode: '0644'

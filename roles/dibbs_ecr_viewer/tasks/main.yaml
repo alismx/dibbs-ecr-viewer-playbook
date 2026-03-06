@@ -10,18 +10,18 @@
 # Check if .env file exists (to determine if we should backup)
 - name: Check for existing configuration
   ansible.builtin.stat:
-    path: "{{ dibbs_playbook_dir }}/docker/dibbs-ecr-viewer.env"
-  register: env_file_stat
+    path: "{{ dibbs_ecr_viewer_playbook_dir }}/docker/dibbs-ecr-viewer.env"
+  register: dibbs_ecr_viewer_env_file_stat
   when:
     - force_wizard | default('not_set') == 'true'
 
 # Set backup_needed flag if .env exists (will be used in wizard.yaml)
 - name: Set backup_needed flag
   ansible.builtin.set_fact:
-    backup_needed: true
+    dibbs_ecr_viewer_backup_needed: true
   when:
     - force_wizard | default('not_set') == 'true'
-    - env_file_stat.stat.exists
+    - dibbs_ecr_viewer_env_file_stat.stat.exists
 
 # Run wizard only if force_wizard flag is set to true
 - name: Run setup wizard

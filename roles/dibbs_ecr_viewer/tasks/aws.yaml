@@ -5,16 +5,16 @@
   ansible.builtin.pause:
     prompt: |
       AWS_REGION (e.g., us-east-1):
-  register: aws_region_input
+  register: dibbs_ecr_viewer_aws_region_input
 
 - name: Set AWS_REGION fact
   ansible.builtin.set_fact:
-    AWS_REGION: "{{ aws_region_input.user_input }}"
+    dibbs_ecr_viewer_aws_region: "{{ dibbs_ecr_viewer_aws_region_input.user_input }}"
 
 - name: Add AWS_REGION to wizard file
   ansible.builtin.lineinfile:
     path: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.wizard"
-    line: 'AWS_REGION="{{ AWS_REGION }}"'
+    line: 'AWS_REGION="{{ dibbs_ecr_viewer_aws_region }}"'
     create: true
     mode: '0644'
 
@@ -22,15 +22,15 @@
   ansible.builtin.pause:
     prompt: |
       ECR_BUCKET_NAME (e.g., my-ecr-bucket):
-  register: ecr_bucket_input
+  register: dibbs_ecr_viewer_ecr_bucket_name_input
 
 - name: Set ECR_BUCKET_NAME fact
   ansible.builtin.set_fact:
-    ECR_BUCKET_NAME: "{{ ecr_bucket_input.user_input }}"
+    dibbs_ecr_viewer_ecr_bucket_name: "{{ dibbs_ecr_viewer_ecr_bucket_name_input.user_input }}"
 
 - name: Add ECR_BUCKET_NAME to wizard file
   ansible.builtin.lineinfile:
     path: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.wizard"
-    line: 'ECR_BUCKET_NAME="{{ ECR_BUCKET_NAME }}"'
+    line: 'ECR_BUCKET_NAME="{{ dibbs_ecr_viewer_ecr_bucket_name }}"'
     create: true
     mode: '0644'

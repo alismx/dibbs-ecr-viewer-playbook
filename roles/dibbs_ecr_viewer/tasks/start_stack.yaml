@@ -5,8 +5,8 @@
 - name: Validate required configuration facts
   ansible.builtin.assert:
     that:
-      - DIBBS_VERSION is defined and DIBBS_VERSION | length > 0
-      - CONFIG_NAME is defined and CONFIG_NAME | length > 0
+      - dibbs_ecr_viewer_dibbs_version is defined and dibbs_ecr_viewer_dibbs_version | length > 0
+      - dibbs_ecr_viewer_config_name is defined and dibbs_ecr_viewer_config_name | length > 0
     fail_msg: |
       Configuration incomplete. Required variables are not set.
 
@@ -17,36 +17,37 @@
       This will prompt you for all configuration settings.
     success_msg: "Configuration validated successfully."
 
-- name: Up ecr-viewer compose
+- name: Start Docker Compose stack
   ansible.builtin.command:
     cmd: docker compose up -d
   args:
-    chdir: "{{ dibbs_playbook_dir }}/docker/"
+    chdir: "{{ dibbs_ecr_viewer_playbook_dir }}/docker/"
+  changed_when: true
   environment:
-    CONFIG_NAME: "{{ CONFIG_NAME | default('') }}"
-    ORCHESTRATION_URL: "{{ ORCHESTRATION_URL | default('http://dibbs-orchestration:8080') }}"
-    DIBBS_VERSION: "{{ DIBBS_VERSION | default('') }}"
-    DATABASE_URL: "{{ DATABASE_URL | default('') }}"
-    METADATA_DATABASE_SCHEMA: "{{ METADATA_DATABASE_SCHEMA | default('') }}"
-    METADATA_DATABASE_MIGRATION_SECRET: "{{ METADATA_DATABASE_MIGRATION_SECRET | default('') }}"
-    SQL_SERVER_USER: "{{ SQL_SERVER_USER | default('') }}"
-    SQL_SERVER_PASSWORD: "{{ SQL_SERVER_PASSWORD | default('') }}"
-    SQL_SERVER_HOST: "{{ SQL_SERVER_HOST | default('') }}"
-    DB_CIPHER: "{{ DB_CIPHER | default('') }}"
-    NBS_API_PUB_KEY: "{{ NBS_API_PUB_KEY | default('') }}"
-    NBS_PUB_KEY: "{{ NBS_PUB_KEY | default('') }}"
-    AUTH_PROVIDER: "{{ AUTH_PROVIDER | default('') }}"
-    AUTH_CLIENT_ID: "{{ AUTH_CLIENT_ID | default('') }}"
-    AUTH_CLIENT_SECRET: "{{ AUTH_CLIENT_SECRET | default('') }}"
-    AUTH_ISSUER: "{{ AUTH_ISSUER | default('') }}"
-    AUTH_SESSION_DURATION_MIN: "{{ AUTH_SESSION_DURATION_MIN | default('') }}"
-    NEXTAUTH_URL: "{{ NEXTAUTH_URL | default('') }}"
-    NEXTAUTH_SECRET: "{{ NEXTAUTH_SECRET | default('') }}"
-    SAVE_XML: "{{ SAVE_XML | default('') }}"
-    DISPLAY_FEEDBACK_LINKS: "{{ DISPLAY_FEEDBACK_LINKS | default('') }}"
-    ECR_PROCESSING_TIMEOUT: "{{ ECR_PROCESSING_TIMEOUT | default('') }}"
-    AWS_REGION: "{{ AWS_REGION | default('') }}"
-    AZURE_STORAGE_CONNECTION_STRING: "{{ AZURE_STORAGE_CONNECTION_STRING | default('') }}"
-    AZURE_CONTAINER_NAME: "{{ AZURE_CONTAINER_NAME | default('') }}"
-    GCP_PROJECT_ID: "{{ GCP_PROJECT_ID | default('') }}"
-    ECR_BUCKET_NAME: "{{ ECR_BUCKET_NAME | default('') }}"
+    CONFIG_NAME: "{{ dibbs_ecr_viewer_config_name | default('') }}"
+    ORCHESTRATION_URL: "{{ dibbs_ecr_viewer_orchestration_url | default('http://dibbs-orchestration:8080') }}"
+    DIBBS_VERSION: "{{ dibbs_ecr_viewer_dibbs_version | default('') }}"
+    DATABASE_URL: "{{ dibbs_ecr_viewer_database_url | default('') }}"
+    METADATA_DATABASE_SCHEMA: "{{ dibbs_ecr_viewer_metadata_database_schema | default('') }}"
+    METADATA_DATABASE_MIGRATION_SECRET: "{{ dibbs_ecr_viewer_metadata_database_migration_secret | default('') }}"
+    SQL_SERVER_USER: "{{ dibbs_ecr_viewer_sql_server_user | default('') }}"
+    SQL_SERVER_PASSWORD: "{{ dibbs_ecr_viewer_sql_server_password | default('') }}"
+    SQL_SERVER_HOST: "{{ dibbs_ecr_viewer_sql_server_host | default('') }}"
+    DB_CIPHER: "{{ dibbs_ecr_viewer_db_cipher | default('') }}"
+    NBS_API_PUB_KEY: "{{ dibbs_ecr_viewer_nbs_api_pub_key | default('') }}"
+    NBS_PUB_KEY: "{{ dibbs_ecr_viewer_nbs_pub_key | default('') }}"
+    AUTH_PROVIDER: "{{ dibbs_ecr_viewer_auth_provider | default('') }}"
+    AUTH_CLIENT_ID: "{{ dibbs_ecr_viewer_auth_client_id | default('') }}"
+    AUTH_CLIENT_SECRET: "{{ dibbs_ecr_viewer_auth_client_secret | default('') }}"
+    AUTH_ISSUER: "{{ dibbs_ecr_viewer_auth_issuer | default('') }}"
+    AUTH_SESSION_DURATION_MIN: "{{ dibbs_ecr_viewer_auth_session_duration_min | default('') }}"
+    NEXTAUTH_URL: "{{ dibbs_ecr_viewer_nextauth_url | default('') }}"
+    NEXTAUTH_SECRET: "{{ dibbs_ecr_viewer_nextauth_secret | default('') }}"
+    SAVE_XML: "{{ dibbs_ecr_viewer_save_xml | default('') }}"
+    DISPLAY_FEEDBACK_LINKS: "{{ dibbs_ecr_viewer_display_feedback_links | default('') }}"
+    ECR_PROCESSING_TIMEOUT: "{{ dibbs_ecr_viewer_ecr_processing_timeout | default('') }}"
+    AWS_REGION: "{{ dibbs_ecr_viewer_aws_region | default('') }}"
+    AZURE_STORAGE_CONNECTION_STRING: "{{ dibbs_ecr_viewer_azure_storage_connection_string | default('') }}"
+    AZURE_CONTAINER_NAME: "{{ dibbs_ecr_viewer_azure_container_name | default('') }}"
+    GCP_PROJECT_ID: "{{ dibbs_ecr_viewer_gcp_project_id | default('') }}"
+    ECR_BUCKET_NAME: "{{ dibbs_ecr_viewer_ecr_bucket_name | default('') }}"
