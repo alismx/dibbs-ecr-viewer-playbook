@@ -1,56 +1,24 @@
 ---
 # Start Docker Compose stack
 
-# Check that DIBBS_VERSION is set before starting compose
-- name: Check for required environment variables
-  ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.env" 2>/dev/null || true
-    echo "DIBBS_VERSION=${DIBBS_VERSION:-}"
-  register: env_check
-  changed_when: false
-
-- name: Fail if DIBBS_VERSION is not set
-  ansible.builtin.fail:
-    msg: |
-      Configuration incomplete. DIBBS_VERSION is not set.
+# Validate that required facts are set before starting compose
+- name: Validate required configuration facts
+  ansible.builtin.assert:
+    that:
+      - DIBBS_VERSION is defined and DIBBS_VERSION | length > 0
+      - CONFIG_NAME is defined and CONFIG_NAME | length > 0
+    fail_msg: |
+      Configuration incomplete. Required variables are not set.
 
       Please run the playbook with force_wizard to configure:
 
         ansible-playbook -c local playbook.yaml --extra-var "force_wizard=true"
 
       This will prompt you for all configuration settings.
-  when: '"DIBBS_VERSION=" in env_check.stdout or env_check.stdout == ""'
+    success_msg: "Configuration validated successfully."
 
 - name: Up ecr-viewer compose
   ansible.builtin.command:
     cmd: docker compose up -d
   args:
     chdir: "{{ dibbs_ecr_viewer_dir }}/docker/"
-  environment:
-    CONFIG_NAME: "{{ CONFIG_NAME | default(omit) }}"
-    ORCHESTRATION_URL: "{{ ORCHESTRATION_URL | default(omit) }}"
-    DIBBS_VERSION: "{{ DIBBS_VERSION | default(omit) }}"
-    DATABASE_URL: "{{ DATABASE_URL | default(omit) }}"
-    METADATA_DATABASE_SCHEMA: "{{ METADATA_DATABASE_SCHEMA | default(omit) }}"
-    METADATA_DATABASE_MIGRATION_SECRET: "{{ METADATA_DATABASE_MIGRATION_SECRET | default(omit) }}"
-    SQL_SERVER_USER: "{{ SQL_SERVER_USER | default(omit) }}"
-    SQL_SERVER_PASSWORD: "{{ SQL_SERVER_PASSWORD | default(omit) }}"
-    SQL_SERVER_HOST: "{{ SQL_SERVER_HOST | default(omit) }}"
-    DB_CIPHER: "{{ DB_CIPHER | default(omit) }}"
-    NBS_API_PUB_KEY: "{{ NBS_API_PUB_KEY | default(omit) }}"
-    NBS_PUB_KEY: "{{ NBS_PUB_KEY | default(omit) }}"
-    AUTH_PROVIDER: "{{ AUTH_PROVIDER | default(omit) }}"
-    AUTH_CLIENT_ID: "{{ AUTH_CLIENT_ID | default(omit) }}"
-    AUTH_CLIENT_SECRET: "{{ AUTH_CLIENT_SECRET | default(omit) }}"
-    AUTH_ISSUER: "{{ AUTH_ISSUER | default(omit) }}"
-    AUTH_SESSION_DURATION_MIN: "{{ AUTH_SESSION_DURATION_MIN | default(omit) }}"
-    NEXTAUTH_URL: "{{ NEXTAUTH_URL | default(omit) }}"
-    NEXTAUTH_SECRET: "{{ NEXTAUTH_SECRET | default(omit) }}"
-    SAVE_XML: "{{ SAVE_XML | default(omit) }}"
-    DISPLAY_FEEDBACK_LINKS: "{{ DISPLAY_FEEDBACK_LINKS | default(omit) }}"
-    ECR_PROCESSING_TIMEOUT: "{{ ECR_PROCESSING_TIMEOUT | default(omit) }}"
-    AWS_REGION: "{{ AWS_REGION | default(omit) }}"
-    AZURE_STORAGE_CONNECTION_STRING: "{{ AZURE_STORAGE_CONNECTION_STRING | default(omit) }}"
-    AZURE_CONTAINER_NAME: "{{ AZURE_CONTAINER_NAME | default(omit) }}"
-    GCP_PROJECT_ID: "{{ GCP_PROJECT_ID | default(omit) }}"
-    ECR_BUCKET_NAME: "{{ ECR_BUCKET_NAME | default(omit) }}"
