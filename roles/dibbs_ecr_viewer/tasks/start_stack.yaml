@@ -21,7 +21,7 @@
   ansible.builtin.command:
     cmd: docker compose up -d
   args:
-    chdir: "{{ dibbs_ecr_viewer_dir }}/docker/"
+    chdir: "{{ dibbs_playbook_dir }}/docker/"
   environment:
     CONFIG_NAME: "{{ CONFIG_NAME | default('') }}"
     ORCHESTRATION_URL: "{{ ORCHESTRATION_URL | default('http://dibbs-orchestration:8080') }}"

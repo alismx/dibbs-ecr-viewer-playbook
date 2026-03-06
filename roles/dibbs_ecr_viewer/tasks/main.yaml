@@ -4,16 +4,13 @@
 - name: Include prerequisites installation
   ansible.builtin.include_tasks: prereqs.yaml
 
-- name: Create project directories
-  ansible.builtin.include_tasks: create_dirs.yaml
-
 - name: Install and configure fail2ban
   ansible.builtin.include_tasks: fail2ban.yaml
 
 # Check if .env file exists (to determine if we should backup)
 - name: Check for existing configuration
   ansible.builtin.stat:
-    path: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.env"
+    path: "{{ dibbs_playbook_dir }}/docker/dibbs-ecr-viewer.env"
   register: env_file_stat
   when:
     - force_wizard | default('not_set') == 'true'
