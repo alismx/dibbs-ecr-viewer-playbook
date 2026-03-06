@@ -13,7 +13,7 @@
 
 - name: Add AZURE_STORAGE_CONNECTION_STRING to wizard file
   ansible.builtin.lineinfile:
-    path: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.wizard"
+    path: "{{ dibbs_ecr_viewer_playbook_dir }}/docker/dibbs-ecr-viewer.wizard"
     line: 'AZURE_STORAGE_CONNECTION_STRING="{{ dibbs_ecr_viewer_azure_storage_connection_string }}"'
     create: true
     mode: '0644'
@@ -30,7 +30,7 @@
 
 - name: Add AZURE_CONTAINER_NAME to wizard file
   ansible.builtin.lineinfile:
-    path: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.wizard"
+    path: "{{ dibbs_ecr_viewer_playbook_dir }}/docker/dibbs-ecr-viewer.wizard"
     line: 'AZURE_CONTAINER_NAME="{{ dibbs_ecr_viewer_azure_container_name }}"'
     create: true
     mode: '0644'

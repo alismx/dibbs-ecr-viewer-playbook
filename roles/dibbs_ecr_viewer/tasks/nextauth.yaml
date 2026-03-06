@@ -13,7 +13,7 @@
 
 - name: Add NEXTAUTH_SECRET to wizard file
   ansible.builtin.lineinfile:
-    path: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.wizard"
+    path: "{{ dibbs_ecr_viewer_playbook_dir }}/docker/dibbs-ecr-viewer.wizard"
     line: 'NEXTAUTH_SECRET="{{ dibbs_ecr_viewer_nextauth_secret }}"'
     create: true
     mode: '0644'
