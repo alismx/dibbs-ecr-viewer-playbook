@@ -13,7 +13,7 @@
 
 - name: Add GCP_PROJECT_ID to wizard file
   ansible.builtin.lineinfile:
-    path: "{{ dibbs_ecr_viewer_playbook_dir }}/docker/dibbs-ecr-viewer.wizard"
+    path: "{{ dibbs_ecr_viewer_wizard_file }}"
     line: 'GCP_PROJECT_ID="{{ dibbs_ecr_viewer_gcp_project_id }}"'
     create: true
     mode: '0644'
@@ -30,7 +30,7 @@
 
 - name: Add ECR_BUCKET_NAME to wizard file
   ansible.builtin.lineinfile:
-    path: "{{ dibbs_ecr_viewer_playbook_dir }}/docker/dibbs-ecr-viewer.wizard"
+    path: "{{ dibbs_ecr_viewer_wizard_file }}"
     line: 'ECR_BUCKET_NAME="{{ dibbs_ecr_viewer_ecr_bucket_name }}"'
     create: true
     mode: '0644'

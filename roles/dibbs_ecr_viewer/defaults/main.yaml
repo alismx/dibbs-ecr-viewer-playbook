@@ -2,6 +2,10 @@
 # Default variables for dibbs_ecr_viewer role
 
 dibbs_ecr_viewer_playbook_dir: "{{ lookup('env', 'DIBBS_PLAYBOOK_DIR') | default(lookup('env', 'HOME') + '/dibbs-ecr-viewer-playbook', true) }}"
+dibbs_ecr_viewer_docker_dir: "{{ dibbs_ecr_viewer_playbook_dir }}/docker"
+dibbs_ecr_viewer_wizard_file: "{{ dibbs_ecr_viewer_docker_dir }}/dibbs-ecr-viewer.wizard"
+dibbs_ecr_viewer_env_file: "{{ dibbs_ecr_viewer_docker_dir }}/dibbs-ecr-viewer.env"
+dibbs_ecr_viewer_bak_file: "{{ dibbs_ecr_viewer_docker_dir }}/dibbs-ecr-viewer.bak"
 ansible_python_interpreter: /usr/bin/python3
 
 # Docker user configuration

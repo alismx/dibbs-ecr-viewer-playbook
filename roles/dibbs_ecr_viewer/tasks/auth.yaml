@@ -13,7 +13,7 @@
 
 - name: Add AUTH_PROVIDER to wizard file
   ansible.builtin.lineinfile:
-    path: "{{ dibbs_ecr_viewer_playbook_dir }}/docker/dibbs-ecr-viewer.wizard"
+    path: "{{ dibbs_ecr_viewer_wizard_file }}"
     line: 'AUTH_PROVIDER="{{ dibbs_ecr_viewer_auth_provider }}"'
     create: true
     mode: '0644'
@@ -30,7 +30,7 @@
 
 - name: Add AUTH_CLIENT_ID to wizard file
   ansible.builtin.lineinfile:
-    path: "{{ dibbs_ecr_viewer_playbook_dir }}/docker/dibbs-ecr-viewer.wizard"
+    path: "{{ dibbs_ecr_viewer_wizard_file }}"
     line: 'AUTH_CLIENT_ID="{{ dibbs_ecr_viewer_auth_client_id }}"'
     create: true
     mode: '0644'
@@ -47,7 +47,7 @@
 
 - name: Add AUTH_CLIENT_SECRET to wizard file
   ansible.builtin.lineinfile:
-    path: "{{ dibbs_ecr_viewer_playbook_dir }}/docker/dibbs-ecr-viewer.wizard"
+    path: "{{ dibbs_ecr_viewer_wizard_file }}"
     line: 'AUTH_CLIENT_SECRET="{{ dibbs_ecr_viewer_auth_client_secret }}"'
     create: true
     mode: '0644'
@@ -64,7 +64,7 @@
 
 - name: Add AUTH_ISSUER to wizard file
   ansible.builtin.lineinfile:
-    path: "{{ dibbs_ecr_viewer_playbook_dir }}/docker/dibbs-ecr-viewer.wizard"
+    path: "{{ dibbs_ecr_viewer_wizard_file }}"
     line: 'AUTH_ISSUER="{{ dibbs_ecr_viewer_auth_issuer }}"'
     create: true
     mode: '0644'
@@ -81,7 +81,7 @@
 
 - name: Add AUTH_SESSION_DURATION_MIN to wizard file
   ansible.builtin.lineinfile:
-    path: "{{ dibbs_ecr_viewer_playbook_dir }}/docker/dibbs-ecr-viewer.wizard"
+    path: "{{ dibbs_ecr_viewer_wizard_file }}"
     line: 'AUTH_SESSION_DURATION_MIN="{{ dibbs_ecr_viewer_auth_session_duration_min }}"'
     create: true
     mode: '0644'
@@ -98,7 +98,7 @@
 
 - name: Add NEXTAUTH_URL to wizard file
   ansible.builtin.lineinfile:
-    path: "{{ dibbs_ecr_viewer_playbook_dir }}/docker/dibbs-ecr-viewer.wizard"
+    path: "{{ dibbs_ecr_viewer_wizard_file }}"
     line: 'NEXTAUTH_URL="{{ dibbs_ecr_viewer_nextauth_url }}"'
     create: true
     mode: '0644'

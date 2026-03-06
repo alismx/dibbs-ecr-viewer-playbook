@@ -10,7 +10,7 @@
 # Check if .env file exists (to determine if we should backup)
 - name: Check for existing configuration
   ansible.builtin.stat:
-    path: "{{ dibbs_ecr_viewer_playbook_dir }}/docker/dibbs-ecr-viewer.env"
+    path: "{{ dibbs_ecr_viewer_env_file }}"
   register: dibbs_ecr_viewer_env_file_stat
   when:
     - force_wizard | default('not_set') == 'true'

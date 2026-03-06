@@ -21,7 +21,7 @@
   ansible.builtin.command:
     cmd: docker compose up -d
   args:
-    chdir: "{{ dibbs_ecr_viewer_playbook_dir }}/docker/"
+    chdir: "{{ dibbs_ecr_viewer_docker_dir }}"
   changed_when: true
   environment:
     CONFIG_NAME: "{{ dibbs_ecr_viewer_config_name | default('') }}"
