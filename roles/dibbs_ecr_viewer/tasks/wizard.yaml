@@ -77,16 +77,6 @@
     create: true
     mode: '0644'
 
-# Backup existing .env if it exists (before writing to wizard)
-- name: Backup existing .env file
-  ansible.builtin.copy:
-    src: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.env"
-    dest: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.bak"
-    remote_src: true
-    mode: '0644'
-  when:
-    - backup_needed | default(false)
-
 # Parse eCR Viewer defaults (ORCHESTRATION_URL)
 - name: Parse eCR Viewer for default environment variables
   ansible.builtin.include_tasks: docker_compose_vars.yaml
@@ -159,7 +149,6 @@
     remote_src: true
     mode: '0644'
   when: backup_needed | default(false)
-  ignore_errors: true
 
 - name: Copy wizard file to .env file
   ansible.builtin.copy:
