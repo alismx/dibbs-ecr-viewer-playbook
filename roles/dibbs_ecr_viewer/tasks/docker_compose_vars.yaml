@@ -25,7 +25,7 @@
 
 - name: Add ORCHESTRATION_URL to wizard file
   ansible.builtin.lineinfile:
-    path: "{{ dibbs_ecr_viewer_playbook_dir }}/docker/dibbs-ecr-viewer.wizard"
+    path: "{{ dibbs_ecr_viewer_wizard_file }}"
     line: 'ORCHESTRATION_URL="http://dibbs-orchestration:8080"'
     create: true
     mode: '0644'
@@ -43,7 +43,7 @@
 
 - name: Add DIBBS_VERSION to wizard file
   ansible.builtin.lineinfile:
-    path: "{{ dibbs_ecr_viewer_playbook_dir }}/docker/dibbs-ecr-viewer.wizard"
+    path: "{{ dibbs_ecr_viewer_wizard_file }}"
     line: 'DIBBS_VERSION="{{ dibbs_ecr_viewer_dibbs_version }}"'
     create: true
     mode: '0644'

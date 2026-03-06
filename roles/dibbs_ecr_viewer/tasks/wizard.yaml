@@ -11,7 +11,7 @@
 # CONFIG_NAME selection
 - name: Read existing .env file to get current CONFIG_NAME
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_playbook_dir }}/docker/dibbs-ecr-viewer.env" 2>/dev/null || true
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
     echo "CONFIG_NAME=${CONFIG_NAME:-}"
   register: dibbs_ecr_viewer_env_config_name
   failed_when: false
@@ -72,7 +72,7 @@
 # Add CONFIG_NAME to wizard file
 - name: Add CONFIG_NAME to wizard file
   ansible.builtin.lineinfile:
-    path: "{{ dibbs_ecr_viewer_playbook_dir }}/docker/dibbs-ecr-viewer.wizard"
+    path: "{{ dibbs_ecr_viewer_wizard_file }}"
     line: 'CONFIG_NAME="{{ dibbs_ecr_viewer_config_name }}"'
     create: true
     mode: '0644'
@@ -124,7 +124,7 @@
 # Final confirmation and file update
 - name: Read wizard file contents
   ansible.builtin.slurp:
-    src: "{{ dibbs_ecr_viewer_playbook_dir }}/docker/dibbs-ecr-viewer.wizard"
+    src: "{{ dibbs_ecr_viewer_wizard_file }}"
   register: dibbs_ecr_viewer_wizard_content
 
 - name: Prompt for configuration confirmation
@@ -144,15 +144,15 @@
 
 - name: Backup existing .env file if it exists
   ansible.builtin.copy:
-    src: "{{ dibbs_ecr_viewer_playbook_dir }}/docker/dibbs-ecr-viewer.env"
-    dest: "{{ dibbs_ecr_viewer_playbook_dir }}/docker/dibbs-ecr-viewer.bak"
+    src: "{{ dibbs_ecr_viewer_env_file }}"
+    dest: "{{ dibbs_ecr_viewer_bak_file }}"
     remote_src: true
     mode: '0644'
   when: dibbs_ecr_viewer_backup_needed | default(false)
 
 - name: Copy wizard file to .env file
   ansible.builtin.copy:
-    src: "{{ dibbs_ecr_viewer_playbook_dir }}/docker/dibbs-ecr-viewer.wizard"
-    dest: "{{ dibbs_ecr_viewer_playbook_dir }}/docker/dibbs-ecr-viewer.env"
+    src: "{{ dibbs_ecr_viewer_wizard_file }}"
+    dest: "{{ dibbs_ecr_viewer_env_file }}"
     remote_src: true
     mode: '0644'

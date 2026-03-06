@@ -13,7 +13,7 @@
 
 - name: Add DATABASE_URL to wizard file
   ansible.builtin.lineinfile:
-    path: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.wizard"
+    path: "{{ dibbs_ecr_viewer_wizard_file }}"
     line: 'DATABASE_URL="{{ dibbs_ecr_viewer_database_url }}"'
     create: true
     mode: '0644'
@@ -30,7 +30,7 @@
 
 - name: Add METADATA_DATABASE_SCHEMA to wizard file
   ansible.builtin.lineinfile:
-    path: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.wizard"
+    path: "{{ dibbs_ecr_viewer_wizard_file }}"
     line: 'METADATA_DATABASE_SCHEMA="{{ dibbs_ecr_viewer_metadata_database_schema }}"'
     create: true
     mode: '0644'
@@ -47,7 +47,7 @@
 
 - name: Add METADATA_DATABASE_MIGRATION_SECRET to wizard file
   ansible.builtin.lineinfile:
-    path: "{{ dibbs_ecr_viewer_dir }}/docker/dibbs-ecr-viewer.wizard"
+    path: "{{ dibbs_ecr_viewer_wizard_file }}"
     line: 'METADATA_DATABASE_MIGRATION_SECRET="{{ dibbs_ecr_viewer_metadata_database_migration_secret }}"'
     create: true
     mode: '0644'
