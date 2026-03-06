@@ -36,7 +36,7 @@ check_privileges() {
 }
 
 # Configuration
-REPO_URL="https://github.com/alismx/dibbs-ecr-viewer-playbook"
+REPO_URL="https://github.com/alismx/dibbs-ecr-viewer-playbook.git"
 DIBBS_PLAYBOOK_DIR="${HOME}/dibbs-ecr-viewer-playbook"
 
 # Detect and store package manager
@@ -95,8 +95,12 @@ check_prerequisites() {
 clone_repository() {
     echo "Cloning repository..."
 
-    # Remove existing clone if present
-    rm -rf "$DIBBS_PLAYBOOK_DIR"
+    # Backup existing clone if present
+    if [ -d "$DIBBS_PLAYBOOK_DIR" ]; then
+        BACKUP_DIR="${DIBBS_PLAYBOOK_DIR}.backup.$(date +%Y%m%d%H%M%S)"
+        echo "Backing up existing installation to: $BACKUP_DIR"
+        mv "$DIBBS_PLAYBOOK_DIR" "$BACKUP_DIR"
+    fi
 
     git clone --depth 1 "$REPO_URL" "$DIBBS_PLAYBOOK_DIR"
 
