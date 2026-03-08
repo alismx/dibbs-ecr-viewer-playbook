@@ -12,7 +12,8 @@
 - name: Prompt for SAVE_XML (optional)
   ansible.builtin.pause:
     prompt: |
-      SAVE_XML (Current Value: {{ dibbs_ecr_viewer_existing_save_xml.stdout | default('') }}) (Optional: leave blank to use defaults):
+      SAVE_XML (Current: {{ dibbs_ecr_viewer_existing_save_xml.stdout | default('') }})
+      (Optional: leave blank for defaults):
   register: dibbs_ecr_viewer_save_xml_input
 
 - name: Set SAVE_XML fact
@@ -37,7 +38,8 @@
 - name: Prompt for DISPLAY_FEEDBACK_LINKS (optional)
   ansible.builtin.pause:
     prompt: |
-      DISPLAY_FEEDBACK_LINKS (Current Value: {{ dibbs_ecr_viewer_existing_display_feedback_links.stdout | default('') }}) (Optional: leave blank to use defaults):
+      DISPLAY_FEEDBACK_LINKS (Current: {{ dibbs_ecr_viewer_existing_display_feedback_links.stdout | default('') }})
+      (Optional: leave blank for defaults):
   register: dibbs_ecr_viewer_display_feedback_links_input
 
 - name: Set DISPLAY_FEEDBACK_LINKS fact
@@ -62,7 +64,8 @@
 - name: Prompt for ECR_PROCESSING_TIMEOUT (optional)
   ansible.builtin.pause:
     prompt: |
-      ECR_PROCESSING_TIMEOUT (Current Value: {{ dibbs_ecr_viewer_existing_ecr_processing_timeout.stdout | default('') }}) (Optional: leave blank to use defaults):
+      ECR_PROCESSING_TIMEOUT (Current: {{ dibbs_ecr_viewer_existing_ecr_processing_timeout.stdout | default('') }})
+      (Optional: leave blank for defaults):
   register: dibbs_ecr_viewer_ecr_processing_timeout_input
 
 - name: Set ECR_PROCESSING_TIMEOUT fact

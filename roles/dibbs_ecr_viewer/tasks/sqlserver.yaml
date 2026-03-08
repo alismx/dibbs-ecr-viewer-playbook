@@ -12,7 +12,7 @@
 - name: Prompt for SQL_SERVER_USER
   ansible.builtin.pause:
     prompt: |
-      SQL_SERVER_USER (Current Value: {{ dibbs_ecr_viewer_existing_sql_server_user.stdout | default('') }}):
+      SQL_SERVER_USER (Current: {{ dibbs_ecr_viewer_existing_sql_server_user.stdout | default('') }}):
   register: dibbs_ecr_viewer_sql_server_user_input
 
 - name: Set SQL_SERVER_USER fact
@@ -37,7 +37,7 @@
 - name: Prompt for SQL_SERVER_PASSWORD
   ansible.builtin.pause:
     prompt: |
-      SQL_SERVER_PASSWORD (Current Value: {{ dibbs_ecr_viewer_existing_sql_server_password.stdout | default('') }}):
+      SQL_SERVER_PASSWORD (Current: {{ dibbs_ecr_viewer_existing_sql_server_password.stdout | default('') }}):
   register: dibbs_ecr_viewer_sql_server_password_input
 
 - name: Set SQL_SERVER_PASSWORD fact
@@ -62,7 +62,7 @@
 - name: Prompt for SQL_SERVER_HOST
   ansible.builtin.pause:
     prompt: |
-      SQL_SERVER_HOST (Current Value: {{ dibbs_ecr_viewer_existing_sql_server_host.stdout | default('') }}):
+      SQL_SERVER_HOST (Current: {{ dibbs_ecr_viewer_existing_sql_server_host.stdout | default('') }}):
   register: dibbs_ecr_viewer_sql_server_host_input
 
 - name: Set SQL_SERVER_HOST fact
@@ -87,7 +87,7 @@
 - name: Prompt for DB_CIPHER
   ansible.builtin.pause:
     prompt: |
-      DB_CIPHER (Current Value: {{ dibbs_ecr_viewer_existing_db_cipher.stdout | default('') }}):
+      DB_CIPHER (Current: {{ dibbs_ecr_viewer_existing_db_cipher.stdout | default('') }}):
   register: dibbs_ecr_viewer_db_cipher_input
 
 - name: Set DB_CIPHER fact
@@ -112,7 +112,7 @@
 - name: Prompt for METADATA_DATABASE_SCHEMA
   ansible.builtin.pause:
     prompt: |
-      METADATA_DATABASE_SCHEMA (Current Value: {{ dibbs_ecr_viewer_existing_metadata_database_schema.stdout | default('') }}) (Schema options are: 'core' or 'extended'):
+      METADATA_DATABASE_SCHEMA (Current: {{ dibbs_ecr_viewer_existing_metadata_database_schema.stdout | default('') }}) ('core' or 'extended'):
   register: dibbs_ecr_viewer_metadata_database_schema_input
 
 - name: Set METADATA_DATABASE_SCHEMA fact
@@ -137,7 +137,8 @@
 - name: Prompt for METADATA_DATABASE_MIGRATION_SECRET
   ansible.builtin.pause:
     prompt: |
-      METADATA_DATABASE_MIGRATION_SECRET (Current Value: {{ dibbs_ecr_viewer_existing_metadata_database_migration_secret.stdout | default('') }}) (Migration secret used to trigger migrations; one will be generated and output to ecr-viewer logs if you do not provide one):
+      METADATA_DATABASE_MIGRATION_SECRET (Current: {{ dibbs_ecr_viewer_existing_metadata_database_migration_secret.stdout | default('') }})
+      (generated if not provided):
   register: dibbs_ecr_viewer_metadata_database_migration_secret_input
 
 - name: Set METADATA_DATABASE_MIGRATION_SECRET fact

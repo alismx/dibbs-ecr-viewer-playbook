@@ -12,7 +12,7 @@
 - name: Prompt for AZURE_STORAGE_CONNECTION_STRING
   ansible.builtin.pause:
     prompt: |
-      AZURE_STORAGE_CONNECTION_STRING (Current Value: {{ dibbs_ecr_viewer_existing_azure_storage_connection_string.stdout | default('') }}):
+      AZURE_STORAGE_CONNECTION_STRING (Current: {{ dibbs_ecr_viewer_existing_azure_storage_connection_string.stdout | default('') }}):
   register: dibbs_ecr_viewer_azure_storage_connection_string_input
 
 - name: Set AZURE_STORAGE_CONNECTION_STRING fact
@@ -37,7 +37,7 @@
 - name: Prompt for AZURE_CONTAINER_NAME
   ansible.builtin.pause:
     prompt: |
-      AZURE_CONTAINER_NAME (Current Value: {{ dibbs_ecr_viewer_existing_azure_container_name.stdout | default('') }}):
+      AZURE_CONTAINER_NAME (Current: {{ dibbs_ecr_viewer_existing_azure_container_name.stdout | default('') }}):
   register: dibbs_ecr_viewer_azure_container_name_input
 
 - name: Set AZURE_CONTAINER_NAME fact

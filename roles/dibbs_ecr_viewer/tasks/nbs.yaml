@@ -12,7 +12,7 @@
 - name: Prompt for NBS_API_PUB_KEY
   ansible.builtin.pause:
     prompt: |
-      NBS_API_PUB_KEY (Current Value: {{ dibbs_ecr_viewer_existing_nbs_api_pub_key.stdout | default('') }}):
+      NBS_API_PUB_KEY (Current: {{ dibbs_ecr_viewer_existing_nbs_api_pub_key.stdout | default('') }}):
   register: dibbs_ecr_viewer_nbs_api_pub_key_input
 
 - name: Set NBS_API_PUB_KEY fact
@@ -37,7 +37,7 @@
 - name: Prompt for NBS_PUB_KEY
   ansible.builtin.pause:
     prompt: |
-      NBS_PUB_KEY (Current Value: {{ dibbs_ecr_viewer_existing_nbs_pub_key.stdout | default('') }}):
+      NBS_PUB_KEY (Current: {{ dibbs_ecr_viewer_existing_nbs_pub_key.stdout | default('') }}):
   register: dibbs_ecr_viewer_nbs_pub_key_input
 
 - name: Set NBS_PUB_KEY fact

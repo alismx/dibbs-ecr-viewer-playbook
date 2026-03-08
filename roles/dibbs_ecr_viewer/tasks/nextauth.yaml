@@ -12,7 +12,7 @@
 - name: Prompt for NEXTAUTH_SECRET
   ansible.builtin.pause:
     prompt: |
-      NEXTAUTH_SECRET (Current Value: {{ dibbs_ecr_viewer_existing_nextauth_secret.stdout | default('') }}) (Generate a random secret using: openssl rand -base64 32):
+      NEXTAUTH_SECRET (Current: {{ dibbs_ecr_viewer_existing_nextauth_secret.stdout | default('') }}) (use: openssl rand -base64 32):
   register: dibbs_ecr_viewer_nextauth_secret_input
 
 - name: Set NEXTAUTH_SECRET fact

@@ -12,7 +12,7 @@
 - name: Prompt for DATABASE_URL
   ansible.builtin.pause:
     prompt: |
-      DATABASE_URL (Current Value: {{ dibbs_ecr_viewer_existing_database_url.stdout | default('') }}) (PostgreSQL connection string format: postgres://USER:PASSWORD@HOST:PORT/DATABASE_NAME):
+      DATABASE_URL (Current: {{ dibbs_ecr_viewer_existing_database_url.stdout | default('') }}) (format: postgres://USER:PASS@HOST:PORT/DB):
   register: dibbs_ecr_viewer_database_url_input
 
 - name: Set DATABASE_URL fact
@@ -37,7 +37,7 @@
 - name: Prompt for METADATA_DATABASE_SCHEMA
   ansible.builtin.pause:
     prompt: |
-      METADATA_DATABASE_SCHEMA (Current Value: {{ dibbs_ecr_viewer_existing_metadata_database_schema.stdout | default('') }}) (Schema options are: 'core' or 'extended'):
+      METADATA_DATABASE_SCHEMA (Current: {{ dibbs_ecr_viewer_existing_metadata_database_schema.stdout | default('') }}) ('core' or 'extended'):
   register: dibbs_ecr_viewer_metadata_database_schema_input
 
 - name: Set METADATA_DATABASE_SCHEMA fact
@@ -62,7 +62,8 @@
 - name: Prompt for METADATA_DATABASE_MIGRATION_SECRET
   ansible.builtin.pause:
     prompt: |
-      METADATA_DATABASE_MIGRATION_SECRET (Current Value: {{ dibbs_ecr_viewer_existing_metadata_database_migration_secret.stdout | default('') }}) (Migration secret used to trigger migrations):
+      METADATA_DATABASE_MIGRATION_SECRET (Current: {{ dibbs_ecr_viewer_existing_metadata_database_migration_secret.stdout | default('') }})
+      (Used to trigger migrations):
   register: dibbs_ecr_viewer_metadata_database_migration_secret_input
 
 - name: Set METADATA_DATABASE_MIGRATION_SECRET fact

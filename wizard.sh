@@ -7,7 +7,7 @@
 # - clear_dot_env: Clears the .wizard file.
 # - display_intro: Displays an introductory message and documentation link.
 # - config_name: Prompts the user to select a configuration name from a list of options.
-# - confirm_dot_env_var: Prompts the user to input a value for a given environment variable, displays the current value from .env.
+# - confirm_dot_env_var: Prompts the user to input a value for a given environment variable, displays the Current from .env.
 # - set_dot_vars: Sets environment variables based on the selected configuration name and calls relevant functions to set additional variables.
 # - confirm_update: Displays the current environment variables and prompts the user to confirm them.
 # - restart_docker_compose: Restarts Docker Compose with the updated environment variables.
@@ -256,7 +256,7 @@ set_vars() {
 confirm_dot_env_var() {
   value=$1
   default=$2
-  read -rp $'  \e[3m'"$value (Current Value: $default): "$'\e[0m' choice
+  read -rp $'  \e[3m'"$value (Current: $default): "$'\e[0m' choice
   if [ -z "$choice" ]; then
     choice="$default"
   fi
@@ -319,7 +319,7 @@ auth() {
   check_var AUTH_CLIENT_ID
   check_var AUTH_CLIENT_SECRET
   check_var AUTH_ISSUER
-  check_var AUTH_SESSION_DURATION_MIN "Optional: leave blank to use defaults"
+  check_var AUTH_SESSION_DURATION_MIN "Optional: leave blank for defaults"
   check_var NEXTAUTH_URL "URL for the eCR Viewer application authentication: http(s)://(DOMAIN||IP:PORT)/ecr-viewer/api/auth/"
 }
 
@@ -328,9 +328,9 @@ nextauth() {
 }
 
 optional() {
-  check_var SAVE_XML "Optional: leave blank to use defaults"
-  check_var DISPLAY_FEEDBACK_LINKS "Optional: leave blank to use defaults"
-  check_var ECR_PROCESSING_TIMEOUT "Optional: leave blank to use defaults"
+  check_var SAVE_XML "Optional: leave blank for defaults"
+  check_var DISPLAY_FEEDBACK_LINKS "Optional: leave blank for defaults"
+  check_var ECR_PROCESSING_TIMEOUT "Optional: leave blank for defaults"
 }
 
 aws() {

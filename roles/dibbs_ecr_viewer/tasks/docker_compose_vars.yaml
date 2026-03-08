@@ -30,7 +30,7 @@
     create: true
     mode: '0644'
 
-# DIBBS_VERSION - read current value from .env file if it exists
+# DIBBS_VERSION - read Current from .env file if it exists
 - name: Read existing DIBBS_VERSION from .env file
   ansible.builtin.shell: |
     source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
@@ -42,7 +42,7 @@
 - name: Prompt for DIBBS_VERSION
   ansible.builtin.pause:
     prompt: |
-      DIBBS_VERSION (Current Value: {{ dibbs_ecr_viewer_existing_dibbs_version.stdout | default('') }}):
+      DIBBS_VERSION (Current: {{ dibbs_ecr_viewer_existing_dibbs_version.stdout | default('') }}):
   register: dibbs_ecr_viewer_dibbs_version_input
 
 - name: Set DIBBS_VERSION fact from input

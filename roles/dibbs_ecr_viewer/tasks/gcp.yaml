@@ -19,7 +19,7 @@
 - name: Prompt for GCP_PROJECT_ID
   ansible.builtin.pause:
     prompt: |
-      GCP_PROJECT_ID (Current Value: {{ dibbs_ecr_viewer_existing_gcp_project_id.stdout | default('') }}):
+      GCP_PROJECT_ID (Current: {{ dibbs_ecr_viewer_existing_gcp_project_id.stdout | default('') }}):
   register: dibbs_ecr_viewer_gcp_project_id_input
 
 - name: Set GCP_PROJECT_ID fact
@@ -44,7 +44,7 @@
 - name: Prompt for ECR_BUCKET_NAME
   ansible.builtin.pause:
     prompt: |
-      ECR_BUCKET_NAME (Current Value: {{ dibbs_ecr_viewer_existing_ecr_bucket_name.stdout | default('') }}) (e.g., my-ecr-bucket):
+      ECR_BUCKET_NAME (Current: {{ dibbs_ecr_viewer_existing_ecr_bucket_name.stdout | default('') }}) (e.g., my-ecr-bucket):
   register: dibbs_ecr_viewer_ecr_bucket_name_input
 
 - name: Set ECR_BUCKET_NAME fact
