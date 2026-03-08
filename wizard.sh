@@ -319,7 +319,7 @@ auth() {
   check_var AUTH_CLIENT_ID
   check_var AUTH_CLIENT_SECRET
   check_var AUTH_ISSUER
-  check_var AUTH_SESSION_DURATION_MIN "Optional: leave blank for use defaults"
+  check_var AUTH_SESSION_DURATION_MIN "Optional: leave blank to use defaults"
   check_var NEXTAUTH_URL "URL for the eCR Viewer application authentication: http(s)://(DOMAIN||IP:PORT)/ecr-viewer/api/auth/"
 }
 
@@ -328,9 +328,9 @@ nextauth() {
 }
 
 optional() {
-  check_var SAVE_XML "Optional: leave blank for use defaults"
-  check_var DISPLAY_FEEDBACK_LINKS "Optional: leave blank for use defaults"
-  check_var ECR_PROCESSING_TIMEOUT "Optional: leave blank for use defaults"
+  check_var SAVE_XML "Optional: leave blank to use defaults"
+  check_var DISPLAY_FEEDBACK_LINKS "Optional: leave blank to use defaults"
+  check_var ECR_PROCESSING_TIMEOUT "Optional: leave blank to use defaults"
 }
 
 aws() {

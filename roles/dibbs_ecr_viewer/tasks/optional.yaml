@@ -1,10 +1,18 @@
 ---
 # Optional Configuration Tasks
 
+- name: Read existing SAVE_XML from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "SAVE_XML=${SAVE_XML:-}"
+  register: dibbs_ecr_viewer_existing_save_xml
+  failed_when: false
+  changed_when: false
+
 - name: Prompt for SAVE_XML (optional)
   ansible.builtin.pause:
     prompt: |
-      SAVE_XML (Optional: leave blank for use defaults):
+      SAVE_XML (Current Value: {{ dibbs_ecr_viewer_existing_save_xml.stdout | default('') }}) (Optional: leave blank to use defaults):
   register: dibbs_ecr_viewer_save_xml_input
 
 - name: Set SAVE_XML fact
@@ -18,10 +26,18 @@
     create: true
     mode: '0644'
 
+- name: Read existing DISPLAY_FEEDBACK_LINKS from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "DISPLAY_FEEDBACK_LINKS=${DISPLAY_FEEDBACK_LINKS:-}"
+  register: dibbs_ecr_viewer_existing_display_feedback_links
+  failed_when: false
+  changed_when: false
+
 - name: Prompt for DISPLAY_FEEDBACK_LINKS (optional)
   ansible.builtin.pause:
     prompt: |
-      DISPLAY_FEEDBACK_LINKS (Optional: leave blank for use defaults):
+      DISPLAY_FEEDBACK_LINKS (Current Value: {{ dibbs_ecr_viewer_existing_display_feedback_links.stdout | default('') }}) (Optional: leave blank to use defaults):
   register: dibbs_ecr_viewer_display_feedback_links_input
 
 - name: Set DISPLAY_FEEDBACK_LINKS fact
@@ -35,10 +51,18 @@
     create: true
     mode: '0644'
 
+- name: Read existing ECR_PROCESSING_TIMEOUT from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "ECR_PROCESSING_TIMEOUT=${ECR_PROCESSING_TIMEOUT:-}"
+  register: dibbs_ecr_viewer_existing_ecr_processing_timeout
+  failed_when: false
+  changed_when: false
+
 - name: Prompt for ECR_PROCESSING_TIMEOUT (optional)
   ansible.builtin.pause:
     prompt: |
-      ECR_PROCESSING_TIMEOUT (Optional: leave blank for use defaults):
+      ECR_PROCESSING_TIMEOUT (Current Value: {{ dibbs_ecr_viewer_existing_ecr_processing_timeout.stdout | default('') }}) (Optional: leave blank to use defaults):
   register: dibbs_ecr_viewer_ecr_processing_timeout_input
 
 - name: Set ECR_PROCESSING_TIMEOUT fact

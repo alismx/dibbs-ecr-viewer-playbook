@@ -1,10 +1,18 @@
 ---
 # Authentication Configuration Tasks
 
+- name: Read existing AUTH_PROVIDER from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "AUTH_PROVIDER=${AUTH_PROVIDER:-}"
+  register: dibbs_ecr_viewer_existing_auth_provider
+  failed_when: false
+  changed_when: false
+
 - name: Prompt for AUTH_PROVIDER
   ansible.builtin.pause:
     prompt: |
-      AUTH_PROVIDER (Valid options are 'ad' or 'keycloak'):
+      AUTH_PROVIDER (Current Value: {{ dibbs_ecr_viewer_existing_auth_provider.stdout | default('') }}) (Valid options are 'ad' or 'keycloak'):
   register: dibbs_ecr_viewer_auth_provider_input
 
 - name: Set AUTH_PROVIDER fact
@@ -18,10 +26,18 @@
     create: true
     mode: '0644'
 
+- name: Read existing AUTH_CLIENT_ID from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "AUTH_CLIENT_ID=${AUTH_CLIENT_ID:-}"
+  register: dibbs_ecr_viewer_existing_auth_client_id
+  failed_when: false
+  changed_when: false
+
 - name: Prompt for AUTH_CLIENT_ID
   ansible.builtin.pause:
     prompt: |
-      AUTH_CLIENT_ID:
+      AUTH_CLIENT_ID (Current Value: {{ dibbs_ecr_viewer_existing_auth_client_id.stdout | default('') }}):
   register: dibbs_ecr_viewer_auth_client_id_input
 
 - name: Set AUTH_CLIENT_ID fact
@@ -35,10 +51,18 @@
     create: true
     mode: '0644'
 
+- name: Read existing AUTH_CLIENT_SECRET from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "AUTH_CLIENT_SECRET=${AUTH_CLIENT_SECRET:-}"
+  register: dibbs_ecr_viewer_existing_auth_client_secret
+  failed_when: false
+  changed_when: false
+
 - name: Prompt for AUTH_CLIENT_SECRET
   ansible.builtin.pause:
     prompt: |
-      AUTH_CLIENT_SECRET:
+      AUTH_CLIENT_SECRET (Current Value: {{ dibbs_ecr_viewer_existing_auth_client_secret.stdout | default('') }}):
   register: dibbs_ecr_viewer_auth_client_secret_input
 
 - name: Set AUTH_CLIENT_SECRET fact
@@ -52,10 +76,18 @@
     create: true
     mode: '0644'
 
+- name: Read existing AUTH_ISSUER from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "AUTH_ISSUER=${AUTH_ISSUER:-}"
+  register: dibbs_ecr_viewer_existing_auth_issuer
+  failed_when: false
+  changed_when: false
+
 - name: Prompt for AUTH_ISSUER
   ansible.builtin.pause:
     prompt: |
-      AUTH_ISSUER:
+      AUTH_ISSUER (Current Value: {{ dibbs_ecr_viewer_existing_auth_issuer.stdout | default('') }}):
   register: dibbs_ecr_viewer_auth_issuer_input
 
 - name: Set AUTH_ISSUER fact
@@ -69,10 +101,18 @@
     create: true
     mode: '0644'
 
+- name: Read existing AUTH_SESSION_DURATION_MIN from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "AUTH_SESSION_DURATION_MIN=${AUTH_SESSION_DURATION_MIN:-}"
+  register: dibbs_ecr_viewer_existing_auth_session_duration_min
+  failed_when: false
+  changed_when: false
+
 - name: Prompt for AUTH_SESSION_DURATION_MIN (optional)
   ansible.builtin.pause:
     prompt: |
-      AUTH_SESSION_DURATION_MIN (Optional: leave blank for use defaults):
+      AUTH_SESSION_DURATION_MIN (Current Value: {{ dibbs_ecr_viewer_existing_auth_session_duration_min.stdout | default('') }}) (Optional: leave blank to use defaults):
   register: dibbs_ecr_viewer_auth_session_duration_min_input
 
 - name: Set AUTH_SESSION_DURATION_MIN fact
@@ -86,10 +126,18 @@
     create: true
     mode: '0644'
 
+- name: Read existing NEXTAUTH_URL from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "NEXTAUTH_URL=${NEXTAUTH_URL:-}"
+  register: dibbs_ecr_viewer_existing_nextauth_url
+  failed_when: false
+  changed_when: false
+
 - name: Prompt for NEXTAUTH_URL
   ansible.builtin.pause:
     prompt: |
-      NEXTAUTH_URL (URL for the eCR Viewer application authentication: http(s)://(DOMAIN||IP:PORT)/ecr-viewer/api/auth/):
+      NEXTAUTH_URL (Current Value: {{ dibbs_ecr_viewer_existing_nextauth_url.stdout | default('') }}) (URL for the eCR Viewer application authentication: http(s)://(DOMAIN||IP:PORT)/ecr-viewer/api/auth/):
   register: dibbs_ecr_viewer_nextauth_url_input
 
 - name: Set NEXTAUTH_URL fact

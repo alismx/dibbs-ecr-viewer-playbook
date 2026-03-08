@@ -1,10 +1,25 @@
 ---
 # GCP Configuration Tasks
 
+- name: Install google-guest-agent for GCP
+  ansible.builtin.package:
+    name: google-guest-agent
+    state: present
+  when: "'GCP' in CONFIG_NAME"
+  become: true
+
+- name: Read existing GCP_PROJECT_ID from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "GCP_PROJECT_ID=${GCP_PROJECT_ID:-}"
+  register: dibbs_ecr_viewer_existing_gcp_project_id
+  failed_when: false
+  changed_when: false
+
 - name: Prompt for GCP_PROJECT_ID
   ansible.builtin.pause:
     prompt: |
-      GCP_PROJECT_ID:
+      GCP_PROJECT_ID (Current Value: {{ dibbs_ecr_viewer_existing_gcp_project_id.stdout | default('') }}):
   register: dibbs_ecr_viewer_gcp_project_id_input
 
 - name: Set GCP_PROJECT_ID fact
@@ -18,10 +33,18 @@
     create: true
     mode: '0644'
 
+- name: Read existing ECR_BUCKET_NAME from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "ECR_BUCKET_NAME=${ECR_BUCKET_NAME:-}"
+  register: dibbs_ecr_viewer_existing_ecr_bucket_name
+  failed_when: false
+  changed_when: false
+
 - name: Prompt for ECR_BUCKET_NAME
   ansible.builtin.pause:
     prompt: |
-      ECR_BUCKET_NAME (e.g., my-ecr-bucket):
+      ECR_BUCKET_NAME (Current Value: {{ dibbs_ecr_viewer_existing_ecr_bucket_name.stdout | default('') }}) (e.g., my-ecr-bucket):
   register: dibbs_ecr_viewer_ecr_bucket_name_input
 
 - name: Set ECR_BUCKET_NAME fact

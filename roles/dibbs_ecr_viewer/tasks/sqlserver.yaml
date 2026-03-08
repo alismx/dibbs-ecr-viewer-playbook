@@ -1,10 +1,18 @@
 ---
 # SQL Server Configuration Tasks
 
+- name: Read existing SQL_SERVER_USER from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "SQL_SERVER_USER=${SQL_SERVER_USER:-}"
+  register: dibbs_ecr_viewer_existing_sql_server_user
+  failed_when: false
+  changed_when: false
+
 - name: Prompt for SQL_SERVER_USER
   ansible.builtin.pause:
     prompt: |
-      SQL_SERVER_USER:
+      SQL_SERVER_USER (Current Value: {{ dibbs_ecr_viewer_existing_sql_server_user.stdout | default('') }}):
   register: dibbs_ecr_viewer_sql_server_user_input
 
 - name: Set SQL_SERVER_USER fact
@@ -18,10 +26,18 @@
     create: true
     mode: '0644'
 
+- name: Read existing SQL_SERVER_PASSWORD from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "SQL_SERVER_PASSWORD=${SQL_SERVER_PASSWORD:-}"
+  register: dibbs_ecr_viewer_existing_sql_server_password
+  failed_when: false
+  changed_when: false
+
 - name: Prompt for SQL_SERVER_PASSWORD
   ansible.builtin.pause:
     prompt: |
-      SQL_SERVER_PASSWORD:
+      SQL_SERVER_PASSWORD (Current Value: {{ dibbs_ecr_viewer_existing_sql_server_password.stdout | default('') }}):
   register: dibbs_ecr_viewer_sql_server_password_input
 
 - name: Set SQL_SERVER_PASSWORD fact
@@ -35,10 +51,18 @@
     create: true
     mode: '0644'
 
+- name: Read existing SQL_SERVER_HOST from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "SQL_SERVER_HOST=${SQL_SERVER_HOST:-}"
+  register: dibbs_ecr_viewer_existing_sql_server_host
+  failed_when: false
+  changed_when: false
+
 - name: Prompt for SQL_SERVER_HOST
   ansible.builtin.pause:
     prompt: |
-      SQL_SERVER_HOST:
+      SQL_SERVER_HOST (Current Value: {{ dibbs_ecr_viewer_existing_sql_server_host.stdout | default('') }}):
   register: dibbs_ecr_viewer_sql_server_host_input
 
 - name: Set SQL_SERVER_HOST fact
@@ -52,10 +76,18 @@
     create: true
     mode: '0644'
 
+- name: Read existing DB_CIPHER from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "DB_CIPHER=${DB_CIPHER:-}"
+  register: dibbs_ecr_viewer_existing_db_cipher
+  failed_when: false
+  changed_when: false
+
 - name: Prompt for DB_CIPHER
   ansible.builtin.pause:
     prompt: |
-      DB_CIPHER:
+      DB_CIPHER (Current Value: {{ dibbs_ecr_viewer_existing_db_cipher.stdout | default('') }}):
   register: dibbs_ecr_viewer_db_cipher_input
 
 - name: Set DB_CIPHER fact
@@ -69,10 +101,18 @@
     create: true
     mode: '0644'
 
+- name: Read existing METADATA_DATABASE_SCHEMA from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "METADATA_DATABASE_SCHEMA=${METADATA_DATABASE_SCHEMA:-}"
+  register: dibbs_ecr_viewer_existing_metadata_database_schema
+  failed_when: false
+  changed_when: false
+
 - name: Prompt for METADATA_DATABASE_SCHEMA
   ansible.builtin.pause:
     prompt: |
-      METADATA_DATABASE_SCHEMA (Schema options are: 'core' or 'extended'):
+      METADATA_DATABASE_SCHEMA (Current Value: {{ dibbs_ecr_viewer_existing_metadata_database_schema.stdout | default('') }}) (Schema options are: 'core' or 'extended'):
   register: dibbs_ecr_viewer_metadata_database_schema_input
 
 - name: Set METADATA_DATABASE_SCHEMA fact
@@ -86,12 +126,18 @@
     create: true
     mode: '0644'
 
+- name: Read existing METADATA_DATABASE_MIGRATION_SECRET from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "METADATA_DATABASE_MIGRATION_SECRET=${METADATA_DATABASE_MIGRATION_SECRET:-}"
+  register: dibbs_ecr_viewer_existing_metadata_database_migration_secret
+  failed_when: false
+  changed_when: false
+
 - name: Prompt for METADATA_DATABASE_MIGRATION_SECRET
   ansible.builtin.pause:
     prompt: |
-      METADATA_DATABASE_MIGRATION_SECRET (Migration secret used to trigger
-      migrations; one will be generated and output to ecr-viewer logs if you
-      do not provide one):
+      METADATA_DATABASE_MIGRATION_SECRET (Current Value: {{ dibbs_ecr_viewer_existing_metadata_database_migration_secret.stdout | default('') }}) (Migration secret used to trigger migrations; one will be generated and output to ecr-viewer logs if you do not provide one):
   register: dibbs_ecr_viewer_metadata_database_migration_secret_input
 
 - name: Set METADATA_DATABASE_MIGRATION_SECRET fact
