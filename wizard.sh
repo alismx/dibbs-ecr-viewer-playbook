@@ -154,7 +154,7 @@ set_vars() {
       break
       ;;
     "AZURE_PG_DUAL")
-      CONFIG_NAME="AWS_PG_DUAL"
+      CONFIG_NAME="AZURE_PG_DUAL"
       add_env "CONFIG_NAME" "$CONFIG_NAME"
       azure
       pg
