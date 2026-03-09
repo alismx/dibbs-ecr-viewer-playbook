@@ -11,7 +11,7 @@
 # CONFIG_NAME selection
 - name: Read existing .env file to get current CONFIG_NAME
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
     echo "CONFIG_NAME=${CONFIG_NAME:-}"
   register: dibbs_ecr_viewer_env_config_name
   failed_when: false

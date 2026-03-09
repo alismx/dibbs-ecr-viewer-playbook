@@ -3,7 +3,7 @@
 
 - name: Read existing AUTH_PROVIDER from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
     echo "AUTH_PROVIDER=${AUTH_PROVIDER:-}"
   register: dibbs_ecr_viewer_existing_auth_provider
   failed_when: false
@@ -29,7 +29,7 @@
 
 - name: Read existing AUTH_CLIENT_ID from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
     echo "AUTH_CLIENT_ID=${AUTH_CLIENT_ID:-}"
   register: dibbs_ecr_viewer_existing_auth_client_id
   failed_when: false
@@ -55,7 +55,7 @@
 
 - name: Read existing AUTH_CLIENT_SECRET from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
     echo "AUTH_CLIENT_SECRET=${AUTH_CLIENT_SECRET:-}"
   register: dibbs_ecr_viewer_existing_auth_client_secret
   failed_when: false
@@ -81,7 +81,7 @@
 
 - name: Read existing AUTH_ISSUER from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
     echo "AUTH_ISSUER=${AUTH_ISSUER:-}"
   register: dibbs_ecr_viewer_existing_auth_issuer
   failed_when: false
@@ -107,7 +107,7 @@
 
 - name: Read existing AUTH_SESSION_DURATION_MIN from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
     echo "AUTH_SESSION_DURATION_MIN=${AUTH_SESSION_DURATION_MIN:-}"
   register: dibbs_ecr_viewer_existing_auth_session_duration_min
   failed_when: false
@@ -134,7 +134,7 @@
 
 - name: Read existing NEXTAUTH_URL from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
     echo "NEXTAUTH_URL=${NEXTAUTH_URL:-}"
   register: dibbs_ecr_viewer_existing_nextauth_url
   failed_when: false

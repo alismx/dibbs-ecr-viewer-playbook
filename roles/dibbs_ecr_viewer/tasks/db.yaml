@@ -3,7 +3,7 @@
 
 - name: Read existing METADATA_DATABASE_SCHEMA from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
     echo "METADATA_DATABASE_SCHEMA=${METADATA_DATABASE_SCHEMA:-}"
   register: dibbs_ecr_viewer_existing_metadata_database_schema
   failed_when: false
@@ -29,7 +29,7 @@
 
 - name: Read existing METADATA_DATABASE_MIGRATION_SECRET from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
     echo "METADATA_DATABASE_MIGRATION_SECRET=${METADATA_DATABASE_MIGRATION_SECRET:-}"
   register: dibbs_ecr_viewer_existing_metadata_database_migration_secret
   failed_when: false

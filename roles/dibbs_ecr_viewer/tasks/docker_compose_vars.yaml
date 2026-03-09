@@ -33,7 +33,7 @@
 # DIBBS_VERSION - read Current from .env file if it exists
 - name: Read existing DIBBS_VERSION from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
     echo "DIBBS_VERSION=${DIBBS_VERSION:-}"
   register: dibbs_ecr_viewer_existing_dibbs_version
   failed_when: false

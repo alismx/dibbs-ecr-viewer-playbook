@@ -4,8 +4,8 @@
 # Load existing .env file variables as facts if they exist
 - name: Read DIBBS_VERSION from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
-    echo "${DIBBS_VERSION:-}"
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${DIBBS_VERSION}"
   register: dibbs_ecr_viewer_dibbs_version_raw
   failed_when: false
   changed_when: false
@@ -20,8 +20,8 @@
 
 - name: Read CONFIG_NAME from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
-    echo "${CONFIG_NAME:-}"
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${CONFIG_NAME}"
   register: dibbs_ecr_viewer_config_name_raw
   failed_when: false
   changed_when: false
@@ -36,8 +36,8 @@
 
 - name: Read DATABASE_URL from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
-    echo "${DATABASE_URL:-}"
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${DATABASE_URL}"
   register: dibbs_ecr_viewer_database_url_raw
   failed_when: false
   changed_when: false
@@ -52,8 +52,8 @@
 
 - name: Read METADATA_DATABASE_SCHEMA from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
-    echo "${METADATA_DATABASE_SCHEMA:-}"
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${METADATA_DATABASE_SCHEMA}"
   register: dibbs_ecr_viewer_metadata_database_schema_raw
   failed_when: false
   changed_when: false
@@ -68,8 +68,8 @@
 
 - name: Read METADATA_DATABASE_MIGRATION_SECRET from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
-    echo "${METADATA_DATABASE_MIGRATION_SECRET:-}"
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${METADATA_DATABASE_MIGRATION_SECRET}"
   register: dibbs_ecr_viewer_metadata_database_migration_secret_raw
   failed_when: false
   changed_when: false
@@ -84,8 +84,8 @@
 
 - name: Read SQL_SERVER_USER from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
-    echo "${SQL_SERVER_USER:-}"
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${SQL_SERVER_USER}"
   register: dibbs_ecr_viewer_sql_server_user_raw
   failed_when: false
   changed_when: false
@@ -100,8 +100,8 @@
 
 - name: Read SQL_SERVER_PASSWORD from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
-    echo "${SQL_SERVER_PASSWORD:-}"
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${SQL_SERVER_PASSWORD}"
   register: dibbs_ecr_viewer_sql_server_password_raw
   failed_when: false
   changed_when: false
@@ -116,8 +116,8 @@
 
 - name: Read SQL_SERVER_HOST from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
-    echo "${SQL_SERVER_HOST:-}"
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${SQL_SERVER_HOST}"
   register: dibbs_ecr_viewer_sql_server_host_raw
   failed_when: false
   changed_when: false
@@ -132,8 +132,8 @@
 
 - name: Read DB_CIPHER from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
-    echo "${DB_CIPHER:-}"
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${DB_CIPHER}"
   register: dibbs_ecr_viewer_db_cipher_raw
   failed_when: false
   changed_when: false
@@ -148,8 +148,8 @@
 
 - name: Read NBS_API_PUB_KEY from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
-    echo "${NBS_API_PUB_KEY:-}"
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${NBS_API_PUB_KEY}"
   register: dibbs_ecr_viewer_nbs_api_pub_key_raw
   failed_when: false
   changed_when: false
@@ -164,8 +164,8 @@
 
 - name: Read NBS_PUB_KEY from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
-    echo "${NBS_PUB_KEY:-}"
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${NBS_PUB_KEY}"
   register: dibbs_ecr_viewer_nbs_pub_key_raw
   failed_when: false
   changed_when: false
@@ -180,8 +180,8 @@
 
 - name: Read AUTH_PROVIDER from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
-    echo "${AUTH_PROVIDER:-}"
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${AUTH_PROVIDER}"
   register: dibbs_ecr_viewer_auth_provider_raw
   failed_when: false
   changed_when: false
@@ -196,8 +196,8 @@
 
 - name: Read AUTH_CLIENT_ID from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
-    echo "${AUTH_CLIENT_ID:-}"
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${AUTH_CLIENT_ID}"
   register: dibbs_ecr_viewer_auth_client_id_raw
   failed_when: false
   changed_when: false
@@ -212,8 +212,8 @@
 
 - name: Read AUTH_CLIENT_SECRET from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
-    echo "${AUTH_CLIENT_SECRET:-}"
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${AUTH_CLIENT_SECRET}"
   register: dibbs_ecr_viewer_auth_client_secret_raw
   failed_when: false
   changed_when: false
@@ -228,8 +228,8 @@
 
 - name: Read AUTH_ISSUER from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
-    echo "${AUTH_ISSUER:-}"
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${AUTH_ISSUER}"
   register: dibbs_ecr_viewer_auth_issuer_raw
   failed_when: false
   changed_when: false
@@ -244,8 +244,8 @@
 
 - name: Read AUTH_SESSION_DURATION_MIN from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
-    echo "${AUTH_SESSION_DURATION_MIN:-}"
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${AUTH_SESSION_DURATION_MIN}"
   register: dibbs_ecr_viewer_auth_session_duration_min_raw
   failed_when: false
   changed_when: false
@@ -260,8 +260,8 @@
 
 - name: Read NEXTAUTH_URL from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
-    echo "${NEXTAUTH_URL:-}"
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${NEXTAUTH_URL}"
   register: dibbs_ecr_viewer_nextauth_url_raw
   failed_when: false
   changed_when: false
@@ -276,8 +276,8 @@
 
 - name: Read NEXTAUTH_SECRET from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
-    echo "${NEXTAUTH_SECRET:-}"
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${NEXTAUTH_SECRET}"
   register: dibbs_ecr_viewer_nextauth_secret_raw
   failed_when: false
   changed_when: false
@@ -292,8 +292,8 @@
 
 - name: Read SAVE_XML from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
-    echo "${SAVE_XML:-}"
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${SAVE_XML}"
   register: dibbs_ecr_viewer_save_xml_raw
   failed_when: false
   changed_when: false
@@ -308,8 +308,8 @@
 
 - name: Read DISPLAY_FEEDBACK_LINKS from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
-    echo "${DISPLAY_FEEDBACK_LINKS:-}"
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${DISPLAY_FEEDBACK_LINKS}"
   register: dibbs_ecr_viewer_display_feedback_links_raw
   failed_when: false
   changed_when: false
@@ -324,8 +324,8 @@
 
 - name: Read ECR_PROCESSING_TIMEOUT from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
-    echo "${ECR_PROCESSING_TIMEOUT:-}"
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${ECR_PROCESSING_TIMEOUT}"
   register: dibbs_ecr_viewer_ecr_processing_timeout_raw
   failed_when: false
   changed_when: false
@@ -340,8 +340,8 @@
 
 - name: Read AWS_REGION from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
-    echo "${AWS_REGION:-}"
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${AWS_REGION}"
   register: dibbs_ecr_viewer_aws_region_raw
   failed_when: false
   changed_when: false
@@ -356,8 +356,8 @@
 
 - name: Read AZURE_STORAGE_CONNECTION_STRING from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
-    echo "${AZURE_STORAGE_CONNECTION_STRING:-}"
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${AZURE_STORAGE_CONNECTION_STRING}"
   register: dibbs_ecr_viewer_azure_storage_connection_string_raw
   failed_when: false
   changed_when: false
@@ -372,8 +372,8 @@
 
 - name: Read AZURE_CONTAINER_NAME from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
-    echo "${AZURE_CONTAINER_NAME:-}"
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${AZURE_CONTAINER_NAME}"
   register: dibbs_ecr_viewer_azure_container_name_raw
   failed_when: false
   changed_when: false
@@ -388,8 +388,8 @@
 
 - name: Read GCP_PROJECT_ID from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
-    echo "${GCP_PROJECT_ID:-}"
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${GCP_PROJECT_ID}"
   register: dibbs_ecr_viewer_gcp_project_id_raw
   failed_when: false
   changed_when: false
@@ -404,8 +404,8 @@
 
 - name: Read ECR_BUCKET_NAME from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
-    echo "${ECR_BUCKET_NAME:-}"
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${ECR_BUCKET_NAME}"
   register: dibbs_ecr_viewer_ecr_bucket_name_raw
   failed_when: false
   changed_when: false
