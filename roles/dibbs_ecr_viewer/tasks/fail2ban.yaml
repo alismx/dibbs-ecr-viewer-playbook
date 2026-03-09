@@ -8,7 +8,7 @@
       - fail2ban
     state: present
   when: ansible_facts['distribution'] == "Fedora"
-  notify: restart and enable fail2ban
+  notify: Reload fail2ban
 
 # Debian/Ubuntu fail2ban support
 - name: Install fail2ban on Debian/Ubuntu
@@ -16,7 +16,7 @@
     name: fail2ban
     state: present
   when: ansible_facts['distribution'] in ["Debian", "Ubuntu"]
-  notify: restart and enable fail2ban
+  notify: Reload fail2ban
 
 # Generic fallback
 - name: Install fail2ban using package manager fallback
@@ -24,7 +24,7 @@
     name: fail2ban
     state: present
   when: ansible_facts['distribution'] not in ["Fedora", "Debian", "Ubuntu"]
-  notify: restart and enable fail2ban
+  notify: Reload fail2ban
 
 # Configure fail2ban directory and settings
 - name: Create fail2ban directory for custom configurations
@@ -53,4 +53,4 @@
     dest: /etc/fail2ban/jail.local
     mode: '0644'
     backup: true
-  notify: restart and enable fail2ban
+  notify: Reload fail2ban
