@@ -26,7 +26,7 @@
       - containerd.io
     state: present
   when: ansible_facts['distribution'] == "Fedora"
-  notify: restart and enable docker
+  notify: Restart and enable docker
 
 # Debian/Ubuntu
 - name: Install required system packages (Debian/Ubuntu)
@@ -62,7 +62,7 @@
       - docker-compose
     state: present
   when: ansible_facts['distribution'] == "Ubuntu"
-  notify: restart and enable docker
+  notify: Restart and enable docker
 
 - name: Add Docker GPG apt Key for Debian
   ansible.builtin.apt_key:
@@ -86,7 +86,7 @@
       - docker-compose
     state: present
   when: ansible_facts['distribution'] == "Debian"
-  notify: restart and enable docker
+  notify: Restart and enable docker
 
 # Generic - start Docker service
 - name: Start Docker service
@@ -94,4 +94,4 @@
     name: "docker"
     enabled: true
     state: started
-  notify: restart and enable docker
+  notify: Restart and enable docker
