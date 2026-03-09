@@ -1,10 +1,18 @@
 ---
 # Azure Configuration Tasks
 
+- name: Read existing AZURE_STORAGE_CONNECTION_STRING from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "AZURE_STORAGE_CONNECTION_STRING=${AZURE_STORAGE_CONNECTION_STRING:-}"
+  register: dibbs_ecr_viewer_existing_azure_storage_connection_string
+  failed_when: false
+  changed_when: false
+
 - name: Prompt for AZURE_STORAGE_CONNECTION_STRING
   ansible.builtin.pause:
     prompt: |
-      AZURE_STORAGE_CONNECTION_STRING:
+      AZURE_STORAGE_CONNECTION_STRING (Current: {{ dibbs_ecr_viewer_existing_azure_storage_connection_string.stdout | default('') }}):
   register: dibbs_ecr_viewer_azure_storage_connection_string_input
 
 - name: Set AZURE_STORAGE_CONNECTION_STRING fact
@@ -18,10 +26,18 @@
     create: true
     mode: '0644'
 
+- name: Read existing AZURE_CONTAINER_NAME from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "AZURE_CONTAINER_NAME=${AZURE_CONTAINER_NAME:-}"
+  register: dibbs_ecr_viewer_existing_azure_container_name
+  failed_when: false
+  changed_when: false
+
 - name: Prompt for AZURE_CONTAINER_NAME
   ansible.builtin.pause:
     prompt: |
-      AZURE_CONTAINER_NAME:
+      AZURE_CONTAINER_NAME (Current: {{ dibbs_ecr_viewer_existing_azure_container_name.stdout | default('') }}):
   register: dibbs_ecr_viewer_azure_container_name_input
 
 - name: Set AZURE_CONTAINER_NAME fact

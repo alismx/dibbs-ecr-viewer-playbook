@@ -1,10 +1,18 @@
 ---
 # NBS Configuration Tasks
 
+- name: Read existing NBS_API_PUB_KEY from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "NBS_API_PUB_KEY=${NBS_API_PUB_KEY:-}"
+  register: dibbs_ecr_viewer_existing_nbs_api_pub_key
+  failed_when: false
+  changed_when: false
+
 - name: Prompt for NBS_API_PUB_KEY
   ansible.builtin.pause:
     prompt: |
-      NBS_API_PUB_KEY:
+      NBS_API_PUB_KEY (Current: {{ dibbs_ecr_viewer_existing_nbs_api_pub_key.stdout | default('') }}):
   register: dibbs_ecr_viewer_nbs_api_pub_key_input
 
 - name: Set NBS_API_PUB_KEY fact
@@ -18,10 +26,18 @@
     create: true
     mode: '0644'
 
+- name: Read existing NBS_PUB_KEY from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "NBS_PUB_KEY=${NBS_PUB_KEY:-}"
+  register: dibbs_ecr_viewer_existing_nbs_pub_key
+  failed_when: false
+  changed_when: false
+
 - name: Prompt for NBS_PUB_KEY
   ansible.builtin.pause:
     prompt: |
-      NBS_PUB_KEY:
+      NBS_PUB_KEY (Current: {{ dibbs_ecr_viewer_existing_nbs_pub_key.stdout | default('') }}):
   register: dibbs_ecr_viewer_nbs_pub_key_input
 
 - name: Set NBS_PUB_KEY fact
