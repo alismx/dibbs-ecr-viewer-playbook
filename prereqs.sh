@@ -28,7 +28,12 @@ check_privileges() {
     # Verify sudo access for system-level operations during playbook execution
     if ! sudo -n echo "Sudo access verified" &> /dev/null; then
         echo "WARNING: Sudo access is required for Ansible playbook execution."
-        echo "The playbook will prompt for your password when needed."
+        echo ""
+        echo "Please enter your password to verify sudo access:"
+        if ! sudo -v; then
+            echo "ERROR: Sudo authentication failed."
+            exit 1
+        fi
     fi
 
     echo "Privilege check complete."
