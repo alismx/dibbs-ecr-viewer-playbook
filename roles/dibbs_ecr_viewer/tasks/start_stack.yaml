@@ -34,6 +34,390 @@
   when:
     - dibbs_ecr_viewer_config_name is not defined or dibbs_ecr_viewer_config_name | length == 0
 
+- name: Read DATABASE_URL from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${DATABASE_URL:-}"
+  register: dibbs_ecr_viewer_database_url_raw
+  failed_when: false
+  changed_when: false
+  when:
+    - dibbs_ecr_viewer_database_url is not defined or dibbs_ecr_viewer_database_url | length == 0
+
+- name: Set DATABASE_URL fact from .env file
+  ansible.builtin.set_fact:
+    dibbs_ecr_viewer_database_url: "{{ dibbs_ecr_viewer_database_url_raw.stdout }}"
+  when:
+    - dibbs_ecr_viewer_database_url is not defined or dibbs_ecr_viewer_database_url | length == 0
+
+- name: Read METADATA_DATABASE_SCHEMA from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${METADATA_DATABASE_SCHEMA:-}"
+  register: dibbs_ecr_viewer_metadata_database_schema_raw
+  failed_when: false
+  changed_when: false
+  when:
+    - dibbs_ecr_viewer_metadata_database_schema is not defined or dibbs_ecr_viewer_metadata_database_schema | length == 0
+
+- name: Set METADATA_DATABASE_SCHEMA fact from .env file
+  ansible.builtin.set_fact:
+    dibbs_ecr_viewer_metadata_database_schema: "{{ dibbs_ecr_viewer_metadata_database_schema_raw.stdout }}"
+  when:
+    - dibbs_ecr_viewer_metadata_database_schema is not defined or dibbs_ecr_viewer_metadata_database_schema | length == 0
+
+- name: Read METADATA_DATABASE_MIGRATION_SECRET from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${METADATA_DATABASE_MIGRATION_SECRET:-}"
+  register: dibbs_ecr_viewer_metadata_database_migration_secret_raw
+  failed_when: false
+  changed_when: false
+  when:
+    - dibbs_ecr_viewer_metadata_database_migration_secret is not defined or dibbs_ecr_viewer_metadata_database_migration_secret | length == 0
+
+- name: Set METADATA_DATABASE_MIGRATION_SECRET fact from .env file
+  ansible.builtin.set_fact:
+    dibbs_ecr_viewer_metadata_database_migration_secret: "{{ dibbs_ecr_viewer_metadata_database_migration_secret_raw.stdout }}"
+  when:
+    - dibbs_ecr_viewer_metadata_database_migration_secret is not defined or dibbs_ecr_viewer_metadata_database_migration_secret | length == 0
+
+- name: Read SQL_SERVER_USER from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${SQL_SERVER_USER:-}"
+  register: dibbs_ecr_viewer_sql_server_user_raw
+  failed_when: false
+  changed_when: false
+  when:
+    - dibbs_ecr_viewer_sql_server_user is not defined or dibbs_ecr_viewer_sql_server_user | length == 0
+
+- name: Set SQL_SERVER_USER fact from .env file
+  ansible.builtin.set_fact:
+    dibbs_ecr_viewer_sql_server_user: "{{ dibbs_ecr_viewer_sql_server_user_raw.stdout }}"
+  when:
+    - dibbs_ecr_viewer_sql_server_user is not defined or dibbs_ecr_viewer_sql_server_user | length == 0
+
+- name: Read SQL_SERVER_PASSWORD from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${SQL_SERVER_PASSWORD:-}"
+  register: dibbs_ecr_viewer_sql_server_password_raw
+  failed_when: false
+  changed_when: false
+  when:
+    - dibbs_ecr_viewer_sql_server_password is not defined or dibbs_ecr_viewer_sql_server_password | length == 0
+
+- name: Set SQL_SERVER_PASSWORD fact from .env file
+  ansible.builtin.set_fact:
+    dibbs_ecr_viewer_sql_server_password: "{{ dibbs_ecr_viewer_sql_server_password_raw.stdout }}"
+  when:
+    - dibbs_ecr_viewer_sql_server_password is not defined or dibbs_ecr_viewer_sql_server_password | length == 0
+
+- name: Read SQL_SERVER_HOST from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${SQL_SERVER_HOST:-}"
+  register: dibbs_ecr_viewer_sql_server_host_raw
+  failed_when: false
+  changed_when: false
+  when:
+    - dibbs_ecr_viewer_sql_server_host is not defined or dibbs_ecr_viewer_sql_server_host | length == 0
+
+- name: Set SQL_SERVER_HOST fact from .env file
+  ansible.builtin.set_fact:
+    dibbs_ecr_viewer_sql_server_host: "{{ dibbs_ecr_viewer_sql_server_host_raw.stdout }}"
+  when:
+    - dibbs_ecr_viewer_sql_server_host is not defined or dibbs_ecr_viewer_sql_server_host | length == 0
+
+- name: Read DB_CIPHER from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${DB_CIPHER:-}"
+  register: dibbs_ecr_viewer_db_cipher_raw
+  failed_when: false
+  changed_when: false
+  when:
+    - dibbs_ecr_viewer_db_cipher is not defined or dibbs_ecr_viewer_db_cipher | length == 0
+
+- name: Set DB_CIPHER fact from .env file
+  ansible.builtin.set_fact:
+    dibbs_ecr_viewer_db_cipher: "{{ dibbs_ecr_viewer_db_cipher_raw.stdout }}"
+  when:
+    - dibbs_ecr_viewer_db_cipher is not defined or dibbs_ecr_viewer_db_cipher | length == 0
+
+- name: Read NBS_API_PUB_KEY from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${NBS_API_PUB_KEY:-}"
+  register: dibbs_ecr_viewer_nbs_api_pub_key_raw
+  failed_when: false
+  changed_when: false
+  when:
+    - dibbs_ecr_viewer_nbs_api_pub_key is not defined or dibbs_ecr_viewer_nbs_api_pub_key | length == 0
+
+- name: Set NBS_API_PUB_KEY fact from .env file
+  ansible.builtin.set_fact:
+    dibbs_ecr_viewer_nbs_api_pub_key: "{{ dibbs_ecr_viewer_nbs_api_pub_key_raw.stdout }}"
+  when:
+    - dibbs_ecr_viewer_nbs_api_pub_key is not defined or dibbs_ecr_viewer_nbs_api_pub_key | length == 0
+
+- name: Read NBS_PUB_KEY from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${NBS_PUB_KEY:-}"
+  register: dibbs_ecr_viewer_nbs_pub_key_raw
+  failed_when: false
+  changed_when: false
+  when:
+    - dibbs_ecr_viewer_nbs_pub_key is not defined or dibbs_ecr_viewer_nbs_pub_key | length == 0
+
+- name: Set NBS_PUB_KEY fact from .env file
+  ansible.builtin.set_fact:
+    dibbs_ecr_viewer_nbs_pub_key: "{{ dibbs_ecr_viewer_nbs_pub_key_raw.stdout }}"
+  when:
+    - dibbs_ecr_viewer_nbs_pub_key is not defined or dibbs_ecr_viewer_nbs_pub_key | length == 0
+
+- name: Read AUTH_PROVIDER from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${AUTH_PROVIDER:-}"
+  register: dibbs_ecr_viewer_auth_provider_raw
+  failed_when: false
+  changed_when: false
+  when:
+    - dibbs_ecr_viewer_auth_provider is not defined or dibbs_ecr_viewer_auth_provider | length == 0
+
+- name: Set AUTH_PROVIDER fact from .env file
+  ansible.builtin.set_fact:
+    dibbs_ecr_viewer_auth_provider: "{{ dibbs_ecr_viewer_auth_provider_raw.stdout }}"
+  when:
+    - dibbs_ecr_viewer_auth_provider is not defined or dibbs_ecr_viewer_auth_provider | length == 0
+
+- name: Read AUTH_CLIENT_ID from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${AUTH_CLIENT_ID:-}"
+  register: dibbs_ecr_viewer_auth_client_id_raw
+  failed_when: false
+  changed_when: false
+  when:
+    - dibbs_ecr_viewer_auth_client_id is not defined or dibbs_ecr_viewer_auth_client_id | length == 0
+
+- name: Set AUTH_CLIENT_ID fact from .env file
+  ansible.builtin.set_fact:
+    dibbs_ecr_viewer_auth_client_id: "{{ dibbs_ecr_viewer_auth_client_id_raw.stdout }}"
+  when:
+    - dibbs_ecr_viewer_auth_client_id is not defined or dibbs_ecr_viewer_auth_client_id | length == 0
+
+- name: Read AUTH_CLIENT_SECRET from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${AUTH_CLIENT_SECRET:-}"
+  register: dibbs_ecr_viewer_auth_client_secret_raw
+  failed_when: false
+  changed_when: false
+  when:
+    - dibbs_ecr_viewer_auth_client_secret is not defined or dibbs_ecr_viewer_auth_client_secret | length == 0
+
+- name: Set AUTH_CLIENT_SECRET fact from .env file
+  ansible.builtin.set_fact:
+    dibbs_ecr_viewer_auth_client_secret: "{{ dibbs_ecr_viewer_auth_client_secret_raw.stdout }}"
+  when:
+    - dibbs_ecr_viewer_auth_client_secret is not defined or dibbs_ecr_viewer_auth_client_secret | length == 0
+
+- name: Read AUTH_ISSUER from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${AUTH_ISSUER:-}"
+  register: dibbs_ecr_viewer_auth_issuer_raw
+  failed_when: false
+  changed_when: false
+  when:
+    - dibbs_ecr_viewer_auth_issuer is not defined or dibbs_ecr_viewer_auth_issuer | length == 0
+
+- name: Set AUTH_ISSUER fact from .env file
+  ansible.builtin.set_fact:
+    dibbs_ecr_viewer_auth_issuer: "{{ dibbs_ecr_viewer_auth_issuer_raw.stdout }}"
+  when:
+    - dibbs_ecr_viewer_auth_issuer is not defined or dibbs_ecr_viewer_auth_issuer | length == 0
+
+- name: Read AUTH_SESSION_DURATION_MIN from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${AUTH_SESSION_DURATION_MIN:-}"
+  register: dibbs_ecr_viewer_auth_session_duration_min_raw
+  failed_when: false
+  changed_when: false
+  when:
+    - dibbs_ecr_viewer_auth_session_duration_min is not defined or dibbs_ecr_viewer_auth_session_duration_min | length == 0
+
+- name: Set AUTH_SESSION_DURATION_MIN fact from .env file
+  ansible.builtin.set_fact:
+    dibbs_ecr_viewer_auth_session_duration_min: "{{ dibbs_ecr_viewer_auth_session_duration_min_raw.stdout }}"
+  when:
+    - dibbs_ecr_viewer_auth_session_duration_min is not defined or dibbs_ecr_viewer_auth_session_duration_min | length == 0
+
+- name: Read NEXTAUTH_URL from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${NEXTAUTH_URL:-}"
+  register: dibbs_ecr_viewer_nextauth_url_raw
+  failed_when: false
+  changed_when: false
+  when:
+    - dibbs_ecr_viewer_nextauth_url is not defined or dibbs_ecr_viewer_nextauth_url | length == 0
+
+- name: Set NEXTAUTH_URL fact from .env file
+  ansible.builtin.set_fact:
+    dibbs_ecr_viewer_nextauth_url: "{{ dibbs_ecr_viewer_nextauth_url_raw.stdout }}"
+  when:
+    - dibbs_ecr_viewer_nextauth_url is not defined or dibbs_ecr_viewer_nextauth_url | length == 0
+
+- name: Read NEXTAUTH_SECRET from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${NEXTAUTH_SECRET:-}"
+  register: dibbs_ecr_viewer_nextauth_secret_raw
+  failed_when: false
+  changed_when: false
+  when:
+    - dibbs_ecr_viewer_nextauth_secret is not defined or dibbs_ecr_viewer_nextauth_secret | length == 0
+
+- name: Set NEXTAUTH_SECRET fact from .env file
+  ansible.builtin.set_fact:
+    dibbs_ecr_viewer_nextauth_secret: "{{ dibbs_ecr_viewer_nextauth_secret_raw.stdout }}"
+  when:
+    - dibbs_ecr_viewer_nextauth_secret is not defined or dibbs_ecr_viewer_nextauth_secret | length == 0
+
+- name: Read SAVE_XML from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${SAVE_XML:-}"
+  register: dibbs_ecr_viewer_save_xml_raw
+  failed_when: false
+  changed_when: false
+  when:
+    - dibbs_ecr_viewer_save_xml is not defined or dibbs_ecr_viewer_save_xml | length == 0
+
+- name: Set SAVE_XML fact from .env file
+  ansible.builtin.set_fact:
+    dibbs_ecr_viewer_save_xml: "{{ dibbs_ecr_viewer_save_xml_raw.stdout }}"
+  when:
+    - dibbs_ecr_viewer_save_xml is not defined or dibbs_ecr_viewer_save_xml | length == 0
+
+- name: Read DISPLAY_FEEDBACK_LINKS from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${DISPLAY_FEEDBACK_LINKS:-}"
+  register: dibbs_ecr_viewer_display_feedback_links_raw
+  failed_when: false
+  changed_when: false
+  when:
+    - dibbs_ecr_viewer_display_feedback_links is not defined or dibbs_ecr_viewer_display_feedback_links | length == 0
+
+- name: Set DISPLAY_FEEDBACK_LINKS fact from .env file
+  ansible.builtin.set_fact:
+    dibbs_ecr_viewer_display_feedback_links: "{{ dibbs_ecr_viewer_display_feedback_links_raw.stdout }}"
+  when:
+    - dibbs_ecr_viewer_display_feedback_links is not defined or dibbs_ecr_viewer_display_feedback_links | length == 0
+
+- name: Read ECR_PROCESSING_TIMEOUT from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${ECR_PROCESSING_TIMEOUT:-}"
+  register: dibbs_ecr_viewer_ecr_processing_timeout_raw
+  failed_when: false
+  changed_when: false
+  when:
+    - dibbs_ecr_viewer_ecr_processing_timeout is not defined or dibbs_ecr_viewer_ecr_processing_timeout | length == 0
+
+- name: Set ECR_PROCESSING_TIMEOUT fact from .env file
+  ansible.builtin.set_fact:
+    dibbs_ecr_viewer_ecr_processing_timeout: "{{ dibbs_ecr_viewer_ecr_processing_timeout_raw.stdout }}"
+  when:
+    - dibbs_ecr_viewer_ecr_processing_timeout is not defined or dibbs_ecr_viewer_ecr_processing_timeout | length == 0
+
+- name: Read AWS_REGION from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${AWS_REGION:-}"
+  register: dibbs_ecr_viewer_aws_region_raw
+  failed_when: false
+  changed_when: false
+  when:
+    - dibbs_ecr_viewer_aws_region is not defined or dibbs_ecr_viewer_aws_region | length == 0
+
+- name: Set AWS_REGION fact from .env file
+  ansible.builtin.set_fact:
+    dibbs_ecr_viewer_aws_region: "{{ dibbs_ecr_viewer_aws_region_raw.stdout }}"
+  when:
+    - dibbs_ecr_viewer_aws_region is not defined or dibbs_ecr_viewer_aws_region | length == 0
+
+- name: Read AZURE_STORAGE_CONNECTION_STRING from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${AZURE_STORAGE_CONNECTION_STRING:-}"
+  register: dibbs_ecr_viewer_azure_storage_connection_string_raw
+  failed_when: false
+  changed_when: false
+  when:
+    - dibbs_ecr_viewer_azure_storage_connection_string is not defined or dibbs_ecr_viewer_azure_storage_connection_string | length == 0
+
+- name: Set AZURE_STORAGE_CONNECTION_STRING fact from .env file
+  ansible.builtin.set_fact:
+    dibbs_ecr_viewer_azure_storage_connection_string: "{{ dibbs_ecr_viewer_azure_storage_connection_string_raw.stdout }}"
+  when:
+    - dibbs_ecr_viewer_azure_storage_connection_string is not defined or dibbs_ecr_viewer_azure_storage_connection_string | length == 0
+
+- name: Read AZURE_CONTAINER_NAME from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${AZURE_CONTAINER_NAME:-}"
+  register: dibbs_ecr_viewer_azure_container_name_raw
+  failed_when: false
+  changed_when: false
+  when:
+    - dibbs_ecr_viewer_azure_container_name is not defined or dibbs_ecr_viewer_azure_container_name | length == 0
+
+- name: Set AZURE_CONTAINER_NAME fact from .env file
+  ansible.builtin.set_fact:
+    dibbs_ecr_viewer_azure_container_name: "{{ dibbs_ecr_viewer_azure_container_name_raw.stdout }}"
+  when:
+    - dibbs_ecr_viewer_azure_container_name is not defined or dibbs_ecr_viewer_azure_container_name | length == 0
+
+- name: Read GCP_PROJECT_ID from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${GCP_PROJECT_ID:-}"
+  register: dibbs_ecr_viewer_gcp_project_id_raw
+  failed_when: false
+  changed_when: false
+  when:
+    - dibbs_ecr_viewer_gcp_project_id is not defined or dibbs_ecr_viewer_gcp_project_id | length == 0
+
+- name: Set GCP_PROJECT_ID fact from .env file
+  ansible.builtin.set_fact:
+    dibbs_ecr_viewer_gcp_project_id: "{{ dibbs_ecr_viewer_gcp_project_id_raw.stdout }}"
+  when:
+    - dibbs_ecr_viewer_gcp_project_id is not defined or dibbs_ecr_viewer_gcp_project_id | length == 0
+
+- name: Read ECR_BUCKET_NAME from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${ECR_BUCKET_NAME:-}"
+  register: dibbs_ecr_viewer_ecr_bucket_name_raw
+  failed_when: false
+  changed_when: false
+  when:
+    - dibbs_ecr_viewer_ecr_bucket_name is not defined or dibbs_ecr_viewer_ecr_bucket_name | length == 0
+
+- name: Set ECR_BUCKET_NAME fact from .env file
+  ansible.builtin.set_fact:
+    dibbs_ecr_viewer_ecr_bucket_name: "{{ dibbs_ecr_viewer_ecr_bucket_name_raw.stdout }}"
+  when:
+    - dibbs_ecr_viewer_ecr_bucket_name is not defined or dibbs_ecr_viewer_ecr_bucket_name | length == 0
+
 # Validate that required facts are set before starting compose
 - name: Validate required configuration facts
   ansible.builtin.assert:
