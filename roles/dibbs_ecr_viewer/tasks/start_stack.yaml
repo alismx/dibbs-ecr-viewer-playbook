@@ -1,6 +1,39 @@
 ---
 # Start Docker Compose stack
 
+# Load existing .env file variables as facts if they exist
+- name: Read DIBBS_VERSION from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${DIBBS_VERSION:-}"
+  register: dibbs_ecr_viewer_dibbs_version_raw
+  failed_when: false
+  changed_when: false
+  when:
+    - dibbs_ecr_viewer_dibbs_version is not defined or dibbs_ecr_viewer_dibbs_version | length == 0
+
+- name: Set DIBBS_VERSION fact from .env file
+  ansible.builtin.set_fact:
+    dibbs_ecr_viewer_dibbs_version: "{{ dibbs_ecr_viewer_dibbs_version_raw.stdout }}"
+  when:
+    - dibbs_ecr_viewer_dibbs_version is not defined or dibbs_ecr_viewer_dibbs_version | length == 0
+
+- name: Read CONFIG_NAME from .env file
+  ansible.builtin.shell: |
+    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    echo "${CONFIG_NAME:-}"
+  register: dibbs_ecr_viewer_config_name_raw
+  failed_when: false
+  changed_when: false
+  when:
+    - dibbs_ecr_viewer_config_name is not defined or dibbs_ecr_viewer_config_name | length == 0
+
+- name: Set CONFIG_NAME fact from .env file
+  ansible.builtin.set_fact:
+    dibbs_ecr_viewer_config_name: "{{ dibbs_ecr_viewer_config_name_raw.stdout }}"
+  when:
+    - dibbs_ecr_viewer_config_name is not defined or dibbs_ecr_viewer_config_name | length == 0
+
 # Validate that required facts are set before starting compose
 - name: Validate required configuration facts
   ansible.builtin.assert:
