@@ -84,34 +84,34 @@
 # Cloud-specific tasks based on CONFIG_NAME
 - name: Configure AWS settings
   ansible.builtin.include_tasks: aws.yaml
-  when: "'AWS' in CONFIG_NAME"
+  when: "'AWS' in dibbs_ecr_viewer_config_name"
 
 - name: Configure Azure settings
   ansible.builtin.include_tasks: azure.yaml
-  when: "'AZURE' in CONFIG_NAME"
+  when: "'AZURE' in dibbs_ecr_viewer_config_name"
 
 - name: Configure GCP settings
   ansible.builtin.include_tasks: gcp.yaml
-  when: "'GCP' in CONFIG_NAME"
+  when: "'GCP' in dibbs_ecr_viewer_config_name"
 
 # Database-specific tasks based on CONFIG_NAME
 - name: Configure PostgreSQL settings
   ansible.builtin.include_tasks: postgresql.yaml
-  when: "'_PG_' in CONFIG_NAME or '_PG' in CONFIG_NAME"
+  when: "'PG' in dibbs_ecr_viewer_config_name"
 
 - name: Configure SQL Server settings
   ansible.builtin.include_tasks: sqlserver.yaml
-  when: "'SQLSERVER' in CONFIG_NAME"
+  when: "'SQLSERVER' in dibbs_ecr_viewer_config_name"
 
 # NBS tasks (for DUAL or INTEGRATED modes)
 - name: Configure NBS settings
   ansible.builtin.include_tasks: nbs.yaml
-  when: "'_DUAL' in CONFIG_NAME or '_INTEGRATED' in CONFIG_NAME"
+  when: "'_DUAL' in dibbs_ecr_viewer_config_name or '_INTEGRATED' in dibbs_ecr_viewer_config_name"
 
 # Authentication tasks (run for NON_INTEGRATED and DUAL, not INTEGRATED)
 - name: Configure authentication settings
   ansible.builtin.include_tasks: auth.yaml
-  when: "'NON_INTEGRATED' in CONFIG_NAME or '_DUAL' in CONFIG_NAME"
+  when: "'NON_INTEGRATED' in dibbs_ecr_viewer_config_name or '_DUAL' in dibbs_ecr_viewer_config_name"
 
 # NextAuth tasks
 - name: Configure NextAuth settings

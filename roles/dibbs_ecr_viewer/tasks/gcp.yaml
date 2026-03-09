@@ -5,7 +5,6 @@
   ansible.builtin.package:
     name: google-guest-agent
     state: present
-  when: "'GCP' in CONFIG_NAME"
   become: true
 
 - name: Read existing GCP_PROJECT_ID from .env file
