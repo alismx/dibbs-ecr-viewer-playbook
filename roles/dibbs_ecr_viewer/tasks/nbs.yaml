@@ -15,17 +15,13 @@
       NBS_API_PUB_KEY (Current: {{ dibbs_ecr_viewer_existing_nbs_api_pub_key.stdout | default('') }}):
   register: dibbs_ecr_viewer_nbs_api_pub_key_input
 
-- name: Set NBS_API_PUB_KEY fact
-  ansible.builtin.set_fact:
-    dibbs_ecr_viewer_nbs_api_pub_key: "{{ dibbs_ecr_viewer_nbs_api_pub_key_input.user_input }}"
-
 - name: Add NBS_API_PUB_KEY to wizard file
   ansible.builtin.lineinfile:
     path: "{{ dibbs_ecr_viewer_wizard_file }}"
-    line: 'NBS_API_PUB_KEY="{{ dibbs_ecr_viewer_nbs_api_pub_key }}"'
+    line: 'NBS_API_PUB_KEY="{{ dibbs_ecr_viewer_nbs_api_pub_key_input.user_input }}"'
     create: true
     mode: '0644'
-  when: dibbs_ecr_viewer_nbs_api_pub_key | length > 0
+  when: dibbs_ecr_viewer_nbs_api_pub_key_input.user_input | length > 0
 
 - name: Read existing NBS_PUB_KEY from .env file
   ansible.builtin.shell: |
@@ -41,14 +37,10 @@
       NBS_PUB_KEY (Current: {{ dibbs_ecr_viewer_existing_nbs_pub_key.stdout | default('') }}):
   register: dibbs_ecr_viewer_nbs_pub_key_input
 
-- name: Set NBS_PUB_KEY fact
-  ansible.builtin.set_fact:
-    dibbs_ecr_viewer_nbs_pub_key: "{{ dibbs_ecr_viewer_nbs_pub_key_input.user_input }}"
-
 - name: Add NBS_PUB_KEY to wizard file
   ansible.builtin.lineinfile:
     path: "{{ dibbs_ecr_viewer_wizard_file }}"
-    line: 'NBS_PUB_KEY="{{ dibbs_ecr_viewer_nbs_pub_key }}"'
+    line: 'NBS_PUB_KEY="{{ dibbs_ecr_viewer_nbs_pub_key_input.user_input }}"'
     create: true
     mode: '0644'
-  when: dibbs_ecr_viewer_nbs_pub_key | length > 0
+  when: dibbs_ecr_viewer_nbs_pub_key_input.user_input | length > 0

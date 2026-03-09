@@ -15,17 +15,13 @@
       SQL_SERVER_USER (Current: {{ dibbs_ecr_viewer_existing_sql_server_user.stdout | default('') }}):
   register: dibbs_ecr_viewer_sql_server_user_input
 
-- name: Set SQL_SERVER_USER fact
-  ansible.builtin.set_fact:
-    dibbs_ecr_viewer_sql_server_user: "{{ dibbs_ecr_viewer_sql_server_user_input.user_input }}"
-
 - name: Add SQL_SERVER_USER to wizard file
   ansible.builtin.lineinfile:
     path: "{{ dibbs_ecr_viewer_wizard_file }}"
-    line: 'SQL_SERVER_USER="{{ dibbs_ecr_viewer_sql_server_user }}"'
+    line: 'SQL_SERVER_USER="{{ dibbs_ecr_viewer_sql_server_user_input.user_input }}"'
     create: true
     mode: '0644'
-  when: dibbs_ecr_viewer_sql_server_user | length > 0
+  when: dibbs_ecr_viewer_sql_server_user_input.user_input | length > 0
 
 - name: Read existing SQL_SERVER_PASSWORD from .env file
   ansible.builtin.shell: |
@@ -41,17 +37,13 @@
       SQL_SERVER_PASSWORD (Current: {{ dibbs_ecr_viewer_existing_sql_server_password.stdout | default('') }}):
   register: dibbs_ecr_viewer_sql_server_password_input
 
-- name: Set SQL_SERVER_PASSWORD fact
-  ansible.builtin.set_fact:
-    dibbs_ecr_viewer_sql_server_password: "{{ dibbs_ecr_viewer_sql_server_password_input.user_input }}"
-
 - name: Add SQL_SERVER_PASSWORD to wizard file
   ansible.builtin.lineinfile:
     path: "{{ dibbs_ecr_viewer_wizard_file }}"
-    line: 'SQL_SERVER_PASSWORD="{{ dibbs_ecr_viewer_sql_server_password }}"'
+    line: 'SQL_SERVER_PASSWORD="{{ dibbs_ecr_viewer_sql_server_password_input.user_input }}"'
     create: true
     mode: '0644'
-  when: dibbs_ecr_viewer_sql_server_password | length > 0
+  when: dibbs_ecr_viewer_sql_server_password_input.user_input | length > 0
 
 - name: Read existing SQL_SERVER_HOST from .env file
   ansible.builtin.shell: |
@@ -67,17 +59,13 @@
       SQL_SERVER_HOST (Current: {{ dibbs_ecr_viewer_existing_sql_server_host.stdout | default('') }}):
   register: dibbs_ecr_viewer_sql_server_host_input
 
-- name: Set SQL_SERVER_HOST fact
-  ansible.builtin.set_fact:
-    dibbs_ecr_viewer_sql_server_host: "{{ dibbs_ecr_viewer_sql_server_host_input.user_input }}"
-
 - name: Add SQL_SERVER_HOST to wizard file
   ansible.builtin.lineinfile:
     path: "{{ dibbs_ecr_viewer_wizard_file }}"
-    line: 'SQL_SERVER_HOST="{{ dibbs_ecr_viewer_sql_server_host }}"'
+    line: 'SQL_SERVER_HOST="{{ dibbs_ecr_viewer_sql_server_host_input.user_input }}"'
     create: true
     mode: '0644'
-  when: dibbs_ecr_viewer_sql_server_host | length > 0
+  when: dibbs_ecr_viewer_sql_server_host_input.user_input | length > 0
 
 - name: Read existing DB_CIPHER from .env file
   ansible.builtin.shell: |
@@ -93,14 +81,10 @@
       DB_CIPHER (Current: {{ dibbs_ecr_viewer_existing_db_cipher.stdout | default('') }}):
   register: dibbs_ecr_viewer_db_cipher_input
 
-- name: Set DB_CIPHER fact
-  ansible.builtin.set_fact:
-    dibbs_ecr_viewer_db_cipher: "{{ dibbs_ecr_viewer_db_cipher_input.user_input }}"
-
 - name: Add DB_CIPHER to wizard file
   ansible.builtin.lineinfile:
     path: "{{ dibbs_ecr_viewer_wizard_file }}"
-    line: 'DB_CIPHER="{{ dibbs_ecr_viewer_db_cipher }}"'
+    line: 'DB_CIPHER="{{ dibbs_ecr_viewer_db_cipher_input.user_input }}"'
     create: true
     mode: '0644'
-  when: dibbs_ecr_viewer_db_cipher | length > 0
+  when: dibbs_ecr_viewer_db_cipher_input.user_input | length > 0

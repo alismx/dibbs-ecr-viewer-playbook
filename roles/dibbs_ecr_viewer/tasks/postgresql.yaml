@@ -15,14 +15,10 @@
       DATABASE_URL (Current: {{ dibbs_ecr_viewer_existing_database_url.stdout | default('') }}) (format: postgres://USER:PASS@HOST:PORT/DB):
   register: dibbs_ecr_viewer_database_url_input
 
-- name: Set DATABASE_URL fact
-  ansible.builtin.set_fact:
-    dibbs_ecr_viewer_database_url: "{{ dibbs_ecr_viewer_database_url_input.user_input }}"
-
 - name: Add DATABASE_URL to wizard file
   ansible.builtin.lineinfile:
     path: "{{ dibbs_ecr_viewer_wizard_file }}"
-    line: 'DATABASE_URL="{{ dibbs_ecr_viewer_database_url }}"'
+    line: 'DATABASE_URL="{{ dibbs_ecr_viewer_database_url_input.user_input }}"'
     create: true
     mode: '0644'
-  when: dibbs_ecr_viewer_database_url | length > 0
+  when: dibbs_ecr_viewer_database_url_input.user_input | length > 0

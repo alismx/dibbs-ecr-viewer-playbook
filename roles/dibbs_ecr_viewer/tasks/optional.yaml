@@ -16,17 +16,13 @@
       (Optional: leave blank for defaults):
   register: dibbs_ecr_viewer_save_xml_input
 
-- name: Set SAVE_XML fact
-  ansible.builtin.set_fact:
-    dibbs_ecr_viewer_save_xml: "{{ dibbs_ecr_viewer_save_xml_input.user_input }}"
-
 - name: Add SAVE_XML to wizard file
   ansible.builtin.lineinfile:
     path: "{{ dibbs_ecr_viewer_wizard_file }}"
-    line: 'SAVE_XML="{{ dibbs_ecr_viewer_save_xml }}"'
+    line: 'SAVE_XML="{{ dibbs_ecr_viewer_save_xml_input.user_input }}"'
     create: true
     mode: '0644'
-  when: dibbs_ecr_viewer_save_xml | length > 0
+  when: dibbs_ecr_viewer_save_xml_input.user_input | length > 0
 
 - name: Read existing DISPLAY_FEEDBACK_LINKS from .env file
   ansible.builtin.shell: |
@@ -43,17 +39,13 @@
       (Optional: leave blank for defaults):
   register: dibbs_ecr_viewer_display_feedback_links_input
 
-- name: Set DISPLAY_FEEDBACK_LINKS fact
-  ansible.builtin.set_fact:
-    dibbs_ecr_viewer_display_feedback_links: "{{ dibbs_ecr_viewer_display_feedback_links_input.user_input }}"
-
 - name: Add DISPLAY_FEEDBACK_LINKS to wizard file
   ansible.builtin.lineinfile:
     path: "{{ dibbs_ecr_viewer_wizard_file }}"
-    line: 'DISPLAY_FEEDBACK_LINKS="{{ dibbs_ecr_viewer_display_feedback_links }}"'
+    line: 'DISPLAY_FEEDBACK_LINKS="{{ dibbs_ecr_viewer_display_feedback_links_input.user_input }}"'
     create: true
     mode: '0644'
-  when: dibbs_ecr_viewer_display_feedback_links | length > 0
+  when: dibbs_ecr_viewer_display_feedback_links_input.user_input | length > 0
 
 - name: Read existing ECR_PROCESSING_TIMEOUT from .env file
   ansible.builtin.shell: |
@@ -70,14 +62,10 @@
       (Optional: leave blank for defaults):
   register: dibbs_ecr_viewer_ecr_processing_timeout_input
 
-- name: Set ECR_PROCESSING_TIMEOUT fact
-  ansible.builtin.set_fact:
-    dibbs_ecr_viewer_ecr_processing_timeout: "{{ dibbs_ecr_viewer_ecr_processing_timeout_input.user_input }}"
-
 - name: Add ECR_PROCESSING_TIMEOUT to wizard file
   ansible.builtin.lineinfile:
     path: "{{ dibbs_ecr_viewer_wizard_file }}"
-    line: 'ECR_PROCESSING_TIMEOUT="{{ dibbs_ecr_viewer_ecr_processing_timeout }}"'
+    line: 'ECR_PROCESSING_TIMEOUT="{{ dibbs_ecr_viewer_ecr_processing_timeout_input.user_input }}"'
     create: true
     mode: '0644'
-  when: dibbs_ecr_viewer_ecr_processing_timeout | length > 0
+  when: dibbs_ecr_viewer_ecr_processing_timeout_input.user_input | length > 0

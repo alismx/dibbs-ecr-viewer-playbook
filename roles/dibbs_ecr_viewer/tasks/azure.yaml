@@ -15,17 +15,13 @@
       AZURE_STORAGE_CONNECTION_STRING (Current: {{ dibbs_ecr_viewer_existing_azure_storage_connection_string.stdout | default('') }}):
   register: dibbs_ecr_viewer_azure_storage_connection_string_input
 
-- name: Set AZURE_STORAGE_CONNECTION_STRING fact
-  ansible.builtin.set_fact:
-    dibbs_ecr_viewer_azure_storage_connection_string: "{{ dibbs_ecr_viewer_azure_storage_connection_string_input.user_input }}"
-
 - name: Add AZURE_STORAGE_CONNECTION_STRING to wizard file
   ansible.builtin.lineinfile:
     path: "{{ dibbs_ecr_viewer_wizard_file }}"
-    line: 'AZURE_STORAGE_CONNECTION_STRING="{{ dibbs_ecr_viewer_azure_storage_connection_string }}"'
+    line: 'AZURE_STORAGE_CONNECTION_STRING="{{ dibbs_ecr_viewer_azure_storage_connection_string_input.user_input }}"'
     create: true
     mode: '0644'
-  when: dibbs_ecr_viewer_azure_storage_connection_string | length > 0
+  when: dibbs_ecr_viewer_azure_storage_connection_string_input.user_input | length > 0
 
 - name: Read existing AZURE_CONTAINER_NAME from .env file
   ansible.builtin.shell: |
@@ -41,14 +37,10 @@
       AZURE_CONTAINER_NAME (Current: {{ dibbs_ecr_viewer_existing_azure_container_name.stdout | default('') }}):
   register: dibbs_ecr_viewer_azure_container_name_input
 
-- name: Set AZURE_CONTAINER_NAME fact
-  ansible.builtin.set_fact:
-    dibbs_ecr_viewer_azure_container_name: "{{ dibbs_ecr_viewer_azure_container_name_input.user_input }}"
-
 - name: Add AZURE_CONTAINER_NAME to wizard file
   ansible.builtin.lineinfile:
     path: "{{ dibbs_ecr_viewer_wizard_file }}"
-    line: 'AZURE_CONTAINER_NAME="{{ dibbs_ecr_viewer_azure_container_name }}"'
+    line: 'AZURE_CONTAINER_NAME="{{ dibbs_ecr_viewer_azure_container_name_input.user_input }}"'
     create: true
     mode: '0644'
-  when: dibbs_ecr_viewer_azure_container_name | length > 0
+  when: dibbs_ecr_viewer_azure_container_name_input.user_input | length > 0
