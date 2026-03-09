@@ -3,7 +3,7 @@
 
 - name: Read existing SQL_SERVER_USER from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
     echo "SQL_SERVER_USER=${SQL_SERVER_USER:-}"
   register: dibbs_ecr_viewer_existing_sql_server_user
   failed_when: false
@@ -29,7 +29,7 @@
 
 - name: Read existing SQL_SERVER_PASSWORD from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
     echo "SQL_SERVER_PASSWORD=${SQL_SERVER_PASSWORD:-}"
   register: dibbs_ecr_viewer_existing_sql_server_password
   failed_when: false
@@ -55,7 +55,7 @@
 
 - name: Read existing SQL_SERVER_HOST from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
     echo "SQL_SERVER_HOST=${SQL_SERVER_HOST:-}"
   register: dibbs_ecr_viewer_existing_sql_server_host
   failed_when: false
@@ -81,7 +81,7 @@
 
 - name: Read existing DB_CIPHER from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
     echo "DB_CIPHER=${DB_CIPHER:-}"
   register: dibbs_ecr_viewer_existing_db_cipher
   failed_when: false

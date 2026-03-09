@@ -3,7 +3,7 @@
 
 - name: Read existing AWS_REGION from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
     echo "AWS_REGION=${AWS_REGION:-}"
   register: dibbs_ecr_viewer_existing_aws_region
   failed_when: false
@@ -29,7 +29,7 @@
 
 - name: Read existing ECR_BUCKET_NAME from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
     echo "ECR_BUCKET_NAME=${ECR_BUCKET_NAME:-}"
   register: dibbs_ecr_viewer_existing_ecr_bucket_name
   failed_when: false

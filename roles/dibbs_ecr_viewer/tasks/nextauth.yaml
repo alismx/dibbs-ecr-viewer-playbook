@@ -3,7 +3,7 @@
 
 - name: Read existing NEXTAUTH_SECRET from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
     echo "NEXTAUTH_SECRET=${NEXTAUTH_SECRET:-}"
   register: dibbs_ecr_viewer_existing_nextauth_secret
   failed_when: false

@@ -3,7 +3,7 @@
 
 - name: Read existing NBS_API_PUB_KEY from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
     echo "NBS_API_PUB_KEY=${NBS_API_PUB_KEY:-}"
   register: dibbs_ecr_viewer_existing_nbs_api_pub_key
   failed_when: false
@@ -29,7 +29,7 @@
 
 - name: Read existing NBS_PUB_KEY from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
     echo "NBS_PUB_KEY=${NBS_PUB_KEY:-}"
   register: dibbs_ecr_viewer_existing_nbs_pub_key
   failed_when: false

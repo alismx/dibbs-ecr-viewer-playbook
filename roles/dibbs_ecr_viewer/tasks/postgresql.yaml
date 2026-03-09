@@ -3,7 +3,7 @@
 
 - name: Read existing DATABASE_URL from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
     echo "DATABASE_URL=${DATABASE_URL:-}"
   register: dibbs_ecr_viewer_existing_database_url
   failed_when: false

@@ -3,7 +3,7 @@
 
 - name: Read existing AZURE_STORAGE_CONNECTION_STRING from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
     echo "AZURE_STORAGE_CONNECTION_STRING=${AZURE_STORAGE_CONNECTION_STRING:-}"
   register: dibbs_ecr_viewer_existing_azure_storage_connection_string
   failed_when: false
@@ -29,7 +29,7 @@
 
 - name: Read existing AZURE_CONTAINER_NAME from .env file
   ansible.builtin.shell: |
-    source "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
+    . "{{ dibbs_ecr_viewer_env_file }}" 2>/dev/null || true
     echo "AZURE_CONTAINER_NAME=${AZURE_CONTAINER_NAME:-}"
   register: dibbs_ecr_viewer_existing_azure_container_name
   failed_when: false
