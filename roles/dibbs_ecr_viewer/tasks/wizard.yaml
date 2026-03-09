@@ -97,7 +97,7 @@
 # Database-specific tasks based on CONFIG_NAME
 - name: Configure PostgreSQL settings
   ansible.builtin.include_tasks: postgresql.yaml
-  when: "PG' in dibbs_ecr_viewer_config_name"
+  when: "'_PG_' in dibbs_ecr_viewer_config_name or '_PG' in dibbs_ecr_viewer_config_name"
 
 - name: Configure SQL Server settings
   ansible.builtin.include_tasks: sqlserver.yaml
