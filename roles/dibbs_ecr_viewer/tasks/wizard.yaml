@@ -1,6 +1,12 @@
 ---
 # Main wizard orchestration task
 
+- name: Clear wizard file contents before use
+  ansible.builtin.copy:
+    content: ""
+    dest: "{{ dibbs_ecr_viewer_wizard_file }}"
+    mode: '0644'
+
 - name: Display wizard intro
   ansible.builtin.debug:
     msg: |
@@ -159,4 +165,10 @@
     src: "{{ dibbs_ecr_viewer_wizard_file }}"
     dest: "{{ dibbs_ecr_viewer_env_file }}"
     remote_src: true
+    mode: '0644'
+
+- name: Clear wizard file contents after copying to .env
+  ansible.builtin.copy:
+    content: ""
+    dest: "{{ dibbs_ecr_viewer_wizard_file }}"
     mode: '0644'
