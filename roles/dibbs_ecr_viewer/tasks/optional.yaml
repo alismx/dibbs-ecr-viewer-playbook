@@ -26,6 +26,7 @@
     line: 'SAVE_XML="{{ dibbs_ecr_viewer_save_xml }}"'
     create: true
     mode: '0644'
+  when: dibbs_ecr_viewer_save_xml | length > 0
 
 - name: Read existing DISPLAY_FEEDBACK_LINKS from .env file
   ansible.builtin.shell: |
@@ -52,6 +53,7 @@
     line: 'DISPLAY_FEEDBACK_LINKS="{{ dibbs_ecr_viewer_display_feedback_links }}"'
     create: true
     mode: '0644'
+  when: dibbs_ecr_viewer_display_feedback_links | length > 0
 
 - name: Read existing ECR_PROCESSING_TIMEOUT from .env file
   ansible.builtin.shell: |
@@ -78,3 +80,4 @@
     line: 'ECR_PROCESSING_TIMEOUT="{{ dibbs_ecr_viewer_ecr_processing_timeout }}"'
     create: true
     mode: '0644'
+  when: dibbs_ecr_viewer_ecr_processing_timeout | length > 0

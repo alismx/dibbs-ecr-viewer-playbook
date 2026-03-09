@@ -25,6 +25,7 @@
     line: 'SQL_SERVER_USER="{{ dibbs_ecr_viewer_sql_server_user }}"'
     create: true
     mode: '0644'
+  when: dibbs_ecr_viewer_sql_server_user | length > 0
 
 - name: Read existing SQL_SERVER_PASSWORD from .env file
   ansible.builtin.shell: |
@@ -50,6 +51,7 @@
     line: 'SQL_SERVER_PASSWORD="{{ dibbs_ecr_viewer_sql_server_password }}"'
     create: true
     mode: '0644'
+  when: dibbs_ecr_viewer_sql_server_password | length > 0
 
 - name: Read existing SQL_SERVER_HOST from .env file
   ansible.builtin.shell: |
@@ -75,6 +77,7 @@
     line: 'SQL_SERVER_HOST="{{ dibbs_ecr_viewer_sql_server_host }}"'
     create: true
     mode: '0644'
+  when: dibbs_ecr_viewer_sql_server_host | length > 0
 
 - name: Read existing DB_CIPHER from .env file
   ansible.builtin.shell: |
@@ -100,6 +103,7 @@
     line: 'DB_CIPHER="{{ dibbs_ecr_viewer_db_cipher }}"'
     create: true
     mode: '0644'
+  when: dibbs_ecr_viewer_db_cipher | length > 0
 
 - name: Read existing METADATA_DATABASE_SCHEMA from .env file
   ansible.builtin.shell: |
@@ -125,6 +129,7 @@
     line: 'METADATA_DATABASE_SCHEMA="{{ dibbs_ecr_viewer_metadata_database_schema }}"'
     create: true
     mode: '0644'
+  when: dibbs_ecr_viewer_metadata_database_schema | length > 0
 
 - name: Read existing METADATA_DATABASE_MIGRATION_SECRET from .env file
   ansible.builtin.shell: |
@@ -151,3 +156,4 @@
     line: 'METADATA_DATABASE_MIGRATION_SECRET="{{ dibbs_ecr_viewer_metadata_database_migration_secret }}"'
     create: true
     mode: '0644'
+  when: dibbs_ecr_viewer_metadata_database_migration_secret | length > 0
