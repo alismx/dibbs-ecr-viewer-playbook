@@ -25,6 +25,7 @@
     line: 'AZURE_STORAGE_CONNECTION_STRING="{{ dibbs_ecr_viewer_azure_storage_connection_string }}"'
     create: true
     mode: '0644'
+  when: dibbs_ecr_viewer_azure_storage_connection_string | length > 0
 
 - name: Read existing AZURE_CONTAINER_NAME from .env file
   ansible.builtin.shell: |
@@ -50,3 +51,4 @@
     line: 'AZURE_CONTAINER_NAME="{{ dibbs_ecr_viewer_azure_container_name }}"'
     create: true
     mode: '0644'
+  when: dibbs_ecr_viewer_azure_container_name | length > 0

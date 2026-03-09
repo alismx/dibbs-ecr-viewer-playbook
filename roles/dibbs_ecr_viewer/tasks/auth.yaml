@@ -25,6 +25,7 @@
     line: 'AUTH_PROVIDER="{{ dibbs_ecr_viewer_auth_provider }}"'
     create: true
     mode: '0644'
+  when: dibbs_ecr_viewer_auth_provider | length > 0
 
 - name: Read existing AUTH_CLIENT_ID from .env file
   ansible.builtin.shell: |
@@ -50,6 +51,7 @@
     line: 'AUTH_CLIENT_ID="{{ dibbs_ecr_viewer_auth_client_id }}"'
     create: true
     mode: '0644'
+  when: dibbs_ecr_viewer_auth_client_id | length > 0
 
 - name: Read existing AUTH_CLIENT_SECRET from .env file
   ansible.builtin.shell: |
@@ -75,6 +77,7 @@
     line: 'AUTH_CLIENT_SECRET="{{ dibbs_ecr_viewer_auth_client_secret }}"'
     create: true
     mode: '0644'
+  when: dibbs_ecr_viewer_auth_client_secret | length > 0
 
 - name: Read existing AUTH_ISSUER from .env file
   ansible.builtin.shell: |
@@ -100,6 +103,7 @@
     line: 'AUTH_ISSUER="{{ dibbs_ecr_viewer_auth_issuer }}"'
     create: true
     mode: '0644'
+  when: dibbs_ecr_viewer_auth_issuer | length > 0
 
 - name: Read existing AUTH_SESSION_DURATION_MIN from .env file
   ansible.builtin.shell: |
@@ -126,6 +130,7 @@
     line: 'AUTH_SESSION_DURATION_MIN="{{ dibbs_ecr_viewer_auth_session_duration_min }}"'
     create: true
     mode: '0644'
+  when: dibbs_ecr_viewer_auth_session_duration_min | length > 0
 
 - name: Read existing NEXTAUTH_URL from .env file
   ansible.builtin.shell: |
@@ -152,3 +157,4 @@
     line: 'NEXTAUTH_URL="{{ dibbs_ecr_viewer_nextauth_url }}"'
     create: true
     mode: '0644'
+  when: dibbs_ecr_viewer_nextauth_url | length > 0

@@ -55,3 +55,4 @@
     line: 'DIBBS_VERSION="{{ dibbs_ecr_viewer_dibbs_version }}"'
     create: true
     mode: '0644'
+  when: dibbs_ecr_viewer_dibbs_version | length > 0

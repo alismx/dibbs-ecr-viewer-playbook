@@ -103,6 +103,10 @@
   ansible.builtin.include_tasks: sqlserver.yaml
   when: "'SQLSERVER' in dibbs_ecr_viewer_config_name"
 
+- name: Configure other database settings
+  ansible.builtin.include_tasks: db.yaml
+  when: "'PG' in dibbs_ecr_viewer_config_name or 'SQLSERVER' in dibbs_ecr_viewer_config_name"
+
 # NBS tasks (for DUAL or INTEGRATED modes)
 - name: Configure NBS settings
   ansible.builtin.include_tasks: nbs.yaml

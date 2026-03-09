@@ -25,6 +25,7 @@
     line: 'AWS_REGION="{{ dibbs_ecr_viewer_aws_region }}"'
     create: true
     mode: '0644'
+  when: dibbs_ecr_viewer_aws_region | length > 0
 
 - name: Read existing ECR_BUCKET_NAME from .env file
   ansible.builtin.shell: |
@@ -50,3 +51,4 @@
     line: 'ECR_BUCKET_NAME="{{ dibbs_ecr_viewer_ecr_bucket_name }}"'
     create: true
     mode: '0644'
+  when: dibbs_ecr_viewer_ecr_bucket_name | length > 0
