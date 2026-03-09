@@ -63,13 +63,13 @@ install_package() {
     local pkg=$1
     case "$PKG_MGR" in
         dnf)
-            dnf install -y "$pkg" || { echo "ERROR: Failed to install $pkg."; exit 1; }
+            sudo dnf install -y "$pkg" || { echo "ERROR: Failed to install $pkg."; exit 1; }
             ;;
         yum)
-            yum install -y "$pkg" || { echo "ERROR: Failed to install $pkg."; exit 1; }
+            sudo yum install -y "$pkg" || { echo "ERROR: Failed to install $pkg."; exit 1; }
             ;;
         apt)
-            apt-get update -qq && apt-get install -y -qq "$pkg" || { echo "ERROR: Failed to install $pkg."; exit 1; }
+            sudo apt-get update -qq && sudo apt-get install -y -qq "$pkg" || { echo "ERROR: Failed to install $pkg."; exit 1; }
             ;;
     esac
 }
