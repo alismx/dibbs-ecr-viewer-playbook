@@ -82,6 +82,7 @@
     line: 'CONFIG_NAME="{{ dibbs_ecr_viewer_config_name }}"'
     create: true
     mode: '0644'
+  when: dibbs_ecr_viewer_config_name | length > 0
 
 # Parse eCR Viewer defaults (ORCHESTRATION_URL)
 - name: Parse eCR Viewer for default environment variables
