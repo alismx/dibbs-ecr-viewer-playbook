@@ -49,18 +49,21 @@ The playbook will:
 
 ### Updating
 
-If you used the automated installation, run the update script from the installed location:
+To update your installation, re-run the prerequisites script which pulls the latest changes and re-applies the playbook:
 
 ```bash
-cd ~/dibbs-ecr-viewer-playbook && ./update.sh
+curl -sSL https://raw.githubusercontent.com/alismx/dibbs-ecr-viewer-playbook/main/prereqs.sh | bash
 ```
 
-The update script will:
-1. Pull the latest changes from the repository
-2. Re-run the Ansible playbook to apply configuration updates
-3. Restart Docker Compose services
+**Note**: The prereqs script creates a backup of your existing installation before updating, allowing you to restore if needed.
 
-**Note**: The update script requires sudo access and will prompt for your password when needed.
+If you prefer to update manually:
+
+```bash
+cd ~/dibbs-ecr-viewer-playbook
+git pull
+ansible-playbook -c local playbook.yaml
+```
 
 ## Configuration Options
 
